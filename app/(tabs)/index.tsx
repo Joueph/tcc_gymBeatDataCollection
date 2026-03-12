@@ -1,98 +1,256 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+// GymBeat — React Native
+// app/(tabs)/index.tsx
+// Tela de seleção de exercício — ponto de entrada do fluxo de treino.
+// Estilo: branco clínico, tipografia refinada, cartões com sombra suave.
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+  StatusBar,
+  SafeAreaView,
+} from 'react-native';
+import { useRouter } from 'expo-router';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { EXERCISES } from '@/constants/exercises';
+import { Exercise } from '@/types/telemetry';
 
-export default function HomeScreen() {
+// MARK: - Design Tokens
+
+const C = {
+  white: '#FFFFFF',
+  bg: '#F9F9FB',
+  surface: '#FFFFFF',
+  border: '#EBEBF0',
+  text: '#1C1C1E',
+  textSub: '#8E8E93',
+  textMuted: '#AEAEB2',
+  accent: '#1C1C1E',
+  accentSoft: '#F2F2F7',
+  red: '#FF3B30',
+  green: '#34C759',
+};
+
+// MARK: - ExerciseCard
+
+interface ExerciseCardProps {
+  exercise: Exercise;
+  onPress: () => void;
+}
+
+function ExerciseCard({ exercise, onPress }: ExerciseCardProps) {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <TouchableOpacity
+      style={styles.card}
+      onPress={onPress}
+      activeOpacity={0.7}>
+      <View style={styles.cardIconBox}>
+        <IconSymbol
+          name={exercise.icon as any}
+          size={22}
+          color={C.text}
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+      </View>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <View style={styles.cardBody}>
+        <Text style={styles.cardTitle}>{exercise.displayName}</Text>
+        <Text style={styles.cardSub}>
+          {exercise.requiresMotionTracking ? 'IMU + Frequência cardíaca' : 'Frequência cardíaca'}
+        </Text>
+      </View>
+
+      <View style={styles.cardChevron}>
+        <IconSymbol name="chevron.right" size={14} color={C.textMuted} />
+      </View>
+    </TouchableOpacity>
   );
 }
 
+// MARK: - IndexScreen
+
+export default function IndexScreen() {
+  const router = useRouter();
+
+  const handleSelectExercise = (exercise: Exercise) => {
+    router.push({
+      pathname: '/(tabs)/session',
+      params: { exerciseID: exercise.id },
+    });
+  };
+
+  return (
+    <SafeAreaView style={styles.safe}>
+      <StatusBar barStyle="dark-content" backgroundColor={C.bg} />
+
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}>
+
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.headerEyebrow}>GymBeat</Text>
+          <Text style={styles.headerTitle}>Selecione o{'\n'}exercício</Text>
+          <Text style={styles.headerSub}>
+            O Apple Watch iniciará a coleta de dados automaticamente.
+          </Text>
+        </View>
+
+        {/* Divider */}
+        <View style={styles.divider} />
+
+        {/* Exercise List */}
+        <View style={styles.section}>
+          <Text style={styles.sectionLabel}>EXERCÍCIOS DISPONÍVEIS</Text>
+          <View style={styles.cardList}>
+            {EXERCISES.map((exercise) => (
+              <ExerciseCard
+                key={exercise.id}
+                exercise={exercise}
+                onPress={() => handleSelectExercise(exercise)}
+              />
+            ))}
+          </View>
+        </View>
+
+        {/* Info Footer */}
+        <View style={styles.infoBox}>
+          <IconSymbol name="applewatch" size={16} color={C.textMuted} />
+          <Text style={styles.infoText}>
+            Mantenha o Apple Watch no pulso e o Bluetooth ativo antes de iniciar.
+          </Text>
+        </View>
+
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+// MARK: - Styles
+
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  safe: {
+    flex: 1,
+    backgroundColor: C.bg,
   },
-  stepContainer: {
-    gap: 8,
+  scroll: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 40,
+  },
+
+  // Header
+  header: {
+    paddingHorizontal: 24,
+    paddingTop: 20,
+    paddingBottom: 24,
+    backgroundColor: C.white,
+  },
+  headerEyebrow: {
+    fontSize: 12,
+    fontWeight: '600',
+    letterSpacing: 1.2,
+    color: C.textMuted,
+    textTransform: 'uppercase',
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  headerTitle: {
+    fontSize: 34,
+    fontWeight: '700',
+    color: C.text,
+    letterSpacing: -0.5,
+    lineHeight: 40,
+    marginBottom: 10,
+  },
+  headerSub: {
+    fontSize: 14,
+    color: C.textSub,
+    lineHeight: 20,
+  },
+
+  divider: {
+    height: 1,
+    backgroundColor: C.border,
+    marginHorizontal: 0,
+  },
+
+  // Section
+  section: {
+    paddingHorizontal: 24,
+    paddingTop: 28,
+  },
+  sectionLabel: {
+    fontSize: 11,
+    fontWeight: '600',
+    letterSpacing: 0.8,
+    color: C.textMuted,
+    textTransform: 'uppercase',
+    marginBottom: 14,
+  },
+  cardList: {
+    gap: 10,
+  },
+
+  // Card
+  card: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: C.surface,
+    borderRadius: 14,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: C.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  cardIconBox: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: C.accentSoft,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 14,
+  },
+  cardBody: {
+    flex: 1,
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: C.text,
+    marginBottom: 3,
+  },
+  cardSub: {
+    fontSize: 12,
+    color: C.textSub,
+  },
+  cardChevron: {
+    marginLeft: 8,
+  },
+
+  // Info box
+  infoBox: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    marginHorizontal: 24,
+    marginTop: 28,
+    padding: 16,
+    backgroundColor: C.accentSoft,
+    borderRadius: 12,
+  },
+  infoText: {
+    flex: 1,
+    fontSize: 13,
+    color: C.textSub,
+    lineHeight: 18,
   },
 });
