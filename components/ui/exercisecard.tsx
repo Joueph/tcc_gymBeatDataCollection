@@ -1,6 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { Exercise } from '../../constants/exercises';
+import { EXERCISES } from '../../constants/exercises';
+import { Exercise } from '../../types/telemetry';
 
 interface ExerciseCardProps {
     exercise: Exercise;
@@ -14,8 +15,10 @@ export const ExerciseCard: React.FC<ExerciseCardProps> = ({ exercise, onPress, s
             style={[styles.card, selected && styles.selectedCard]}
             onPress={onPress}
         >
-            <Text style={styles.name}>{exercise.name}</Text>
-            <Text style={styles.category}>{exercise.category.toUpperCase()}</Text>
+            <Text style={styles.name}>{exercise.displayName}</Text>
+            <Text style={styles.category}>
+                {exercise.requiresMotionTracking ? 'IMU + HR' : 'HR'}
+            </Text>
         </TouchableOpacity>
     );
 };

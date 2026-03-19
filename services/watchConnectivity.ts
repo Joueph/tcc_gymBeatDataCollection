@@ -9,6 +9,20 @@ import watchEvents from 'react-native-watch-connectivity/dist/events';
 import WatchConnectivity from 'react-native-watch-connectivity';
 import { ExerciseID, SessionMode, TelemetrySample, WCBatchPayload, WCHeartbeatPayload } from '@/types/telemetry';
 
+// MARK: - Availability Guard
+
+/*
+ Function name: isWatchConnectivityAvailable
+ Function description: Verifica se o módulo nativo WatchConnectivity está
+                       disponível. Retorna false no simulador iOS (sem Watch
+                       pareado) e em plataformas não-iOS, evitando crashes.
+ Inputs: Nenhum
+ Outputs: boolean
+ */
+function isWatchConnectivityAvailable(): boolean {
+    return WatchConnectivity != null && typeof WatchConnectivity.sendMessage === 'function';
+}
+
 // MARK: - Message Key Constants
 
 const MSG_KEY = {
@@ -111,6 +125,10 @@ export async function sendStartSession(
     exerciseID: ExerciseID,
     mode: SessionMode,
 ): Promise<void> {
+    if (!isWatchConnectivityAvailable()) {
+        console.warn('[GymBeat] WatchConnectivity indisponível — simulador ou Watch não pareado.');
+        return;
+    }
     await WatchConnectivity.sendMessage({
         [MSG_KEY.command]: 'START_SESSION',
         [MSG_KEY.sessionID]: sessionID,
@@ -128,6 +146,10 @@ export async function sendStartSession(
  Outputs: Promise<void>
  */
 export async function sendStopSession(): Promise<void> {
+    if (!isWatchConnectivityAvailable()) {
+        console.warn('[GymBeat] WatchConnectivity indisponível — simulador ou Watch não pareado.');
+        return;
+    }
     await WatchConnectivity.sendMessage({
         [MSG_KEY.command]: 'STOP_SESSION',
     });
@@ -145,6 +167,10 @@ export async function sendUpdateContext(
     exerciseID: ExerciseID,
     mode: SessionMode,
 ): Promise<void> {
+    if (!isWatchConnectivityAvailable()) {
+        console.warn('[GymBeat] WatchConnectivity indisponível — simulador ou Watch não pareado.');
+        return;
+    }
     await WatchConnectivity.sendMessage({
         [MSG_KEY.command]: 'UPDATE_CONTEXT',
         [MSG_KEY.exerciseID]: exerciseID,
@@ -152,14 +178,8 @@ export async function sendUpdateContext(
     });
 }
 
-/*
- Function name: getWatchReachability
- Function description: Verifica de forma assíncrona se o Apple Watch
-                       está acessível via WatchConnectivity.
- Inputs: Nenhum
- Outputs: Promise<boolean>
- */
 export async function getWatchReachability(): Promise<boolean> {
+    if (!isWatchConnectivityAvailable()) return false;
     try {
         return await WatchConnectivity.getReachability();
     } catch {
