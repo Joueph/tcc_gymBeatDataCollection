@@ -1,0 +1,8 @@
+{
+  "platforms": ["apple"],
+  "apple": {
+    "podspecPath": "WearableHealthKit.podspec",
+    "swiftModuleName": "WearableHealthKit",
+    "modules": ["HealthKitModule"]
+  }
+}

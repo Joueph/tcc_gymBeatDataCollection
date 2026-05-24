@@ -1,0 +1,7 @@
+{
+  "name": "wearable-watch-connectivity",
+  "version": "1.0.0",
+  "description": "Local Expo module for iPhone to Apple Watch communication.",
+  "main": "src/index.ts",
+  "private": true
+}

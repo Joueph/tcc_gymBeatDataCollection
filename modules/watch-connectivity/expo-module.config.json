@@ -1,0 +1,8 @@
+{
+  "platforms": ["apple"],
+  "apple": {
+    "podspecPath": "WearableWatchConnectivity.podspec",
+    "swiftModuleName": "WearableWatchConnectivity",
+    "modules": ["WatchConnectivityModule"]
+  }
+}
