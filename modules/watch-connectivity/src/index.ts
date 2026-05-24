@@ -29,6 +29,13 @@ export type LiveMetricSample = {
   activeEnergyBurned?: number;
   distance?: number;
   stepCount?: number;
+  oxygenSaturation?: number;
+  accelerationX?: number;
+  accelerationY?: number;
+  accelerationZ?: number;
+  gyroscopeX?: number;
+  gyroscopeY?: number;
+  gyroscopeZ?: number;
 };
 
 export type WatchStateMessage = {

@@ -194,6 +194,13 @@ export default function LiveWorkoutScreen() {
       activeEnergyBurned: sample.activeEnergyBurned ?? null,
       distance: sample.distance ?? null,
       stepCount: sample.stepCount ?? null,
+      oxygenSaturation: sample.oxygenSaturation ?? null,
+      accelerationX: sample.accelerationX ?? null,
+      accelerationY: sample.accelerationY ?? null,
+      accelerationZ: sample.accelerationZ ?? null,
+      gyroscopeX: sample.gyroscopeX ?? null,
+      gyroscopeY: sample.gyroscopeY ?? null,
+      gyroscopeZ: sample.gyroscopeZ ?? null,
     }));
 
     await database.saveLiveExerciseSession({
@@ -343,6 +350,10 @@ export default function LiveWorkoutScreen() {
         />
         <MetricCard label="Calorias" value={`${Math.round(latestSample?.activeEnergyBurned ?? 0)} kcal`} />
         <MetricCard label="Passos" value={`${Math.round(latestSample?.stepCount ?? 0)}`} />
+        <MetricCard
+          label="SpO2"
+          value={latestSample?.oxygenSaturation ? `${Math.round(latestSample.oxygenSaturation * 100)}%` : "Sem dados"}
+        />
         <MetricCard label="Amostras" value={`${samples.length}`} />
       </View>
 

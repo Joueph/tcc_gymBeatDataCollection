@@ -66,11 +66,40 @@ const getDatabase = async () => {
       heart_rate REAL,
       active_energy_burned REAL,
       distance REAL,
-      step_count REAL
+      step_count REAL,
+      oxygen_saturation REAL,
+      acceleration_x REAL,
+      acceleration_y REAL,
+      acceleration_z REAL,
+      gyroscope_x REAL,
+      gyroscope_y REAL,
+      gyroscope_z REAL
     );
   `);
 
+  await addMissingLiveSampleColumns(db);
+
   return db;
+};
+
+const addMissingLiveSampleColumns = async (db: SQLite.SQLiteDatabase) => {
+  const columns = await db.getAllAsync<{ name: string }>("PRAGMA table_info(live_exercise_samples)");
+  const existingColumns = new Set(columns.map((column) => column.name));
+  const requiredColumns: Array<[string, string]> = [
+    ["oxygen_saturation", "REAL"],
+    ["acceleration_x", "REAL"],
+    ["acceleration_y", "REAL"],
+    ["acceleration_z", "REAL"],
+    ["gyroscope_x", "REAL"],
+    ["gyroscope_y", "REAL"],
+    ["gyroscope_z", "REAL"],
+  ];
+
+  for (const [name, type] of requiredColumns) {
+    if (!existingColumns.has(name)) {
+      await db.execAsync(`ALTER TABLE live_exercise_samples ADD COLUMN ${name} ${type}`);
+    }
+  }
 };
 
 const mapWorkout = (row: WorkoutRow): Workout => ({
@@ -134,6 +163,13 @@ type LiveExerciseSampleRow = {
   active_energy_burned: number | null;
   distance: number | null;
   step_count: number | null;
+  oxygen_saturation: number | null;
+  acceleration_x: number | null;
+  acceleration_y: number | null;
+  acceleration_z: number | null;
+  gyroscope_x: number | null;
+  gyroscope_y: number | null;
+  gyroscope_z: number | null;
 };
 
 const mapLiveSample = (row: LiveExerciseSampleRow): LiveExerciseSample => ({
@@ -146,6 +182,13 @@ const mapLiveSample = (row: LiveExerciseSampleRow): LiveExerciseSample => ({
   activeEnergyBurned: row.active_energy_burned,
   distance: row.distance,
   stepCount: row.step_count,
+  oxygenSaturation: row.oxygen_saturation,
+  accelerationX: row.acceleration_x,
+  accelerationY: row.acceleration_y,
+  accelerationZ: row.acceleration_z,
+  gyroscopeX: row.gyroscope_x,
+  gyroscopeY: row.gyroscope_y,
+  gyroscopeZ: row.gyroscope_z,
 });
 
 export const database = {
@@ -285,8 +328,10 @@ export const database = {
         await db.runAsync(
           `INSERT OR REPLACE INTO live_exercise_samples (
             id, session_id, exercise_id, exercise_name, timestamp,
-            heart_rate, active_energy_burned, distance, step_count
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            heart_rate, active_energy_burned, distance, step_count,
+            oxygen_saturation, acceleration_x, acceleration_y, acceleration_z,
+            gyroscope_x, gyroscope_y, gyroscope_z
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
           id,
           session.sessionId,
           session.exerciseId,
@@ -296,6 +341,13 @@ export const database = {
           sample.activeEnergyBurned,
           sample.distance,
           sample.stepCount,
+          sample.oxygenSaturation,
+          sample.accelerationX,
+          sample.accelerationY,
+          sample.accelerationZ,
+          sample.gyroscopeX,
+          sample.gyroscopeY,
+          sample.gyroscopeZ,
         );
       }
     });
@@ -318,7 +370,9 @@ export const database = {
     const samples = await db.getAllAsync<LiveExerciseSampleRow>(
       `SELECT
         id, session_id, exercise_id, exercise_name, timestamp,
-        heart_rate, active_energy_burned, distance, step_count
+        heart_rate, active_energy_burned, distance, step_count,
+        oxygen_saturation, acceleration_x, acceleration_y, acceleration_z,
+        gyroscope_x, gyroscope_y, gyroscope_z
        FROM live_exercise_samples
        WHERE session_id IN (${sessions.map(() => "?").join(",")})
        ORDER BY timestamp ASC`,

@@ -2,7 +2,7 @@ import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 
-import { LiveSessionChart } from "@/components/live-session-chart";
+import { LiveSensorChartsModal } from "@/components/live-sensor-charts-modal";
 import { colors } from "@/constants/colors";
 import { healthKit } from "@/src/health/health-kit";
 import { syncHealthData } from "@/src/health/sync";
@@ -17,7 +17,7 @@ export default function HomeScreen() {
   const [healthAvailable, setHealthAvailable] = useState<boolean | null>(null);
   const [summary30, setSummary30] = useState<DashboardSummary | null>(null);
   const [liveGroups, setLiveGroups] = useState<LiveExerciseGroup[]>([]);
-  const [expandedGroupKey, setExpandedGroupKey] = useState<string | null>(null);
+  const [selectedLiveGroup, setSelectedLiveGroup] = useState<LiveExerciseGroup | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   const loadDashboard = useCallback(async () => {
@@ -187,12 +187,11 @@ export default function HomeScreen() {
         ) : (
           liveGroups.map((group) => {
             const key = `${group.day}:${group.exerciseId}`;
-            const isExpanded = expandedGroupKey === key;
 
             return (
               <Pressable
                 key={key}
-                onPress={() => setExpandedGroupKey(isExpanded ? null : key)}
+                onPress={() => setSelectedLiveGroup(group)}
                 style={({ pressed }) => ({
                   backgroundColor: pressed ? colors.surfaceMuted : colors.surface,
                   borderColor: colors.border,
@@ -215,16 +214,16 @@ export default function HomeScreen() {
                     </Text>
                   </View>
                   <Text style={{ color: colors.primary, fontSize: 22, fontWeight: "700" }}>
-                    {isExpanded ? "-" : "+"}
+                    +
                   </Text>
                 </View>
-
-                {isExpanded ? <LiveSessionChart samples={group.samples} /> : null}
               </Pressable>
             );
           })
         )}
       </View>
+
+      <LiveSensorChartsModal group={selectedLiveGroup} onClose={() => setSelectedLiveGroup(null)} />
     </ScrollView>
   );
 }

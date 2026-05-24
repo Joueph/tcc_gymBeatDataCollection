@@ -43,6 +43,13 @@ export type LiveExerciseSample = {
   activeEnergyBurned: number | null;
   distance: number | null;
   stepCount: number | null;
+  oxygenSaturation: number | null;
+  accelerationX: number | null;
+  accelerationY: number | null;
+  accelerationZ: number | null;
+  gyroscopeX: number | null;
+  gyroscopeY: number | null;
+  gyroscopeZ: number | null;
 };
 
 export type LiveExerciseSession = {
