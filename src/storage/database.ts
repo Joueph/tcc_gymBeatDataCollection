@@ -6,8 +6,10 @@ import type {
   LiveExerciseGroup,
   LiveExerciseSample,
   LiveExerciseSession,
+  LiveExerciseSessionRecord,
   MetricSample,
   NativeWorkout,
+  UserProfile,
   Workout,
 } from "@/src/types/health";
 
@@ -48,13 +50,25 @@ const getDatabase = async () => {
       value TEXT
     );
 
+    CREATE TABLE IF NOT EXISTS user_profile (
+      id TEXT PRIMARY KEY NOT NULL,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      age INTEGER NOT NULL,
+      sex TEXT NOT NULL,
+      training_experience TEXT NOT NULL,
+      created_at TEXT NOT NULL,
+      password TEXT
+    );
+
     CREATE TABLE IF NOT EXISTS live_exercise_sessions (
       session_id TEXT PRIMARY KEY NOT NULL,
       exercise_id TEXT NOT NULL,
       exercise_name TEXT NOT NULL,
       started_at TEXT NOT NULL,
       ended_at TEXT NOT NULL,
-      set_count INTEGER NOT NULL
+      set_count INTEGER NOT NULL,
+      reps INTEGER
     );
 
     CREATE TABLE IF NOT EXISTS live_exercise_samples (
@@ -78,8 +92,28 @@ const getDatabase = async () => {
   `);
 
   await addMissingLiveSampleColumns(db);
+  await addMissingLiveSessionColumns(db);
+  await addMissingUserProfileColumns(db);
 
   return db;
+};
+
+const addMissingUserProfileColumns = async (db: SQLite.SQLiteDatabase) => {
+  const columns = await db.getAllAsync<{ name: string }>("PRAGMA table_info(user_profile)");
+  const existingColumns = new Set(columns.map((column) => column.name));
+
+  if (!existingColumns.has("password")) {
+    await db.execAsync("ALTER TABLE user_profile ADD COLUMN password TEXT");
+  }
+};
+
+const addMissingLiveSessionColumns = async (db: SQLite.SQLiteDatabase) => {
+  const columns = await db.getAllAsync<{ name: string }>("PRAGMA table_info(live_exercise_sessions)");
+  const existingColumns = new Set(columns.map((column) => column.name));
+
+  if (!existingColumns.has("reps")) {
+    await db.execAsync("ALTER TABLE live_exercise_sessions ADD COLUMN reps INTEGER");
+  }
 };
 
 const addMissingLiveSampleColumns = async (db: SQLite.SQLiteDatabase) => {
@@ -151,6 +185,18 @@ type LiveExerciseSessionRow = {
   started_at: string;
   ended_at: string;
   set_count: number;
+  reps: number | null;
+};
+
+type UserProfileRow = {
+  id: string;
+  name: string;
+  email: string;
+  age: number;
+  sex: UserProfile["sex"];
+  training_experience: UserProfile["trainingExperience"];
+  created_at: string;
+  password: string | null;
 };
 
 type LiveExerciseSampleRow = {
@@ -191,7 +237,84 @@ const mapLiveSample = (row: LiveExerciseSampleRow): LiveExerciseSample => ({
   gyroscopeZ: row.gyroscope_z,
 });
 
+const mapUserProfile = (row: UserProfileRow): UserProfile => ({
+  id: row.id,
+  name: row.name,
+  email: row.email,
+  age: row.age,
+  sex: row.sex,
+  trainingExperience: row.training_experience,
+  createdAt: row.created_at,
+});
+
 export const database = {
+  async saveUserProfile(profile: UserProfile, password?: string) {
+    const db = await getDatabase();
+
+    await db.withTransactionAsync(async () => {
+      await db.runAsync(
+        `INSERT OR REPLACE INTO user_profile (
+          id, name, email, age, sex, training_experience, created_at, password
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+        profile.id,
+        profile.name,
+        profile.email,
+        profile.age,
+        profile.sex,
+        profile.trainingExperience,
+        profile.createdAt,
+        password ?? null,
+      );
+      await db.runAsync("INSERT OR REPLACE INTO sync_state (key, value) VALUES (?, ?)", "currentUserId", profile.id);
+    });
+  },
+
+  async getUserProfile() {
+    const db = await getDatabase();
+    const activeSession = await db.getFirstAsync<SyncStateRow>(
+      "SELECT value FROM sync_state WHERE key = ?",
+      "currentUserId",
+    );
+
+    if (!activeSession?.value) {
+      return null;
+    }
+
+    const row = await db.getFirstAsync<UserProfileRow>(
+      `SELECT id, name, email, age, sex, training_experience, created_at, password
+       FROM user_profile
+       WHERE id = ?
+       LIMIT 1`,
+      activeSession.value,
+    );
+
+    return row ? mapUserProfile(row) : null;
+  },
+
+  async authenticateUser(email: string, password: string) {
+    const db = await getDatabase();
+    const row = await db.getFirstAsync<UserProfileRow>(
+      `SELECT id, name, email, age, sex, training_experience, created_at, password
+       FROM user_profile
+       WHERE LOWER(email) = LOWER(?) AND password = ?
+       LIMIT 1`,
+      email,
+      password,
+    );
+
+    if (!row) {
+      return null;
+    }
+
+    await db.runAsync("INSERT OR REPLACE INTO sync_state (key, value) VALUES (?, ?)", "currentUserId", row.id);
+    return mapUserProfile(row);
+  },
+
+  async logoutUser() {
+    const db = await getDatabase();
+    await db.runAsync("DELETE FROM sync_state WHERE key = ?", "currentUserId");
+  },
+
   async saveWorkouts(workouts: NativeWorkout[]) {
     const db = await getDatabase();
 
@@ -313,14 +436,15 @@ export const database = {
     await db.withTransactionAsync(async () => {
       await db.runAsync(
         `INSERT OR REPLACE INTO live_exercise_sessions (
-          session_id, exercise_id, exercise_name, started_at, ended_at, set_count
-        ) VALUES (?, ?, ?, ?, ?, ?)`,
+          session_id, exercise_id, exercise_name, started_at, ended_at, set_count, reps
+        ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
         session.sessionId,
         session.exerciseId,
         session.exerciseName,
         session.startedAt,
         session.endedAt,
         session.setCount,
+        session.reps,
       );
 
       for (const [index, sample] of session.samples.entries()) {
@@ -356,7 +480,7 @@ export const database = {
   async getLiveExerciseGroups(limit = 20): Promise<LiveExerciseGroup[]> {
     const db = await getDatabase();
     const sessions = await db.getAllAsync<LiveExerciseSessionRow>(
-      `SELECT session_id, exercise_id, exercise_name, started_at, ended_at, set_count
+      `SELECT session_id, exercise_id, exercise_name, started_at, ended_at, set_count, reps
        FROM live_exercise_sessions
        ORDER BY started_at DESC
        LIMIT ?`,
@@ -400,6 +524,7 @@ export const database = {
           exerciseId: session.exercise_id,
           exerciseName: session.exercise_name,
           setCount: session.set_count,
+          totalReps: session.reps ?? 0,
           startedAt: session.started_at,
           endedAt: session.ended_at,
           samples: sessionSamples,
@@ -408,11 +533,58 @@ export const database = {
       }
 
       currentGroup.setCount += session.set_count;
+      currentGroup.totalReps += session.reps ?? 0;
       currentGroup.startedAt = currentGroup.startedAt < session.started_at ? currentGroup.startedAt : session.started_at;
       currentGroup.endedAt = currentGroup.endedAt > session.ended_at ? currentGroup.endedAt : session.ended_at;
       currentGroup.samples.push(...sessionSamples);
     }
 
     return Array.from(groups.values()).sort((a, b) => b.startedAt.localeCompare(a.startedAt));
+  },
+
+  async getLiveExerciseSessions(limit = 100): Promise<LiveExerciseSessionRecord[]> {
+    const db = await getDatabase();
+    const sessions = await db.getAllAsync<LiveExerciseSessionRow>(
+      `SELECT session_id, exercise_id, exercise_name, started_at, ended_at, set_count, reps
+       FROM live_exercise_sessions
+       ORDER BY started_at DESC
+       LIMIT ?`,
+      limit,
+    );
+
+    if (sessions.length === 0) {
+      return [];
+    }
+
+    const samples = await db.getAllAsync<LiveExerciseSampleRow>(
+      `SELECT
+        id, session_id, exercise_id, exercise_name, timestamp,
+        heart_rate, active_energy_burned, distance, step_count,
+        oxygen_saturation, acceleration_x, acceleration_y, acceleration_z,
+        gyroscope_x, gyroscope_y, gyroscope_z
+       FROM live_exercise_samples
+       WHERE session_id IN (${sessions.map(() => "?").join(",")})
+       ORDER BY timestamp ASC`,
+      ...sessions.map((session) => session.session_id),
+    );
+
+    const samplesBySession = new Map<string, LiveExerciseSample[]>();
+    for (const sample of samples.map(mapLiveSample)) {
+      const currentSamples = samplesBySession.get(sample.sessionId) ?? [];
+      currentSamples.push(sample);
+      samplesBySession.set(sample.sessionId, currentSamples);
+    }
+
+    return sessions.map((session) => ({
+      sessionId: session.session_id,
+      exerciseId: session.exercise_id,
+      exerciseName: session.exercise_name,
+      startedAt: session.started_at,
+      endedAt: session.ended_at,
+      day: session.started_at.slice(0, 10),
+      setCount: session.set_count,
+      reps: session.reps,
+      samples: samplesBySession.get(session.session_id) ?? [],
+    }));
   },
 };

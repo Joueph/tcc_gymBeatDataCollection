@@ -33,6 +33,20 @@ export type DashboardSummary = {
   lastSyncAt: string | null;
 };
 
+export type TrainingExperience = "iniciante" | "intermediario" | "experiente";
+
+export type UserSex = "homem" | "mulher";
+
+export type UserProfile = {
+  id: string;
+  name: string;
+  email: string;
+  age: number;
+  sex: UserSex;
+  trainingExperience: TrainingExperience;
+  createdAt: string;
+};
+
 export type LiveExerciseSample = {
   id?: string;
   sessionId: string;
@@ -59,6 +73,7 @@ export type LiveExerciseSession = {
   startedAt: string;
   endedAt: string;
   setCount: number;
+  reps: number | null;
   samples: LiveExerciseSample[];
 };
 
@@ -67,7 +82,12 @@ export type LiveExerciseGroup = {
   exerciseId: string;
   exerciseName: string;
   setCount: number;
+  totalReps: number;
   startedAt: string;
   endedAt: string;
   samples: LiveExerciseSample[];
+};
+
+export type LiveExerciseSessionRecord = LiveExerciseSession & {
+  day: string;
 };

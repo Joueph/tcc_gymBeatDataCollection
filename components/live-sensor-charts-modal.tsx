@@ -1,4 +1,4 @@
-import { Dimensions, Modal, Pressable, ScrollView, Text, View } from "react-native";
+import { Modal, Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
 
 import { colors } from "@/constants/colors";
 import type { LiveExerciseGroup, LiveExerciseSample } from "@/src/types/health";
@@ -17,7 +17,6 @@ type SensorMetric = {
 };
 
 const chartHeight = 150;
-const chartWidth = Math.min(360, Dimensions.get("window").width - 56);
 
 const sensorMetrics: SensorMetric[] = [
   {
@@ -79,16 +78,21 @@ const sensorMetrics: SensorMetric[] = [
 ];
 
 export function LiveSensorChartsModal({ group, onClose }: LiveSensorChartsModalProps) {
+  const { width } = useWindowDimensions();
+  const chartWidth = Math.min(360, width - 56);
+
   return (
     <Modal animationType="slide" visible={Boolean(group)} presentationStyle="pageSheet" onRequestClose={onClose}>
-      <ScrollView contentContainerStyle={{ padding: 20, gap: 16, paddingBottom: 36 }}>
+      <ScrollView style={{ backgroundColor: colors.background }} contentContainerStyle={{ padding: 20, gap: 16, paddingBottom: 36 }}>
         <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
           <View style={{ flex: 1, gap: 4 }}>
             <Text selectable style={{ color: colors.text, fontSize: 22, fontWeight: "800" }}>
               {group?.exerciseName ?? "Dados da sessao"}
             </Text>
             <Text selectable style={{ color: colors.muted, fontSize: 13 }}>
-              {group ? `${group.setCount} ${group.setCount === 1 ? "serie" : "series"} · ${group.samples.length} amostras` : ""}
+              {group
+                ? `${group.setCount} ${group.setCount === 1 ? "serie" : "series"} · ${group.totalReps} reps · ${group.samples.length} amostras`
+                : ""}
             </Text>
           </View>
           <Pressable
@@ -109,14 +113,22 @@ export function LiveSensorChartsModal({ group, onClose }: LiveSensorChartsModalP
         </View>
 
         {sensorMetrics.map((metric) => (
-          <SensorLineChart key={metric.key} metric={metric} samples={group?.samples ?? []} />
+          <SensorLineChart key={metric.key} metric={metric} samples={group?.samples ?? []} chartWidth={chartWidth} />
         ))}
       </ScrollView>
     </Modal>
   );
 }
 
-function SensorLineChart({ metric, samples }: { metric: SensorMetric; samples: LiveExerciseSample[] }) {
+function SensorLineChart({
+  metric,
+  samples,
+  chartWidth,
+}: {
+  metric: SensorMetric;
+  samples: LiveExerciseSample[];
+  chartWidth: number;
+}) {
   const points = samples
     .map((sample) => {
       const value = sample[metric.key];

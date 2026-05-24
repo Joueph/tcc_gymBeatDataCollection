@@ -1,9 +1,10 @@
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 
 import { MetricCard } from "@/components/metric-card";
 import { colors } from "@/constants/colors";
+import { syncLocalDataToFirebase } from "@/src/firebase/sync";
 import { database } from "@/src/storage/database";
 import type { LiveExerciseSample } from "@/src/types/health";
 import { findExercise } from "@/src/watch/exercises";
@@ -57,6 +58,8 @@ export default function LiveWorkoutScreen() {
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isCompanionAppConnected, setIsCompanionAppConnected] = useState(false);
+  const [repsPromptEndedAt, setRepsPromptEndedAt] = useState<string | null>(null);
+  const [repsInput, setRepsInput] = useState("");
 
   useEffect(() => {
     let isMounted = true;
@@ -179,8 +182,8 @@ export default function LiveWorkoutScreen() {
     return Array.from(summaries.values());
   }, [samples, sessionId]);
 
-  const saveLiveSession = async (endedAt: string) => {
-    if (!exercise || !sessionId || !sessionStartedAt || samples.length === 0) {
+  const saveLiveSession = async (endedAt: string, reps: number) => {
+    if (!exercise || !sessionId || !sessionStartedAt) {
       return;
     }
 
@@ -210,8 +213,44 @@ export default function LiveWorkoutScreen() {
       startedAt: sessionStartedAt,
       endedAt,
       setCount: 1,
+      reps,
       samples: liveSamples,
     });
+  };
+
+  const resetCurrentSession = () => {
+    setSessionId(null);
+    setSessionStartedAt(null);
+    setSetId(null);
+    setSetIndex(1);
+    setRepsPromptEndedAt(null);
+    setRepsInput("");
+  };
+
+  const handleSaveReps = async () => {
+    if (!repsPromptEndedAt) {
+      return;
+    }
+
+    const reps = Number(repsInput);
+    if (!Number.isFinite(reps) || reps < 0) {
+      setMessage("Informe uma quantidade valida de repeticoes.");
+      return;
+    }
+
+    setIsSending(true);
+    setMessage(null);
+
+    try {
+      await saveLiveSession(repsPromptEndedAt, Math.round(reps));
+      await syncLocalDataToFirebase();
+      resetCurrentSession();
+      setMessage(samples.length > 0 ? "Serie salva no historico local." : "Serie salva sem amostras.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Nao foi possivel salvar a serie.");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const sendCommand = async (command: Parameters<typeof watchConnectivity.sendCommand>[0]) => {
@@ -262,13 +301,8 @@ export default function LiveWorkoutScreen() {
       }
       if (command === "stopSession") {
         const endedAt = new Date().toISOString();
-        await saveLiveSession(endedAt);
-        setSessionId(null);
-        setSessionStartedAt(null);
-        setSetId(null);
-        setSetIndex(1);
         setWatchState("waiting");
-        setMessage(samples.length > 0 ? "Serie salva no historico local." : "Serie encerrada sem amostras.");
+        setRepsPromptEndedAt(endedAt);
         return;
       }
 
@@ -380,6 +414,82 @@ export default function LiveWorkoutScreen() {
           </Text>
         </View>
       ) : null}
+
+      <Modal
+        animationType="fade"
+        transparent
+        visible={Boolean(repsPromptEndedAt)}
+        onRequestClose={() => {}}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.72)",
+            padding: 20,
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: colors.surface,
+              borderColor: colors.border,
+              borderRadius: 8,
+              borderWidth: 1,
+              padding: 18,
+              gap: 14,
+            }}
+          >
+            <View style={{ gap: 6 }}>
+              <Text selectable style={{ color: colors.text, fontSize: 20, fontWeight: "800" }}>
+                Quantas reps?
+              </Text>
+              <Text selectable style={{ color: colors.muted, fontSize: 14, lineHeight: 20 }}>
+                Esse numero sera salvo junto dos sensores para facilitar a classificacao das repeticoes depois.
+              </Text>
+            </View>
+
+            <TextInput
+              value={repsInput}
+              onChangeText={setRepsInput}
+              keyboardType="number-pad"
+              placeholder="Ex: 12"
+              placeholderTextColor={colors.muted}
+              autoFocus
+              style={{
+                minHeight: 54,
+                borderColor: colors.border,
+                borderRadius: 8,
+                borderWidth: 1,
+                backgroundColor: colors.background,
+                color: colors.text,
+                fontSize: 24,
+                fontWeight: "800",
+                paddingHorizontal: 14,
+                fontVariant: ["tabular-nums"],
+              }}
+            />
+
+            <Pressable
+              disabled={isSending}
+              onPress={handleSaveReps}
+              style={({ pressed }) => ({
+                minHeight: 48,
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 8,
+                backgroundColor: pressed ? colors.primaryPressed : colors.primary,
+                opacity: isSending ? 0.7 : 1,
+              })}
+            >
+              {isSending ? (
+                <ActivityIndicator color="#FFFFFF" />
+              ) : (
+                <Text style={{ color: "#FFFFFF", fontSize: 16, fontWeight: "800" }}>Salvar serie</Text>
+              )}
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
 
       <View style={{ gap: 10 }}>
         <Text selectable style={{ color: colors.text, fontSize: 20, fontWeight: "800" }}>

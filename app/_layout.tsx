@@ -6,7 +6,7 @@ import { colors } from "@/constants/colors";
 export default function RootLayout() {
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <Stack
         screenOptions={{
           headerStyle: { backgroundColor: colors.background },
@@ -15,7 +15,8 @@ export default function RootLayout() {
           contentStyle: { backgroundColor: colors.background },
         }}
       >
-        <Stack.Screen name="index" options={{ title: "Wearable Workout" }} />
+        <Stack.Screen name="index" options={{ title: "GymBeat" }} />
+        <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="live/[id]" options={{ title: "Treino ao vivo" }} />
         <Stack.Screen name="workouts" options={{ title: "Treinos" }} />
         <Stack.Screen name="workout/[id]" options={{ title: "Detalhe do treino" }} />
