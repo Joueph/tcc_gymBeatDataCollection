@@ -4,6 +4,8 @@ import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-nati
 
 import { MetricCard } from "@/components/metric-card";
 import { colors } from "@/constants/colors";
+import { database } from "@/src/storage/database";
+import type { LiveExerciseSample } from "@/src/types/health";
 import { findExercise } from "@/src/watch/exercises";
 import {
   watchConnectivity,
@@ -20,6 +22,11 @@ const isMetricSample = (message: WatchIncomingMessage): message is LiveMetricSam
 
 const isStateMessage = (message: WatchIncomingMessage): message is WatchStateMessage =>
   message.messageType === "stateChanged";
+
+const preserveCollectingState = (
+  currentState: WatchStateMessage["state"],
+  nextState: WatchStateMessage["state"],
+) => (currentState === "collecting" && nextState === "waiting" ? currentState : nextState);
 
 const formatWatchStatus = (status: WatchConnectivityStatus | null) => {
   if (!status?.isSupported) {
@@ -44,6 +51,7 @@ export default function LiveWorkoutScreen() {
   const [watchState, setWatchState] = useState<WatchStateMessage["state"]>("waiting");
   const [samples, setSamples] = useState<LiveMetricSample[]>([]);
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [sessionStartedAt, setSessionStartedAt] = useState<string | null>(null);
   const [setId, setSetId] = useState<string | null>(null);
   const [setIndex, setSetIndex] = useState(1);
   const [isSending, setIsSending] = useState(false);
@@ -53,7 +61,6 @@ export default function LiveWorkoutScreen() {
   useEffect(() => {
     let isMounted = true;
     let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
-    let connectionExpiryTimer: ReturnType<typeof setTimeout> | null = null;
 
     const markCompanionConnection = (connected: boolean) => {
       if (!isMounted) {
@@ -61,19 +68,6 @@ export default function LiveWorkoutScreen() {
       }
 
       setIsCompanionAppConnected(connected);
-
-      if (connectionExpiryTimer) {
-        clearTimeout(connectionExpiryTimer);
-        connectionExpiryTimer = null;
-      }
-
-      if (connected) {
-        connectionExpiryTimer = setTimeout(() => {
-          if (isMounted) {
-            setIsCompanionAppConnected(false);
-          }
-        }, 8000);
-      }
     };
 
     const sendAppHeartbeat = async () => {
@@ -86,13 +80,12 @@ export default function LiveWorkoutScreen() {
         if (isMounted) {
           setStatus(result.status);
           markCompanionConnection(result.delivered && result.reply?.companionAppConnected === true);
-          if (result.reply?.state) {
-            setWatchState(result.reply.state);
+          const nextState = result.reply?.state;
+          if (nextState) {
+            setWatchState((currentState) => preserveCollectingState(currentState, nextState));
           }
         }
-      } catch {
-        markCompanionConnection(false);
-      }
+      } catch {}
     };
 
     watchConnectivity
@@ -110,9 +103,6 @@ export default function LiveWorkoutScreen() {
 
     const statusSubscription = watchConnectivity.addListener("onWatchConnectivityChange", (nextStatus) => {
       setStatus(nextStatus);
-      if (!nextStatus.isReachable) {
-        markCompanionConnection(false);
-      }
     });
     const messageSubscription = watchConnectivity.addListener("onWatchMessage", (incomingMessage) => {
       if (isMetricSample(incomingMessage)) {
@@ -139,9 +129,6 @@ export default function LiveWorkoutScreen() {
       if (heartbeatTimer) {
         clearInterval(heartbeatTimer);
       }
-      if (connectionExpiryTimer) {
-        clearTimeout(connectionExpiryTimer);
-      }
       statusSubscription.remove();
       messageSubscription.remove();
     };
@@ -157,17 +144,19 @@ export default function LiveWorkoutScreen() {
       });
 
       setStatus(result.status);
-      setIsCompanionAppConnected(result.delivered && result.reply?.companionAppConnected === true);
+      setIsCompanionAppConnected((currentConnection) =>
+        result.delivered ? result.reply?.companionAppConnected === true : currentConnection,
+      );
 
-      if (result.reply?.state) {
-        setWatchState(result.reply.state);
+      const nextState = result.reply?.state;
+      if (nextState) {
+        setWatchState((currentState) => preserveCollectingState(currentState, nextState));
       }
 
       if (!result.delivered) {
         setMessage("Abra o app no Watch e mantenha esta tela aberta para conectar os dois apps.");
       }
     } catch (error) {
-      setIsCompanionAppConnected(false);
       setMessage(error instanceof Error ? error.message : "Nao foi possivel confirmar a conexao com o app do Watch.");
     }
   };
@@ -177,24 +166,53 @@ export default function LiveWorkoutScreen() {
     const summaries = new Map<string, { setId: string; samples: number; heartRate: number; kcal: number; steps: number }>();
 
     for (const sample of samples) {
-      summaries.set(sample.setId, {
-        setId: sample.setId,
-        samples: (summaries.get(sample.setId)?.samples ?? 0) + 1,
-        heartRate: sample.heartRate,
-        kcal: Math.round(sample.activeEnergyBurned),
-        steps: Math.round(sample.stepCount),
+      const sampleSetId = sample.setId ?? sessionId ?? "current";
+      summaries.set(sampleSetId, {
+        setId: sampleSetId,
+        samples: (summaries.get(sampleSetId)?.samples ?? 0) + 1,
+        heartRate: sample.heartRate ?? 0,
+        kcal: Math.round(sample.activeEnergyBurned ?? 0),
+        steps: Math.round(sample.stepCount ?? 0),
       });
     }
 
     return Array.from(summaries.values());
-  }, [samples]);
+  }, [samples, sessionId]);
+
+  const saveLiveSession = async (endedAt: string) => {
+    if (!exercise || !sessionId || !sessionStartedAt || samples.length === 0) {
+      return;
+    }
+
+    const liveSamples: LiveExerciseSample[] = samples.map((sample, index) => ({
+      id: `${sessionId}:${sample.timestamp}:${index}`,
+      sessionId,
+      exerciseId: exercise.id,
+      exerciseName: exercise.name,
+      timestamp: sample.timestamp,
+      heartRate: sample.heartRate ?? null,
+      activeEnergyBurned: sample.activeEnergyBurned ?? null,
+      distance: sample.distance ?? null,
+      stepCount: sample.stepCount ?? null,
+    }));
+
+    await database.saveLiveExerciseSession({
+      sessionId,
+      exerciseId: exercise.id,
+      exerciseName: exercise.name,
+      startedAt: sessionStartedAt,
+      endedAt,
+      setCount: 1,
+      samples: liveSamples,
+    });
+  };
 
   const sendCommand = async (command: Parameters<typeof watchConnectivity.sendCommand>[0]) => {
     if (!exercise) {
       return;
     }
 
-    if ((command === "startSession" || command === "startSet") && !isCompanionAppConnected) {
+    if (command === "startSession" && !isCompanionAppConnected) {
       setMessage("Conecte o app do Watch antes de iniciar uma serie.");
       return;
     }
@@ -208,20 +226,15 @@ export default function LiveWorkoutScreen() {
       let nextSetIndex = setIndex;
 
       if (command === "startSession") {
+        const startedAt = new Date().toISOString();
         nextSessionId = createId("session");
         nextSetId = createId("set-1");
         nextSetIndex = 1;
         setSamples([]);
         setSessionId(nextSessionId);
+        setSessionStartedAt(startedAt);
         setSetId(nextSetId);
         setSetIndex(nextSetIndex);
-      }
-
-      if (command === "startSet") {
-        nextSetIndex = setIndex + 1;
-        nextSetId = createId(`set-${nextSetIndex}`);
-        setSetIndex(nextSetIndex);
-        setSetId(nextSetId);
       }
 
       const result = await watchConnectivity.sendCommand(command, {
@@ -233,11 +246,26 @@ export default function LiveWorkoutScreen() {
       });
 
       setStatus(result.status);
-      setIsCompanionAppConnected(result.delivered && result.reply?.companionAppConnected !== false);
-      if (result.reply?.state) {
-        setWatchState(result.reply.state);
+      setIsCompanionAppConnected((currentConnection) =>
+        result.delivered ? result.reply?.companionAppConnected !== false : currentConnection,
+      );
+      const nextState = result.reply?.state;
+      if (nextState) {
+        setWatchState((currentState) => preserveCollectingState(currentState, nextState));
       }
-      setMessage(result.queued ? "Comando enfileirado. Abra o app no Watch para receber." : "Comando enviado ao Watch.");
+      if (command === "stopSession") {
+        const endedAt = new Date().toISOString();
+        await saveLiveSession(endedAt);
+        setSessionId(null);
+        setSessionStartedAt(null);
+        setSetId(null);
+        setSetIndex(1);
+        setWatchState("waiting");
+        setMessage(samples.length > 0 ? "Serie salva no historico local." : "Serie encerrada sem amostras.");
+        return;
+      }
+
+      setMessage(result.queued ? "Comando enfileirado. Abra o app no Watch para receber." : "Serie iniciada no Watch.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Falha ao enviar comando ao Apple Watch.");
     } finally {
@@ -256,8 +284,8 @@ export default function LiveWorkoutScreen() {
   }
 
   const isCollecting = watchState === "collecting";
-  const isPaused = watchState === "paused";
-  const canSendWorkoutCommand = isCompanionAppConnected && status?.isReachable === true;
+  const canStartSeries = isCompanionAppConnected && status?.isReachable === true;
+  const canStopSeries = isCompanionAppConnected && Boolean(sessionId) && isCollecting;
 
   return (
     <ScrollView
@@ -269,7 +297,7 @@ export default function LiveWorkoutScreen() {
           {exercise.name}
         </Text>
         <Text selectable style={{ color: colors.muted, fontSize: 14 }}>
-          {exercise.category} · Serie {setIndex}
+          {exercise.category}
         </Text>
       </View>
 
@@ -309,7 +337,10 @@ export default function LiveWorkoutScreen() {
       </View>
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
-        <MetricCard label="FC atual" value={latestSample ? `${Math.round(latestSample.heartRate)} bpm` : "Sem dados"} />
+        <MetricCard
+          label="FC atual"
+          value={latestSample?.heartRate ? `${Math.round(latestSample.heartRate)} bpm` : "Sem dados"}
+        />
         <MetricCard label="Calorias" value={`${Math.round(latestSample?.activeEnergyBurned ?? 0)} kcal`} />
         <MetricCard label="Passos" value={`${Math.round(latestSample?.stepCount ?? 0)}`} />
         <MetricCard label="Amostras" value={`${samples.length}`} />
@@ -317,22 +348,12 @@ export default function LiveWorkoutScreen() {
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
         <CommandButton
-          disabled={isSending || isCollecting || !canSendWorkoutCommand}
+          disabled={isSending || isCollecting || !canStartSeries}
           label="Iniciar"
           onPress={() => sendCommand("startSession")}
         />
         <CommandButton
-          disabled={isSending || !canSendWorkoutCommand || !sessionId || (!isCollecting && !isPaused)}
-          label={isPaused ? "Retomar" : "Pausar"}
-          onPress={() => sendCommand(isPaused ? "resumeSession" : "pauseSession")}
-        />
-        <CommandButton
-          disabled={isSending || !canSendWorkoutCommand || !sessionId}
-          label="Nova serie"
-          onPress={() => sendCommand("startSet")}
-        />
-        <CommandButton
-          disabled={isSending || !canSendWorkoutCommand || !sessionId}
+          disabled={isSending || !canStopSeries}
           label="Parar"
           danger
           onPress={() => sendCommand("stopSession")}
@@ -355,7 +376,7 @@ export default function LiveWorkoutScreen() {
         </Text>
         {setSummaries.length === 0 ? (
           <Text selectable style={{ color: colors.muted, fontSize: 15, lineHeight: 22 }}>
-            Inicie o treino e deixe o app do Watch aberto para receber as metricas.
+            Inicie a serie e deixe o app do Watch aberto para receber as metricas.
           </Text>
         ) : (
           setSummaries.map((summary, index) => (

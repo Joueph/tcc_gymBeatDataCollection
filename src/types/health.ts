@@ -32,3 +32,35 @@ export type DashboardSummary = {
   totalDistance: number;
   lastSyncAt: string | null;
 };
+
+export type LiveExerciseSample = {
+  id?: string;
+  sessionId: string;
+  exerciseId: string;
+  exerciseName: string;
+  timestamp: string;
+  heartRate: number | null;
+  activeEnergyBurned: number | null;
+  distance: number | null;
+  stepCount: number | null;
+};
+
+export type LiveExerciseSession = {
+  sessionId: string;
+  exerciseId: string;
+  exerciseName: string;
+  startedAt: string;
+  endedAt: string;
+  setCount: number;
+  samples: LiveExerciseSample[];
+};
+
+export type LiveExerciseGroup = {
+  day: string;
+  exerciseId: string;
+  exerciseName: string;
+  setCount: number;
+  startedAt: string;
+  endedAt: string;
+  samples: LiveExerciseSample[];
+};

@@ -23,12 +23,12 @@ export type WatchCommand =
 export type LiveMetricSample = {
   messageType: "metricSample";
   sessionId: string;
-  setId: string;
+  setId?: string;
   timestamp: string;
-  heartRate: number;
-  activeEnergyBurned: number;
-  distance: number;
-  stepCount: number;
+  heartRate?: number;
+  activeEnergyBurned?: number;
+  distance?: number;
+  stepCount?: number;
 };
 
 export type WatchStateMessage = {

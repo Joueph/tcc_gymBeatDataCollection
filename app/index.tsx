@@ -2,44 +2,34 @@ import { Link, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-native";
 
-import { BarChart } from "@/components/bar-chart";
-import { MetricCard } from "@/components/metric-card";
-import { WorkoutCard } from "@/components/workout-card";
+import { LiveSessionChart } from "@/components/live-session-chart";
 import { colors } from "@/constants/colors";
 import { healthKit } from "@/src/health/health-kit";
 import { syncHealthData } from "@/src/health/sync";
 import { database } from "@/src/storage/database";
-import type { DashboardSummary, MetricSample, Workout } from "@/src/types/health";
-import { formatDistance, formatDuration, formatSyncDate } from "@/src/utils/format";
+import type { DashboardSummary, LiveExerciseGroup } from "@/src/types/health";
+import { formatSyncDate } from "@/src/utils/format";
 import { exercises } from "@/src/watch/exercises";
 
 export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
   const [healthAvailable, setHealthAvailable] = useState<boolean | null>(null);
-  const [summary7, setSummary7] = useState<DashboardSummary | null>(null);
   const [summary30, setSummary30] = useState<DashboardSummary | null>(null);
-  const [workouts, setWorkouts] = useState<Workout[]>([]);
-  const [energySamples, setEnergySamples] = useState<MetricSample[]>([]);
+  const [liveGroups, setLiveGroups] = useState<LiveExerciseGroup[]>([]);
+  const [expandedGroupKey, setExpandedGroupKey] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   const loadDashboard = useCallback(async () => {
-    const [available, nextSummary7, nextSummary30, nextWorkouts] = await Promise.all([
+    const [available, nextSummary30, nextLiveGroups] = await Promise.all([
       healthKit.isHealthDataAvailable(),
-      database.getSummary(7),
       database.getSummary(30),
-      database.getWorkouts(),
+      database.getLiveExerciseGroups(),
     ]);
 
-    const now = new Date();
-    const start = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000).toISOString();
-    const samples = await database.getMetricSamples("activeEnergyBurned", start, now.toISOString());
-
     setHealthAvailable(available);
-    setSummary7(nextSummary7);
     setSummary30(nextSummary30);
-    setWorkouts(nextWorkouts.slice(0, 3));
-    setEnergySamples(samples);
+    setLiveGroups(nextLiveGroups);
   }, []);
 
   useFocusEffect(
@@ -84,8 +74,6 @@ export default function HomeScreen() {
       setIsSyncing(false);
     }
   };
-
-  const hasData = workouts.length > 0;
 
   return (
     <ScrollView
@@ -186,62 +174,62 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {isLoading ? (
-        <ActivityIndicator color={colors.primary} />
-      ) : (
-        <>
-          <View style={{ gap: 12 }}>
-            <Text selectable style={{ color: colors.text, fontSize: 20, fontWeight: "800" }}>
-              Ultimos 7 dias
-            </Text>
-            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
-              <MetricCard label="Treinos" value={`${summary7?.workoutCount ?? 0}`} />
-              <MetricCard label="Tempo" value={formatDuration(summary7?.totalDurationMinutes ?? 0)} />
-              <MetricCard label="Calorias" value={`${summary7?.totalEnergyBurned ?? 0} kcal`} />
-              <MetricCard label="Distancia" value={formatDistance(summary7?.totalDistance ?? 0)} />
-            </View>
-          </View>
+      <View style={{ gap: 12 }}>
+        <Text selectable style={{ color: colors.text, fontSize: 20, fontWeight: "800" }}>
+          Exercicios realizados
+        </Text>
+        {isLoading ? (
+          <ActivityIndicator color={colors.primary} />
+        ) : liveGroups.length === 0 ? (
+          <Text selectable style={{ color: colors.muted, fontSize: 15, lineHeight: 22 }}>
+            Nenhuma serie ao vivo salva ainda. Escolha um exercicio, conecte o Watch e toque em Iniciar.
+          </Text>
+        ) : (
+          liveGroups.map((group) => {
+            const key = `${group.day}:${group.exerciseId}`;
+            const isExpanded = expandedGroupKey === key;
 
-          <View style={{ gap: 12 }}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-              <Text selectable style={{ color: colors.text, fontSize: 20, fontWeight: "800" }}>
-                Energia ativa
-              </Text>
-              <Text selectable style={{ color: colors.muted, fontSize: 13 }}>
-                14 dias
-              </Text>
-            </View>
-            <BarChart samples={energySamples} emptyLabel="Sincronize para visualizar calorias ativas por dia." />
-          </View>
-
-          <View style={{ gap: 12 }}>
-            <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-              <Text selectable style={{ color: colors.text, fontSize: 20, fontWeight: "800" }}>
-                Treinos recentes
-              </Text>
-              <Link href="/workouts" asChild>
-                <Pressable hitSlop={10}>
-                  <Text style={{ color: colors.primary, fontSize: 15, fontWeight: "700" }}>
-                    Ver todos
+            return (
+              <Pressable
+                key={key}
+                onPress={() => setExpandedGroupKey(isExpanded ? null : key)}
+                style={({ pressed }) => ({
+                  backgroundColor: pressed ? colors.surfaceMuted : colors.surface,
+                  borderColor: colors.border,
+                  borderRadius: 8,
+                  borderWidth: 1,
+                  padding: 16,
+                  gap: 12,
+                })}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
+                  <View style={{ gap: 4, flex: 1 }}>
+                    <Text selectable style={{ color: colors.text, fontSize: 17, fontWeight: "800" }}>
+                      {formatCardDay(group.day)}
+                    </Text>
+                    <Text selectable style={{ color: colors.text, fontSize: 15, fontWeight: "700" }}>
+                      {group.exerciseName}
+                    </Text>
+                    <Text selectable style={{ color: colors.muted, fontSize: 13 }}>
+                      {group.setCount} {group.setCount === 1 ? "serie" : "series"}
+                    </Text>
+                  </View>
+                  <Text style={{ color: colors.primary, fontSize: 22, fontWeight: "700" }}>
+                    {isExpanded ? "-" : "+"}
                   </Text>
-                </Pressable>
-              </Link>
-            </View>
-            {hasData ? (
-              workouts.map((workout) => <WorkoutCard key={workout.id} workout={workout} />)
-            ) : (
-              <Text selectable style={{ color: colors.muted, fontSize: 15, lineHeight: 22 }}>
-                Nenhum treino salvo ainda. Toque em sincronizar para importar os dados do Apple Saude.
-              </Text>
-            )}
-          </View>
+                </View>
 
-          <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
-            <MetricCard label="30 dias" value={`${summary30?.workoutCount ?? 0} treinos`} />
-            <MetricCard label="Volume total" value={formatDuration(summary30?.totalDurationMinutes ?? 0)} />
-          </View>
-        </>
-      )}
+                {isExpanded ? <LiveSessionChart samples={group.samples} /> : null}
+              </Pressable>
+            );
+          })
+        )}
+      </View>
     </ScrollView>
   );
 }
+
+const formatCardDay = (value: string) => {
+  const [, month, day] = value.split("-");
+  return `${day} / ${month}`;
+};
