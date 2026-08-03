@@ -6,7 +6,12 @@
 //   - Eventos válidos: 'message', 'user-info', 'reachability'
 
 import watchEvents from 'react-native-watch-connectivity/dist/events';
-import WatchConnectivity from 'react-native-watch-connectivity';
+import {
+    getIsPaired,
+    getIsWatchAppInstalled,
+    getReachability,
+    sendMessage,
+} from 'react-native-watch-connectivity';
 import { ExerciseID, SessionMode, TelemetrySample, WCBatchPayload, WCHeartbeatPayload } from '@/types/telemetry';
 
 // MARK: - Availability Guard
@@ -20,7 +25,7 @@ import { ExerciseID, SessionMode, TelemetrySample, WCBatchPayload, WCHeartbeatPa
  Outputs: boolean
  */
 function isWatchConnectivityAvailable(): boolean {
-    return WatchConnectivity != null && typeof WatchConnectivity.sendMessage === 'function';
+    return typeof sendMessage === 'function';
 }
 
 // MARK: - Message Key Constants
@@ -129,7 +134,7 @@ export async function sendStartSession(
         console.warn('[GymBeat] WatchConnectivity indisponível — simulador ou Watch não pareado.');
         return;
     }
-    await WatchConnectivity.sendMessage({
+    await sendMessage({
         [MSG_KEY.command]: 'START_SESSION',
         [MSG_KEY.sessionID]: sessionID,
         [MSG_KEY.exerciseID]: exerciseID,
@@ -150,7 +155,7 @@ export async function sendStopSession(): Promise<void> {
         console.warn('[GymBeat] WatchConnectivity indisponível — simulador ou Watch não pareado.');
         return;
     }
-    await WatchConnectivity.sendMessage({
+    await sendMessage({
         [MSG_KEY.command]: 'STOP_SESSION',
     });
 }
@@ -171,7 +176,7 @@ export async function sendUpdateContext(
         console.warn('[GymBeat] WatchConnectivity indisponível — simulador ou Watch não pareado.');
         return;
     }
-    await WatchConnectivity.sendMessage({
+    await sendMessage({
         [MSG_KEY.command]: 'UPDATE_CONTEXT',
         [MSG_KEY.exerciseID]: exerciseID,
         [MSG_KEY.mode]: mode,
@@ -181,8 +186,42 @@ export async function sendUpdateContext(
 export async function getWatchReachability(): Promise<boolean> {
     if (!isWatchConnectivityAvailable()) return false;
     try {
-        return await WatchConnectivity.getReachability();
+        return await getReachability();
     } catch {
         return false;
+    }
+}
+
+export async function getWatchConnectionStatus(): Promise<{
+    isPaired: boolean;
+    isWatchAppInstalled: boolean;
+    isReachable: boolean;
+}> {
+    if (!isWatchConnectivityAvailable()) {
+        return {
+            isPaired: false,
+            isWatchAppInstalled: false,
+            isReachable: false,
+        };
+    }
+
+    try {
+        const [isPaired, isWatchAppInstalled, isReachable] = await Promise.all([
+            getIsPaired().catch(() => false),
+            getIsWatchAppInstalled().catch(() => false),
+            getReachability().catch(() => false),
+        ]);
+
+        return {
+            isPaired,
+            isWatchAppInstalled,
+            isReachable,
+        };
+    } catch {
+        return {
+            isPaired: false,
+            isWatchAppInstalled: false,
+            isReachable: false,
+        };
     }
 }

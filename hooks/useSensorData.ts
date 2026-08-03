@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { TelemetrySample } from '@/types/telemetry';
 import {
     initWatchConnectivity,
-    getWatchReachability,
+    getWatchConnectionStatus,
 } from '@/services/watchConnectivity';
 
 // MARK: - Hook Return Type
@@ -18,6 +18,8 @@ export interface SensorData {
     isWatchReachable: boolean;         // Status da conexão Bluetooth
     lastBatch: TelemetrySample[];      // Último lote recebido do Watch
     lastSessionID: string | null;      // ID da sessão do último lote
+    connectionError: string | null;    // Mensagem de erro de conexão
+    refreshConnection: () => Promise<void>; // Função para forçar atualização
 }
 
 // MARK: - useSensorData
@@ -42,6 +44,7 @@ export function useSensorData(
     const [isWatchReachable, setIsWatchReachable] = useState(false);
     const [lastBatch, setLastBatch] = useState<TelemetrySample[]>([]);
     const [lastSessionID, setLastSessionID] = useState<string | null>(null);
+    const [connectionError, setConnectionError] = useState<string | null>(null);
 
     /*
      Function name: handleBatchReceived
@@ -60,24 +63,50 @@ export function useSensorData(
         },
         [onBatchReceived]
     );
+    
+    const refreshConnection = useCallback(async () => {
+        try {
+            const status = await getWatchConnectionStatus();
+            setIsWatchReachable(status.isReachable);
+
+            if (!status.isPaired) {
+                setConnectionError('Apple Watch não pareado com este iPhone.');
+            } else if (!status.isWatchAppInstalled) {
+                setConnectionError('O app do Apple Watch não está instalado.');
+            } else if (!status.isReachable) {
+                setConnectionError('Apple Watch pareado, mas o app não está acessível no momento.');
+            } else {
+                setConnectionError(null);
+            }
+        } catch (error) {
+            setConnectionError('Erro ao verificar conectividade: ' + String(error));
+        }
+    }, []);
 
     // Verifica reachability inicial e inicializa listeners
     useEffect(() => {
-        getWatchReachability().then(setIsWatchReachable);
+        refreshConnection();
 
         const cleanup = initWatchConnectivity(
             setCurrentHeartRate,
             handleBatchReceived,
-            setIsWatchReachable,
+            (reachable) => {
+                setIsWatchReachable(reachable);
+                setConnectionError(
+                    reachable ? null : 'Apple Watch pareado, mas o app não está acessível no momento.'
+                );
+            },
         );
 
         return cleanup;
-    }, [handleBatchReceived]);
+    }, [handleBatchReceived, refreshConnection]);
 
     return {
         currentHeartRate,
         isWatchReachable,
         lastBatch,
         lastSessionID,
+        connectionError,
+        refreshConnection,
     };
 }

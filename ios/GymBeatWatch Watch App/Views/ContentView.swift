@@ -4,6 +4,7 @@
 // durante exercícios. Exibe estado da sessão, BPM e contador de amostras.
 
 import SwiftUI
+import WatchConnectivity
 
 // MARK: - ContentView
 
@@ -41,6 +42,7 @@ struct ContentView: View {
  */
 struct IdleView: View {
     let isReachable: Bool
+    @State private var errorMessage: String? = nil
 
     var body: some View {
         VStack(spacing: 8) {
@@ -63,6 +65,33 @@ struct IdleView: View {
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
                     .padding(.top, 4)
+            }
+            
+            // Botão de Refresh para checar conexão manualmente
+            Button(action: {
+                if WCSession.isSupported() {
+                    let reachable = WCSession.default.isReachable
+                    if !reachable {
+                        errorMessage = "iPhone fora de alcance ou app fechado."
+                    } else {
+                        errorMessage = nil
+                    }
+                } else {
+                    errorMessage = "WatchConnectivity não suportado."
+                }
+            }) {
+                Image(systemName: "arrow.clockwise.circle.fill")
+                    .font(.system(size: 24))
+                    .foregroundColor(.blue)
+            }
+            .buttonStyle(.plain)
+            .padding(.top, 4)
+            
+            if let error = errorMessage {
+                Text(error)
+                    .font(.system(size: 10))
+                    .foregroundColor(.red)
+                    .multilineTextAlignment(.center)
             }
         }
         .padding()

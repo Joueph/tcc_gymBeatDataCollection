@@ -286,7 +286,7 @@ extension SessionManager: WCSessionDelegate {
                  activationDidCompleteWith activationState: WCSessionActivationState,
                  error: Error?) {
         DispatchQueue.main.async { [weak self] in
-            self?.isPhoneReachable = (activationState == .activated)
+            self?.isPhoneReachable = session.isReachable
         }
     }
 

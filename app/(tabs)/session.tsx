@@ -177,6 +177,8 @@ export default function SessionScreen() {
         sessionDurationMs,
         currentHeartRate,
         isWatchReachable,
+        connectionError,
+        refreshConnection,
         startSession,
         stopSession,
     } = useWorkoutSession();
@@ -206,8 +208,21 @@ export default function SessionScreen() {
                             {exercise?.displayName ?? 'Pronto para iniciar'}
                         </Text>
                     </View>
-                    <ConnectionBadge isReachable={isWatchReachable} />
+                    <View style={styles.headerRight}>
+                        <ConnectionBadge isReachable={isWatchReachable} />
+                        <TouchableOpacity onPress={refreshConnection} style={styles.refreshBtn}>
+                            <IconSymbol name="arrow.clockwise" size={14} color={C.textSub} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
+
+                {/* Erro de Conexão */}
+                {connectionError && (
+                    <View style={styles.errorBox}>
+                        <IconSymbol name="exclamationmark.triangle" size={16} color={C.red} />
+                        <Text style={styles.errorText}>{connectionError}</Text>
+                    </View>
+                )}
 
                 {/* Timer */}
                 {isActive && (
@@ -322,6 +337,34 @@ const styles = StyleSheet.create({
         color: C.text,
         letterSpacing: -0.3,
         maxWidth: 200,
+    },
+
+    headerRight: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        gap: 8,
+    },
+    refreshBtn: {
+        width: 28,
+        height: 28,
+        borderRadius: 14,
+        backgroundColor: C.accentSoft,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    errorBox: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        backgroundColor: C.redSoft,
+        padding: 12,
+        borderRadius: 12,
+        marginBottom: 16,
+    },
+    errorText: {
+        fontSize: 13,
+        color: C.red,
+        flex: 1,
     },
 
     // Timer

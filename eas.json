@@ -15,7 +15,14 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
+      "autoIncrement": true,
+      "ios": {
+        "buildConfiguration": "Release",
+        "scheme": "gymBeatDataCollection"
+      },
+      "env": {
+        "APPLE_TEAM_ID": "M4M9UUR2NT"
+      }
     }
   },
   "submit": {

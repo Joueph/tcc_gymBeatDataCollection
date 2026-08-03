@@ -24,6 +24,8 @@ export interface WorkoutSessionState {
     sessionDurationMs: number;
     currentHeartRate: number | null;
     isWatchReachable: boolean;
+    connectionError: string | null;
+    refreshConnection: () => Promise<void>;
     startSession: (exerciseID: ExerciseID) => Promise<void>;
     stopSession: () => Promise<void>;
     updateExercise: (exerciseID: ExerciseID) => Promise<void>;
@@ -86,7 +88,7 @@ export function useWorkoutSession(): WorkoutSessionState {
         []
     );
 
-    const { currentHeartRate, isWatchReachable } = useSensorData(handleBatchReceived);
+    const { currentHeartRate, isWatchReachable, connectionError, refreshConnection } = useSensorData(handleBatchReceived);
 
     // MARK: - Timer
 
@@ -179,6 +181,8 @@ export function useWorkoutSession(): WorkoutSessionState {
         sessionDurationMs,
         currentHeartRate,
         isWatchReachable,
+        connectionError,
+        refreshConnection,
         startSession,
         stopSession,
         updateExercise,
