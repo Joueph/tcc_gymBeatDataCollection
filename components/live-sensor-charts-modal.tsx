@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import { Modal, Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
 
 import { colors } from "@/constants/colors";
@@ -80,6 +81,15 @@ const sensorMetrics: SensorMetric[] = [
 export function LiveSensorChartsModal({ group, onClose }: LiveSensorChartsModalProps) {
   const { width } = useWindowDimensions();
   const chartWidth = Math.min(360, width - 56);
+  const seriesTabs = useMemo(() => getSeriesTabs(group?.samples ?? []), [group?.samples]);
+  const [selectedSeriesId, setSelectedSeriesId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSelectedSeriesId(seriesTabs[0]?.sessionId ?? null);
+  }, [group?.day, group?.exerciseId, seriesTabs]);
+
+  const selectedSeries = seriesTabs.find((series) => series.sessionId === selectedSeriesId) ?? seriesTabs[0];
+  const selectedSamples = selectedSeries?.samples ?? [];
 
   return (
     <Modal animationType="slide" visible={Boolean(group)} presentationStyle="pageSheet" onRequestClose={onClose}>
@@ -112,12 +122,63 @@ export function LiveSensorChartsModal({ group, onClose }: LiveSensorChartsModalP
           </Pressable>
         </View>
 
+        {seriesTabs.length > 0 ? (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 10 }}>
+            {seriesTabs.map((series, index) => {
+              const selected = series.sessionId === selectedSeries?.sessionId;
+
+              return (
+                <Pressable
+                  key={series.sessionId}
+                  onPress={() => setSelectedSeriesId(series.sessionId)}
+                  style={({ pressed }) => ({
+                    minHeight: 42,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderColor: selected ? colors.primary : colors.border,
+                    borderRadius: 8,
+                    borderWidth: 1,
+                    backgroundColor: selected ? colors.primary : pressed ? colors.surfaceMuted : colors.surface,
+                    paddingHorizontal: 16,
+                  })}
+                >
+                  <Text style={{ color: colors.text, fontSize: 14, fontWeight: "800" }}>
+                    Serie {index + 1}
+                  </Text>
+                  <Text style={{ color: selected ? "#DCEBFF" : colors.muted, fontSize: 11, fontWeight: "700" }}>
+                    {series.samples.length} amostras
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </ScrollView>
+        ) : null}
+
         {sensorMetrics.map((metric) => (
-          <SensorLineChart key={metric.key} metric={metric} samples={group?.samples ?? []} chartWidth={chartWidth} />
+          <SensorLineChart key={metric.key} metric={metric} samples={selectedSamples} chartWidth={chartWidth} />
         ))}
       </ScrollView>
     </Modal>
   );
+}
+
+function getSeriesTabs(samples: LiveExerciseSample[]) {
+  const seriesBySession = new Map<string, LiveExerciseSample[]>();
+
+  for (const sample of samples) {
+    const sessionId = sample.sessionId || "serie-unica";
+    const currentSamples = seriesBySession.get(sessionId) ?? [];
+    currentSamples.push(sample);
+    seriesBySession.set(sessionId, currentSamples);
+  }
+
+  return Array.from(seriesBySession.entries())
+    .map(([sessionId, seriesSamples]) => ({
+      sessionId,
+      samples: seriesSamples.sort((a, b) => a.timestamp.localeCompare(b.timestamp)),
+      startedAt: seriesSamples[0]?.timestamp ?? "",
+    }))
+    .sort((a, b) => a.startedAt.localeCompare(b.startedAt));
 }
 
 function SensorLineChart({

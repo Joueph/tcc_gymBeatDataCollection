@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import { useMemo, useState } from "react";
 import {
   ActivityIndicator,
+  Keyboard,
   KeyboardAvoidingView,
   Pressable,
   ScrollView,
@@ -34,6 +35,7 @@ export default function LoginScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const isSignin = mode === "signin";
+  const canGoBack = isSignin || step > firstStep;
 
   const stepContent = useMemo(() => {
     if (isSignin) {
@@ -132,6 +134,7 @@ export default function LoginScreen() {
 
   const goBack = () => {
     triggerHaptic();
+    Keyboard.dismiss();
     setError(null);
     if (isSignin) {
       setMode("signup");
@@ -198,9 +201,10 @@ export default function LoginScreen() {
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1, backgroundColor: colors.background }}>
       <ScrollView
+        style={{ flex: 1 }}
         contentInsetAdjustmentBehavior="automatic"
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ minHeight: "100%", padding: 24, paddingBottom: 112 }}
+        keyboardShouldPersistTaps="always"
+        contentContainerStyle={{ flexGrow: 1, padding: 24 }}
       >
         <View style={{ flex: 1, gap: 32 }}>
           {step === 1 && !isSignin ? (
@@ -289,10 +293,6 @@ export default function LoginScreen() {
 
       <View
         style={{
-          position: "absolute",
-          left: 0,
-          right: 0,
-          bottom: 0,
           flexDirection: "row",
           alignItems: "center",
           justifyContent: "space-between",
@@ -302,12 +302,12 @@ export default function LoginScreen() {
           borderTopWidth: 1,
           padding: 20,
           paddingBottom: 28,
-          zIndex: 20,
         }}
       >
         <Pressable
-          disabled={(step === firstStep && !isSignin) || isSaving}
+          disabled={!canGoBack || isSaving}
           onPress={goBack}
+          hitSlop={12}
           style={({ pressed }) => ({
             width: 52,
             height: 52,
@@ -315,7 +315,7 @@ export default function LoginScreen() {
             justifyContent: "center",
             borderRadius: 26,
             backgroundColor: pressed ? colors.surfaceMuted : colors.surface,
-            opacity: (step === firstStep && !isSignin) || isSaving ? 0.35 : 1,
+            opacity: !canGoBack || isSaving ? 0.35 : 1,
           })}
         >
           <Text style={{ color: colors.text, fontSize: 30, fontWeight: "700" }}>‹</Text>

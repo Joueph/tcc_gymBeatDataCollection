@@ -5,7 +5,7 @@ import { ActivityIndicator, Pressable, ScrollView, Text, View } from "react-nati
 import { LiveSensorChartsModal } from "@/components/live-sensor-charts-modal";
 import { SessionDrawer } from "@/components/session-drawer";
 import { colors } from "@/constants/colors";
-import { signOutFirebaseAccount } from "@/src/firebase/sync";
+import { fetchExerciseGroupsFromFirebase, signOutFirebaseAccount } from "@/src/firebase/sync";
 import { healthKit } from "@/src/health/health-kit";
 import { syncHealthData } from "@/src/health/sync";
 import { database } from "@/src/storage/database";
@@ -26,12 +26,20 @@ export default function HomeScreen() {
   const [message, setMessage] = useState<string | null>(null);
 
   const loadDashboard = useCallback(async () => {
-    const [available, nextSummary30, nextLiveGroups, nextProfile] = await Promise.all([
+    const [available, nextSummary30, nextProfile] = await Promise.all([
       healthKit.isHealthDataAvailable(),
       database.getSummary(30),
-      database.getLiveExerciseGroups(),
       database.getUserProfile(),
     ]);
+    let nextLiveGroups = await database.getLiveExerciseGroups();
+
+    if (nextProfile) {
+      try {
+        nextLiveGroups = (await fetchExerciseGroupsFromFirebase(nextProfile)) ?? nextLiveGroups;
+      } catch (error) {
+        console.warn("Could not fetch exercise groups from Firebase. Falling back to local data.", error);
+      }
+    }
 
     setHealthAvailable(available);
     setSummary30(nextSummary30);

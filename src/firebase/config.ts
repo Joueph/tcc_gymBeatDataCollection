@@ -1,11 +1,17 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getApp, getApps, initializeApp, type FirebaseApp } from "firebase/app";
-import { getAuth, type Auth } from "firebase/auth";
+import { getAuth, initializeAuth, type Auth, type Persistence } from "firebase/auth";
+import * as FirebaseAuth from "firebase/auth";
 import { getFirestore, type Firestore } from "firebase/firestore";
 
 type FirebaseServices = {
   app: FirebaseApp;
   auth: Auth;
   db: Firestore;
+};
+
+type FirebaseAuthWithReactNativePersistence = typeof FirebaseAuth & {
+  getReactNativePersistence?: (storage: typeof AsyncStorage) => Persistence;
 };
 
 const firebaseConfig = {
@@ -17,19 +23,42 @@ const firebaseConfig = {
   appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
 };
 
+let cachedServices: FirebaseServices | null = null;
+
 export const isFirebaseConfigured = () =>
   Object.values(firebaseConfig).every((value) => typeof value === "string" && value.length > 0);
 
 export const getFirebaseServices = (): FirebaseServices | null => {
+  if (cachedServices) {
+    return cachedServices;
+  }
+
   if (!isFirebaseConfigured()) {
     return null;
   }
 
   const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+  let auth: Auth;
 
-  return {
+  try {
+    const getReactNativePersistence = (FirebaseAuth as FirebaseAuthWithReactNativePersistence).getReactNativePersistence;
+
+    if (!getReactNativePersistence) {
+      throw new Error("React Native Firebase Auth persistence is unavailable in this environment.");
+    }
+
+    auth = initializeAuth(app, {
+      persistence: getReactNativePersistence(AsyncStorage),
+    });
+  } catch {
+    auth = getAuth(app);
+  }
+
+  cachedServices = {
     app,
-    auth: getAuth(app),
+    auth,
     db: getFirestore(app),
   };
+
+  return cachedServices;
 };

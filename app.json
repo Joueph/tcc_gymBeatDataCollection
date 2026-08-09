@@ -2,6 +2,8 @@
   "expo": {
     "name": "GymBeat",
     "slug": "wearable-workout",
+    "owner": "joueph",
+    "scheme": "gymbeat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -14,7 +16,13 @@
     },
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.joueph.wearableworkout"
+      "bundleIdentifier": "com.joueph.wearableworkout",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSHealthShareUsageDescription": "O GymBeat usa dados do Apple Saude para coletar metricas de treino, batimentos cardiacos e historico de exercicios.",
+        "NSHealthUpdateUsageDescription": "O GymBeat pode registrar dados de treino coletados durante suas series."
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +38,30 @@
     "plugins": [
       "expo-router",
       "expo-sqlite",
-      "./plugins/with-health-kit"
-    ]
+      "./plugins/with-health-kit",
+      "./plugins/with-watch-app"
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "ba4afad0-f274-4c6d-afe5-3b2dd82288fb",
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "targetName": "WearableWorkoutWatch Watch App",
+                  "bundleIdentifier": "com.joueph.wearableworkout.watchkitapp",
+                  "entitlements": {
+                    "com.apple.developer.healthkit": true,
+                    "com.apple.developer.healthkit.background-delivery": true
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
   }
 }

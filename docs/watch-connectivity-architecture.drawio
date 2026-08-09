@@ -1,0 +1,125 @@
+<mxfile host="65bd71144e">
+    <diagram id="watch-connectivity-architecture" name="Watch Connectivity Architecture">
+        <mxGraphModel dx="1400" dy="450" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="title" value="Arquitetura iPhone - Apple Watch" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=26;fontStyle=1;fontColor=#172554;" parent="1" vertex="1">
+                    <mxGeometry x="360" y="30" width="680" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="build-band" value="Build / configuracao nativa" style="swimlane;html=1;startSize=32;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#172554;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="90" width="1320" height="190" as="geometry"/>
+                </mxCell>
+                <mxCell id="runtime-band" value="Runtime / troca de mensagens" style="swimlane;html=1;startSize=32;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;fontColor=#14532d;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="320" width="1320" height="400" as="geometry"/>
+                </mxCell>
+                <mxCell id="data-band" value="Persistencia / uso no app" style="swimlane;html=1;startSize=32;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#7c2d12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="760" width="1320" height="180" as="geometry">
+                        <mxRectangle x="40" y="760" width="180" height="32" as="alternateBounds"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="legend" value="Fluxo principal&#xa;&#xa;1. Build cria e embute o app do Watch.&#xa;2. iPhone e Watch ativam WCSession.&#xa;3. iPhone envia comandos.&#xa;4. Watch responde estado e metricas.&#xa;5. App armazena a serie coletada." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;spacing=12;" parent="data-band" vertex="1">
+                    <mxGeometry x="800" y="40" width="460" height="125" as="geometry"/>
+                </mxCell>
+                <mxCell id="plugin" value="Expo config plugin&#xa;plugins/with-watch-app.js&#xa;&#xa;- copia native/watch-app&#xa;- cria target watchOS&#xa;- adiciona appExtensions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#1d4ed8;fontColor=#172554;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="140" width="250" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="xcode" value="Projeto iOS / Xcode&#xa;&#xa;PBXNativeTarget&#xa;PBXCopyFilesBuildPhase&#xa;Embed Watch Content" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#1d4ed8;fontColor=#172554;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="410" y="140" width="250" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="watch-target" value="Watch App target&#xa;WearableWorkoutWatch Watch App&#xa;&#xa;SDKROOT = watchos&#xa;WKCompanionAppBundleIdentifier&#xa;HealthKit entitlement" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#1d4ed8;fontColor=#172554;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="740" y="140" width="270" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="install" value="Instalacao no par pareado&#xa;&#xa;iPhone app embute o Watch app&#xa;Apple instala no Watch vinculado" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#1d4ed8;fontColor=#172554;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="1090" y="140" width="230" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="react" value="Tela React Native&#xa;app/live/[id].tsx&#xa;&#xa;getStatus()&#xa;sendCommand()&#xa;listeners: status e message" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#15803d;fontColor=#14532d;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="380" width="250" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="ts-wrapper" value="TypeScript facade&#xa;modules/watch-connectivity/src/index.ts&#xa;&#xa;tipos dos comandos&#xa;tipos de mensagens&#xa;fallback quando modulo nativo nao existe" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#15803d;fontColor=#14532d;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="380" width="250" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="ios-module" value="Modulo nativo iOS&#xa;WatchConnectivityModule.swift&#xa;&#xa;import WatchConnectivity&#xa;WCSession.default.activate()&#xa;sendMessage / transferUserInfo" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#15803d;fontColor=#14532d;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="380" width="270" height="130" as="geometry"/>
+                </mxCell>
+                <mxCell id="wc-session" value="Apple WatchConnectivity&#xa;WCSession&#xa;&#xa;isPaired&#xa;isWatchAppInstalled&#xa;isReachable" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fillColor=#bbf7d0;strokeColor=#15803d;fontColor=#14532d;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="1040" y="375" width="150" height="150" as="geometry"/>
+                </mxCell>
+                <mxCell id="watch-manager" value="WatchSessionManager.swift&#xa;&#xa;ativa WCSession no Watch&#xa;recebe appHeartbeat/startSession&#xa;controla estado do treino" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#15803d;fontColor=#14532d;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="1040" y="560" width="280" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="workout" value="WorkoutManager.swift&#xa;&#xa;inicia treino&#xa;coleta HealthKit / sensores&#xa;gera MetricSample" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#15803d;fontColor=#14532d;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="700" y="560" width="270" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="message-contract" value="Contrato de mensagens&#xa;WatchMessage.swift&#xa;&#xa;commands: appHeartbeat, startSession, stopSession...&#xa;outgoing: stateChanged, metricSample, error" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef9c3;strokeColor=#ca8a04;fontColor=#713f12;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="560" width="250" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="samples" value="Amostras no app&#xa;&#xa;onWatchMessage recebe metricSample&#xa;setSamples([...])&#xa;UI mostra batimentos, kcal, passos e sensores" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7aa;strokeColor=#ea580c;fontColor=#7c2d12;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="80" y="805" width="300" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="database" value="Banco local / sincronizacao&#xa;&#xa;saveLiveExerciseSession()&#xa;syncLocalDataToFirebase()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fed7aa;strokeColor=#ea580c;fontColor=#7c2d12;spacing=12;" parent="1" vertex="1">
+                    <mxGeometry x="460" y="805" width="280" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-plugin-xcode" value="gera target" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#1d4ed8;fontColor=#172554;" parent="1" source="plugin" target="xcode" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-xcode-target" value="configura" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#1d4ed8;fontColor=#172554;" parent="1" source="xcode" target="watch-target" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-target-install" value="embute" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#1d4ed8;fontColor=#172554;" parent="1" source="watch-target" target="install" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-react-ts" value="API JS" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#15803d;fontColor=#14532d;" parent="1" source="react" target="ts-wrapper" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-ts-ios" value="requireNativeModule" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#15803d;fontColor=#14532d;" parent="1" source="ts-wrapper" target="ios-module" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-ios-wc" value="sendCommand()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#15803d;fontColor=#14532d;" parent="1" source="ios-module" target="wc-session" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-wc-watch" value="didReceiveMessage" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#15803d;fontColor=#14532d;" parent="1" source="wc-session" target="watch-manager" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-watch-workout" value="start/pause/stop" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#15803d;fontColor=#14532d;" parent="1" source="watch-manager" target="workout" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-contract-react" value="tipos compartilhados por chave" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=none;strokeColor=#ca8a04;fontColor=#713f12;" parent="1" source="message-contract" target="react" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-contract-watch" value="WatchMessageKey" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;endArrow=none;strokeColor=#ca8a04;fontColor=#713f12;" parent="1" source="message-contract" target="watch-manager" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-workout-sample" value="MetricSample.asMessage()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#15803d;fontColor=#14532d;" parent="1" source="workout" target="wc-session" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="860" y="540" as="sourcePoint"/>
+                        <mxPoint x="1115" y="535" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-wc-ios-return" value="onWatchMessage" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#15803d;fontColor=#14532d;" parent="1" source="wc-session" target="ios-module" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="1030" y="470" as="sourcePoint"/>
+                        <mxPoint x="980" y="470" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-ios-react-return" value="emitMessage()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#15803d;fontColor=#14532d;" parent="1" source="ios-module" target="react" edge="1">
+                    <mxGeometry x="0.0014" relative="1" as="geometry">
+                        <mxPoint x="700" y="530" as="sourcePoint"/>
+                        <mxPoint x="330" y="530" as="targetPoint"/>
+                        <Array as="points">
+                            <mxPoint x="835" y="530"/>
+                            <mxPoint x="230" y="530"/>
+                        </Array>
+                        <mxPoint as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="e-react-samples" value="metricSample" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#ea580c;fontColor=#7c2d12;" parent="1" source="react" target="samples" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="e-samples-db" value="salvar serie" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeColor=#ea580c;fontColor=#7c2d12;" parent="1" source="samples" target="database" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
