@@ -1,0 +1,99 @@
+<mxfile host="65bd71144e">
+    <diagram id="fase-1-coleta-extracao" name="Fase 1 - Coleta e Extração">
+        <mxGraphModel dx="1200" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1300" pageHeight="850" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                
+                <!-- Título -->
+                <mxCell id="title" value="Fase 1: Coleta de Dados via Apple Watch e Extração do Firestore" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#0f172a;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="20" width="1000" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- Swimlanes -->
+                <mxCell id="lane-watch" value="1. Apple Watch (Coleta Inercial)" style="swimlane;html=1;startSize=30;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;fontColor=#14532d;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="80" width="1200" height="150" as="geometry"/>
+                </mxCell>
+                
+                <mxCell id="lane-iphone" value="2. iPhone (App React Native - Gymbeat)" style="swimlane;html=1;startSize=30;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#172554;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="250" width="1200" height="160" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="lane-cloud" value="3. Nuvem (Firebase Cloud Firestore)" style="swimlane;html=1;startSize=30;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#fff7ed;strokeColor=#ea580c;fontColor=#7c2d12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="430" width="1200" height="150" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="lane-ml-local" value="4. Ambiente Local de Ciência de Dados (Python / Jupyter)" style="swimlane;html=1;startSize=30;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#faf5ff;strokeColor=#9333ea;fontColor=#581c87;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="50" y="600" width="1200" height="180" as="geometry"/>
+                </mxCell>
+
+                <!-- Nós Fase 1 -->
+                <mxCell id="node-watch-sensors" value="Sensores IMU + HealthKit&lt;br&gt;&lt;b&gt;WorkoutManager.swift&lt;/b&gt;&lt;br&gt;Acelerômetro (X, Y, Z)&lt;br&gt;Giroscópio (X, Y, Z) @ 20-25Hz" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;" parent="1" vertex="1">
+                    <mxGeometry x="100" y="120" width="220" height="80" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="node-watch-wcsession" value="Envio via WatchConnectivity&lt;br&gt;&lt;b&gt;MetricSample stream&lt;/b&gt;&lt;br&gt;Pacotes com timestamp e sessionId" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="125" width="220" height="70" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="node-iphone-receive" value="Recepção de Amostras&lt;br&gt;&lt;b&gt;app/live/[id].tsx&lt;/b&gt;&lt;br&gt;Buffer de amostras em tempo de tela" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#172554;" parent="1" vertex="1">
+                    <mxGeometry x="380" y="290" width="220" height="70" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="node-iphone-user-label" value="Fim da Série + Rotulagem&lt;br&gt;Usuário insere número de &lt;b&gt;Reps reais&lt;/b&gt;&lt;br&gt;Salva sessão em SQLite local" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#172554;" parent="1" vertex="1">
+                    <mxGeometry x="660" y="290" width="220" height="70" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="node-iphone-sync" value="Sincronização com Firebase&lt;br&gt;&lt;b&gt;src/firebase/sync.ts&lt;/b&gt;&lt;br&gt;Upload em lotes (batch)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#172554;" parent="1" vertex="1">
+                    <mxGeometry x="940" y="290" width="220" height="70" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="node-firestore-db" value="Coleção Firestore:&lt;br&gt;&lt;b&gt;users/{uid}/exerciseSessions&lt;/b&gt;&lt;br&gt;• exerciseId (ex: supino)&lt;br&gt;• reps (ground truth)&lt;br&gt;• samples[] (série temporal IMU)" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#ffedd5;strokeColor=#ea580c;fontColor=#7c2d12;" parent="1" vertex="1">
+                    <mxGeometry x="935" y="450" width="230" height="110" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="node-python-script" value="Script de Extração Local&lt;br&gt;&lt;b&gt;scripts/ml/export_dataset.py&lt;/b&gt;&lt;br&gt;Autentica Firebase Admin SDK&lt;br&gt;Consulta todas as sessões" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#581c87;" parent="1" vertex="1">
+                    <mxGeometry x="630" y="650" width="230" height="80" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="node-local-dataset" value="Dataset Bruto Estruturado&lt;br&gt;&lt;b&gt;data/raw_dataset.json / .parquet&lt;/b&gt;&lt;br&gt;Pronto para filtragem e janelamento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#581c87;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="270" y="650" width="260" height="80" as="geometry"/>
+                </mxCell>
+
+                <!-- Conexões -->
+                <mxCell id="edge1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#16a34a;strokeWidth=2;" parent="1" source="node-watch-sensors" target="node-watch-wcsession" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="edge2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563eb;strokeWidth=2;" parent="1" source="node-watch-wcsession" target="node-iphone-receive" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="edge3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563eb;strokeWidth=2;" parent="1" source="node-iphone-receive" target="node-iphone-user-label" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="edge4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#2563eb;strokeWidth=2;" parent="1" source="node-iphone-user-label" target="node-iphone-sync" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#ea580c;strokeWidth=2;" parent="1" source="node-iphone-sync" target="node-firestore-db" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333ea;strokeWidth=2;" parent="1" source="node-firestore-db" target="node-python-script" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <Array as="points">
+                            <mxPoint x="1050" y="690"/>
+                        </Array>
+                    </mxGeometry>
+                </mxCell>
+
+                <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#9333ea;strokeWidth=2;" parent="1" source="node-python-script" target="node-local-dataset" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
