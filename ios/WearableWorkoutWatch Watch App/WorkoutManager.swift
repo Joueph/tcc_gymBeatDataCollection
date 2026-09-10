@@ -173,11 +173,13 @@ final class WorkoutManager: NSObject, ObservableObject {
             return
         }
 
-        motionManager.deviceMotionUpdateInterval = 0.1
+        // Frequência de 25 Hz (0.04s) recomendada para captura de detalhes inerciais para IA de movimento
+        let motionInterval: TimeInterval = 1.0 / 25.0
+        motionManager.deviceMotionUpdateInterval = motionInterval
         motionManager.startDeviceMotionUpdates()
 
         motionTimer?.invalidate()
-        motionTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
+        motionTimer = Timer.scheduledTimer(withTimeInterval: motionInterval, repeats: true) { [weak self] _ in
             Task { @MainActor [weak self] in
                 self?.publishSample()
             }

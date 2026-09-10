@@ -1,84 +1,80 @@
 <mxfile host="65bd71144e">
-    <diagram id="fase-2-treinamento-ia-comparativo" name="Fase 2 - Treinamento e Comparativo">
+    <diagram id="fase-2-treinamento-ia" name="Fase 2 - Modelo de IA Adotado">
         <mxGraphModel dx="1200" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="950" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
 
                 <!-- Título -->
-                <mxCell id="title" value="Fase 2: Pipeline de Treinamento e Comparativo de Abordagens de IA" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#0f172a;" parent="1" vertex="1">
-                    <mxGeometry x="200" y="15" width="1000" height="40" as="geometry"/>
+                <mxCell id="title" value="Fase 2: Modelo de IA — Detecção de Picos + Classificador Clássico (Híbrida)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1;fontColor=#0f172a;" parent="1" vertex="1">
+                    <mxGeometry x="150" y="15" width="1100" height="40" as="geometry"/>
+                </mxCell>
+
+                <!-- Caixa Vermelha: Justificativa do Descarte da Abordagem 1 -->
+                <mxCell id="box-discarded" value="❌ Decisão de Projeto: Descarte da Abordagem de Deep Learning (1D-CNN / LSTM)" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#fef2f2;strokeColor=#ef4444;fontColor=#991b1b;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="70" width="1310" height="100" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="node-discard-reason" value="&lt;b&gt;Motivos do Descarte:&lt;/b&gt;&lt;br&gt;1. &lt;b&gt;Volume de Dados e Janela de Tempo:&lt;/b&gt; Redes Deep Learning exigem dezenas de milhares de amostras rotuladas para evitar overfitting.&lt;br&gt;2. &lt;b&gt;Natureza do Rótulo:&lt;/b&gt; A coleta atual gera rótulos globais por série (ex: 10 reps no final) e não segmentação milissegundo a milissegundo de cada micro-fase.&lt;br&gt;3. &lt;b&gt;Viabilidade do TCC:&lt;/b&gt; A abordagem híbrida (Picos + IA Clássica) é mais estável, matematicamente fundamentada e altamente eficiente para rodar em tempo real no smartphone." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontColor=#991b1b;fontSize=12;" parent="box-discarded" vertex="1">
+                    <mxGeometry x="20" y="30" width="1270" height="60" as="geometry"/>
                 </mxCell>
 
                 <!-- 1. Entrada e Pré-processamento -->
-                <mxCell id="box-prep" value="1. Pré-processamento de Sinais" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#1e293b;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="40" y="70" width="310" height="410" as="geometry"/>
+                <mxCell id="box-prep" value="1. Pré-processamento e Filtragem" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#1e293b;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="40" y="190" width="310" height="390" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-dataset-in" value="Dataset Bruto (IMU)&lt;br&gt;[AccX, AccY, AccZ, GyrX, GyrY, GyrZ]&lt;br&gt;+ Rótulo de Repetições" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontColor=#1e293b;" parent="box-prep" vertex="1">
+                <mxCell id="node-dataset-in" value="Dataset Bruto (IMU @ 25Hz)&lt;br&gt;[AccX, AccY, AccZ, GyrX, GyrY, GyrZ]&lt;br&gt;+ Rótulo de Repetições Globais" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontColor=#1e293b;" parent="box-prep" vertex="1">
                     <mxGeometry x="25" y="45" width="260" height="60" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-filter" value="Filtro Passa-Baixa Butterworth&lt;br&gt;(Frequência de corte ~3-5 Hz)&lt;br&gt;&lt;i&gt;Atenua ruídos de alta frequência&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontColor=#1e293b;" parent="box-prep" vertex="1">
+                <mxCell id="node-filter" value="Filtro Passa-Baixa Butterworth&lt;br&gt;(Frequência de corte ~3-5 Hz)&lt;br&gt;&lt;i&gt;Remove vibrações e ruídos espúrios&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontColor=#1e293b;" parent="box-prep" vertex="1">
                     <mxGeometry x="25" y="130" width="260" height="60" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-features" value="Cálculo da Magnitude do Vetor:&lt;br&gt;|Acc| = √(Ax² + Ay² + Az²)&lt;br&gt;|Gyr| = √(Gx² + Gy² + Gz²)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontColor=#1e293b;" parent="box-prep" vertex="1">
-                    <mxGeometry x="25" y="215" width="260" height="60" as="geometry"/>
+                <mxCell id="node-features" value="Magnitude dos Vetores (Invariante a Rotação):&lt;br&gt;||Acc|| = √(Ax² + Ay² + Az²)&lt;br&gt;||Gyr|| = √(Gx² + Gy² + Gz²)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontColor=#1e293b;" parent="box-prep" vertex="1">
+                    <mxGeometry x="25" y="215" width="260" height="65" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-windowing" value="Janelamento Deslizante&lt;br&gt;Janela fixa (ex: 2.0s = 50 amostras)&lt;br&gt;Overlap (sobreposição de 50%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontColor=#1e293b;" parent="box-prep" vertex="1">
-                    <mxGeometry x="25" y="300" width="260" height="65" as="geometry"/>
+                <mxCell id="node-windowing" value="Buffer Deslizante Contínuo&lt;br&gt;Janela temporal recente de 3s (75 amostras)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#64748b;fontColor=#1e293b;" parent="box-prep" vertex="1">
+                    <mxGeometry x="25" y="305" width="260" height="55" as="geometry"/>
                 </mxCell>
 
-                <!-- 2. Abordagem 1 -->
-                <mxCell id="box-appr1" value="Abordagem 1: Deep Learning (Fases / 1D-CNN / LSTM)" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#eff6ff;strokeColor=#2563eb;fontColor=#172554;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="400" y="70" width="460" height="200" as="geometry"/>
+                <!-- 2. Abordagem Adotada: Picos + IA Clássica -->
+                <mxCell id="box-appr2" value="2. Modelo Adotado: Detecção de Picos + Validação por IA Clássica" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;fontColor=#14532d;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="390" y="190" width="470" height="390" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-appr1-arch" value="Arquitetura de Rede:&lt;br&gt;• 1D-CNN (Extração espacial local dos eixos)&lt;br&gt;• BiLSTM / GRU (Dependência temporal)&lt;br&gt;• Camada Densa Softmax (Fases: Excêntrica, Concêntrica, Repouso)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#172554;align=left;spacingLeft=10;" parent="box-appr1" vertex="1">
-                    <mxGeometry x="20" y="40" width="420" height="75" as="geometry"/>
+                <mxCell id="node-appr2-peaks" value="A. Detecção de Extremos Locais (Signal Processing):&lt;br&gt;• Identificação de picos (cristas) e vales na aceleração&lt;br&gt;• Restrição biomecânica: intervalo mínimo t_min ≥ 1.2s&lt;br&gt;• Limiar de proeminência mínima h_min" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;align=left;spacingLeft=10;" parent="box-appr2" vertex="1">
+                    <mxGeometry x="20" y="45" width="430" height="85" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-appr1-count" value="Contador por Máquina de Estados (FSM):&lt;br&gt;Transição: &lt;b&gt;Descida (Excêntrica) → Subida (Concêntrica) → Estável = +1 Rep&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#172554;" parent="box-appr1" vertex="1">
-                    <mxGeometry x="20" y="125" width="420" height="55" as="geometry"/>
+                <mxCell id="node-appr2-feats" value="B. Extração de Features por Pico:&lt;br&gt;• Amplitude crista-a-vale&lt;br&gt;• Duração temporal do ciclo&lt;br&gt;• Energia do sinal (integral da magnitude)&lt;br&gt;• Variância e assimetria (skewness)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;align=left;spacingLeft=10;" parent="box-appr2" vertex="1">
+                    <mxGeometry x="20" y="150" width="430" height="90" as="geometry"/>
                 </mxCell>
 
-                <!-- 3. Abordagem 2 -->
-                <mxCell id="box-appr2" value="Abordagem 2: Detecção de Picos + IA Clássica (Híbrida)" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;fontColor=#14532d;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="400" y="285" width="460" height="195" as="geometry"/>
+                <mxCell id="node-appr2-clf" value="C. Classificador IA (Random Forest / SVM):&lt;br&gt;• &lt;b&gt;Classe 1 (Repetição Válida):&lt;/b&gt; reps = reps + 1&lt;br&gt;• &lt;b&gt;Classe 0 (Movimento Ruído / Ajuste):&lt;/b&gt; Descartar" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;align=left;spacingLeft=10;" parent="box-appr2" vertex="1">
+                    <mxGeometry x="20" y="260" width="430" height="70" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-appr2-peaks" value="Detecção de Picos e Vales (Signal Processing):&lt;br&gt;Identifica candidatos a repetição por picos de aceleração com distância mínima entre picos (prominence / threshold)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;align=left;spacingLeft=10;" parent="box-appr2" vertex="1">
-                    <mxGeometry x="20" y="40" width="420" height="65" as="geometry"/>
+                <!-- 3. Validação Cruzada e Métricas -->
+                <mxCell id="box-eval" value="3. Metodologia Científica para o TCC" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#fefce8;strokeColor=#ca8a04;fontColor=#713f12;fontStyle=1;" parent="1" vertex="1">
+                    <mxGeometry x="900" y="190" width="450" height="390" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-appr2-clf" value="Classificador de Validação (Random Forest / SVM):&lt;br&gt;Extrai estatísticas do pico (amplitude, variância, energia)&lt;br&gt;Classifica se o pico é: &lt;b&gt;Repetição Válida&lt;/b&gt; vs &lt;b&gt;Ruído/Ajuste&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;align=left;spacingLeft=10;" parent="box-appr2" vertex="1">
-                    <mxGeometry x="20" y="115" width="420" height="65" as="geometry"/>
+                <mxCell id="node-loso" value="Estratégia Leave-One-Subject-Out (LOSO):&lt;br&gt;Treina com N-1 voluntários, testa no voluntário restante.&lt;br&gt;&lt;i&gt;Comprova que o algoritmo generaliza para qualquer usuário.&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef9c3;strokeColor=#ca8a04;fontColor=#713f12;" parent="box-eval" vertex="1">
+                    <mxGeometry x="20" y="45" width="410" height="70" as="geometry"/>
                 </mxCell>
 
-                <!-- 4. Validação Cruzada e Métricas -->
-                <mxCell id="box-eval" value="3. Avaliação Rigorosa para o TCC (LOSO Cross-Validation)" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#fefce8;strokeColor=#ca8a04;fontColor=#713f12;fontStyle=1;" parent="1" vertex="1">
-                    <mxGeometry x="910" y="70" width="440" height="410" as="geometry"/>
+                <mxCell id="node-metrics" value="Métricas de Avaliação:&lt;br&gt;• &lt;b&gt;MAE:&lt;/b&gt; Erro Médio Absoluto (|reps_reais - reps_preditas|)&lt;br&gt;• &lt;b&gt;RMSE:&lt;/b&gt; Raiz do Erro Quadrático Médio&lt;br&gt;• &lt;b&gt;Taxa de Acerto Exato:&lt;/b&gt; % de séries 100% precisas&lt;br&gt;• &lt;b&gt;Latência:&lt;/b&gt; &lt; 5ms por evento no smartphone" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef9c3;strokeColor=#ca8a04;fontColor=#713f12;align=left;spacingLeft=10;" parent="box-eval" vertex="1">
+                    <mxGeometry x="20" y="135" width="410" height="95" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-loso" value="Estratégia Leave-One-Subject-Out (LOSO):&lt;br&gt;Treina com N-1 voluntários, testa no voluntário restante.&lt;br&gt;&lt;i&gt;Garante generalização para diferentes usuários.&lt;/i&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef9c3;strokeColor=#ca8a04;fontColor=#713f12;" parent="box-eval" vertex="1">
-                    <mxGeometry x="20" y="45" width="400" height="65" as="geometry"/>
+                <mxCell id="node-export" value="Exportação do Módulo para o App Mobile:&lt;br&gt;&lt;b&gt;src/ai/RepetitionCounter.ts&lt;/b&gt;&lt;br&gt;Execução em TypeScript no iPhone" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#581c87;fontStyle=1;" parent="box-eval" vertex="1">
+                    <mxGeometry x="20" y="255" width="410" height="75" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-metrics" value="Métricas Comparativas:&lt;br&gt;• MAE (Erro Médio Absoluto de Repetições)&lt;br&gt;• RMSE (Raiz do Erro Quadrático Médio)&lt;br&gt;• Taxa de Acerto Exato (% séries 100% corretas)&lt;br&gt;• Tempo de Inferência por Janela (ms)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fef9c3;strokeColor=#ca8a04;fontColor=#713f12;align=left;spacingLeft=10;" parent="box-eval" vertex="1">
-                    <mxGeometry x="20" y="130" width="400" height="90" as="geometry"/>
-                </mxCell>
-
-                <mxCell id="node-decision" value="Seleção da Abordagem Vencedora:&lt;br&gt;&lt;b&gt;Critério:&lt;/b&gt; Menor MAE + Menor latência para smartphone" style="shape=rhombus;whiteSpace=wrap;html=1;fillColor=#fef9c3;strokeColor=#ca8a04;fontColor=#713f12;fontStyle=1;" parent="box-eval" vertex="1">
-                    <mxGeometry x="70" y="240" width="300" height="90" as="geometry"/>
-                </mxCell>
-
-                <mxCell id="node-export" value="Exportação do Modelo Vencedor:&lt;br&gt;&lt;b&gt;model.onnx&lt;/b&gt; ou &lt;b&gt;model.tflite&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f3e8ff;strokeColor=#9333ea;fontColor=#581c87;fontStyle=1;" parent="box-eval" vertex="1">
-                    <mxGeometry x="70" y="345" width="300" height="45" as="geometry"/>
-                </mxCell>
-
-                <!-- Conexões Internas e Externas -->
+                <!-- Conexões -->
                 <mxCell id="edge-p1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#64748b;strokeWidth=2;" parent="1" source="node-dataset-in" target="node-filter" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
@@ -89,44 +85,27 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="edge-to-appr1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2563eb;strokeWidth=2;" parent="1" source="node-windowing" target="node-appr1-arch" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <Array as="points">
-                            <mxPoint x="370" y="405"/>
-                            <mxPoint x="370" y="145"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-
-                <mxCell id="edge-to-appr2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;strokeWidth=2;" parent="1" source="node-windowing" target="node-appr2-peaks" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <Array as="points">
-                            <mxPoint x="370" y="405"/>
-                            <mxPoint x="370" y="355"/>
-                        </Array>
-                    </mxGeometry>
-                </mxCell>
-
-                <mxCell id="edge-appr1-to-eval" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#2563eb;strokeWidth=2;" parent="1" source="node-appr1-count" target="node-loso" edge="1">
+                <mxCell id="edge-to-peaks" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;strokeWidth=2;" parent="1" source="node-windowing" target="node-appr2-peaks" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="edge-appr2-to-eval" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;strokeWidth=2;" parent="1" source="node-appr2-clf" target="node-loso" edge="1">
-                    <mxGeometry relative="1" as="geometry">
-                        <Array as="points">
-                            <mxPoint x="880" y="435"/>
-                            <mxPoint x="880" y="150"/>
-                        </Array>
-                    </mxGeometry>
+                <mxCell id="edge-peaks-to-feats" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;strokeWidth=2;" parent="1" source="node-appr2-peaks" target="node-appr2-feats" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="edge-eval-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#ca8a04;strokeWidth=2;" parent="1" source="node-loso" target="node-metrics" edge="1">
+                <mxCell id="edge-feats-to-clf" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;strokeWidth=2;" parent="1" source="node-appr2-feats" target="node-appr2-clf" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge-eval-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#ca8a04;strokeWidth=2;" parent="1" source="node-metrics" target="node-decision" edge="1">
+
+                <mxCell id="edge-clf-to-loso" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#ca8a04;strokeWidth=2;" parent="1" source="node-appr2-clf" target="node-loso" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="edge-eval-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#ca8a04;strokeWidth=2;" parent="1" source="node-decision" target="node-export" edge="1">
+
+                <mxCell id="edge-loso-to-metrics" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#ca8a04;strokeWidth=2;" parent="1" source="node-loso" target="node-metrics" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+
+                <mxCell id="edge-metrics-to-export" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#9333ea;strokeWidth=2;" parent="1" source="node-metrics" target="node-export" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
 

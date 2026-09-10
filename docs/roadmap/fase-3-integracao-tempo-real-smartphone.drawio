@@ -11,15 +11,15 @@
                 </mxCell>
 
                 <!-- Swimlane 1: Apple Watch (Apenas Coleta) -->
-                <mxCell id="lane-watch" value="1. Apple Watch (Apenas Coleta / Streaming Puro)" style="swimlane;html=1;startSize=30;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;fontColor=#14532d;fontStyle=1;" parent="1" vertex="1">
+                <mxCell id="lane-watch" value="1. Apple Watch (Apenas Coleta / Streaming Puro @ 25 Hz)" style="swimlane;html=1;startSize=30;horizontal=1;rounded=1;whiteSpace=wrap;fillColor=#f0fdf4;strokeColor=#16a34a;fontColor=#14532d;fontStyle=1;" parent="1" vertex="1">
                     <mxGeometry x="50" y="80" width="1200" height="150" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-watch-collect" value="Leitura de Sensores IMU&lt;br&gt;&lt;b&gt;CoreMotion &amp; HealthKit&lt;/b&gt;&lt;br&gt;Accel (X, Y, Z) + Gyro (X, Y, Z)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;" parent="lane-watch" vertex="1">
+                <mxCell id="node-watch-collect" value="Leitura de Sensores IMU @ 25 Hz&lt;br&gt;&lt;b&gt;CoreMotion &amp; HealthKit&lt;/b&gt;&lt;br&gt;Accel (X, Y, Z) + Gyro (X, Y, Z)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;" parent="lane-watch" vertex="1">
                     <mxGeometry x="60" y="45" width="240" height="75" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-watch-stream" value="Streaming Contínuo de Amostras&lt;br&gt;&lt;b&gt;WatchSessionManager.swift&lt;/b&gt;&lt;br&gt;Disparo a cada nova amostra via Bluetooth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;" parent="lane-watch" vertex="1">
+                <mxCell id="node-watch-stream" value="Streaming Contínuo de Amostras&lt;br&gt;&lt;b&gt;WatchSessionManager.swift&lt;/b&gt;&lt;br&gt;Disparo a cada 0.04s via Bluetooth" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;" parent="lane-watch" vertex="1">
                     <mxGeometry x="380" y="45" width="280" height="75" as="geometry"/>
                 </mxCell>
 
@@ -36,33 +36,33 @@
                     <mxGeometry x="60" y="60" width="240" height="70" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-rn-buffer" value="Buffer Circular em Memória&lt;br&gt;&lt;b&gt;src/ai/CircularBuffer.ts&lt;/b&gt;&lt;br&gt;Mantém janela deslizante recente (ex: 50 amostras)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#172554;" parent="lane-iphone" vertex="1">
+                <mxCell id="node-rn-buffer" value="Buffer Circular em Memória&lt;br&gt;&lt;b&gt;src/ai/CircularBuffer.ts&lt;/b&gt;&lt;br&gt;Mantém janela temporal recente de 3-5s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dbeafe;strokeColor=#2563eb;fontColor=#172554;" parent="lane-iphone" vertex="1">
                     <mxGeometry x="360" y="60" width="260" height="70" as="geometry"/>
                 </mxCell>
 
                 <!-- Sub-caixa Motor de Inferência -->
-                <mxCell id="box-engine" value="Motor de Inferência (src/ai/RepetitionCounter.ts)" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#3b82f6;fontColor=#1e3a8a;fontStyle=1;" parent="lane-iphone" vertex="1">
+                <mxCell id="box-engine" value="Motor de Contagem e Validação (src/ai/RepetitionCounter.ts)" style="swimlane;html=1;startSize=25;rounded=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#3b82f6;fontColor=#1e3a8a;fontStyle=1;" parent="lane-iphone" vertex="1">
                     <mxGeometry x="360" y="170" width="780" height="200" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-engine-preprocess" value="Normalização e Filtragem&lt;br&gt;Magnitude do vetor + Z-Score" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;" parent="box-engine" vertex="1">
+                <mxCell id="node-engine-preprocess" value="Filtragem e Magnitude&lt;br&gt;Filtro Passa-Baixa + ||a||, ||w||" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;" parent="box-engine" vertex="1">
                     <mxGeometry x="30" y="45" width="200" height="60" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-engine-model" value="Execução do Modelo&lt;br&gt;&lt;b&gt;ONNX Runtime / TFLite&lt;/b&gt;&lt;br&gt;Classifica probabilidade de fase" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;" parent="box-engine" vertex="1">
+                <mxCell id="node-engine-peaks" value="Detector de Picos/Vales&lt;br&gt;Inflexão local + t_min ≥ 1.2s" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;" parent="box-engine" vertex="1">
                     <mxGeometry x="270" y="45" width="220" height="60" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-engine-fsm" value="Máquina de Estados de Contagem&lt;br&gt;Detecta ciclo completo do exercício&lt;br&gt;&lt;b&gt;reps = reps + 1&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;fontStyle=1;" parent="box-engine" vertex="1">
+                <mxCell id="node-engine-clf" value="Validação por IA / Regras&lt;br&gt;Avalia energia e amplitude&lt;br&gt;&lt;b&gt;reps = reps + 1&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8fafc;strokeColor=#64748b;fontColor=#334155;fontStyle=1;" parent="box-engine" vertex="1">
                     <mxGeometry x="520" y="45" width="230" height="60" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="node-engine-feedback" value="Feedback Háptico e Auditivo no iPhone (Audio/Vibration API ao concluir rep)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#94a3b8;fontColor=#475569;fontSize=11;" parent="box-engine" vertex="1">
+                <mxCell id="node-engine-feedback" value="Feedback Háptico e Auditivo no iPhone (Audio/Vibration API a cada rep válida)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f1f5f9;strokeColor=#94a3b8;fontColor=#475569;fontSize=11;" parent="box-engine" vertex="1">
                     <mxGeometry x="520" y="125" width="230" height="50" as="geometry"/>
                 </mxCell>
 
                 <!-- UI e Persistência -->
-                <mxCell id="node-ui-live" value="Interface em Tempo Real&lt;br&gt;&lt;b&gt;app/live/[id].tsx&lt;/b&gt;&lt;br&gt;Exibe contador grande de repetições&lt;br&gt;Fase atual (Descida / Subida / Parado)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;fontStyle=1;" parent="lane-iphone" vertex="1">
+                <mxCell id="node-ui-live" value="Interface em Tempo Real&lt;br&gt;&lt;b&gt;app/live/[id].tsx&lt;/b&gt;&lt;br&gt;Exibe contador grande de repetições&lt;br&gt;Feedback instantâneo do movimento" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dcfce7;strokeColor=#16a34a;fontColor=#14532d;fontStyle=1;" parent="lane-iphone" vertex="1">
                     <mxGeometry x="360" y="405" width="280" height="85" as="geometry"/>
                 </mxCell>
 
@@ -92,19 +92,19 @@
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3b82f6;strokeWidth=2;" parent="1" source="node-engine-preprocess" target="node-engine-model" edge="1">
+                <mxCell id="edge5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3b82f6;strokeWidth=2;" parent="1" source="node-engine-preprocess" target="node-engine-peaks" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3b82f6;strokeWidth=2;" parent="1" source="node-engine-model" target="node-engine-fsm" edge="1">
+                <mxCell id="edge6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3b82f6;strokeWidth=2;" parent="1" source="node-engine-peaks" target="node-engine-clf" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3b82f6;strokeWidth=2;" parent="1" source="node-engine-fsm" target="node-engine-feedback" edge="1">
+                <mxCell id="edge7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#3b82f6;strokeWidth=2;" parent="1" source="node-engine-clf" target="node-engine-feedback" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
 
-                <mxCell id="edge8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;strokeWidth=2;" parent="1" source="node-engine-fsm" target="node-ui-live" edge="1">
+                <mxCell id="edge8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#16a34a;strokeWidth=2;" parent="1" source="node-engine-clf" target="node-ui-live" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1005" y="415"/>
