@@ -40,3 +40,12 @@ yarn-error.*
 # generated native folders
 
 /android
+
+# Python / ML
+.venv/
+*/.venv/
+__pycache__/
+*.pyc
+serviceAccountKey*.json
+scripts/ml/output/*
+!scripts/ml/output/.gitkeep

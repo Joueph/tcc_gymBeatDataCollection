@@ -1,0 +1,6 @@
+# Gymbeat ML Pipeline Dependencies
+numpy>=1.23.0
+scipy>=1.10.0
+scikit-learn>=1.2.0
+matplotlib>=3.7.0
+requests>=2.28.0

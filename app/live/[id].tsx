@@ -58,8 +58,30 @@ export default function LiveWorkoutScreen() {
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isCompanionAppConnected, setIsCompanionAppConnected] = useState(false);
+  const [isWatchHealthAuthorized, setIsWatchHealthAuthorized] = useState<boolean | null>(null);
   const [repsPromptEndedAt, setRepsPromptEndedAt] = useState<string | null>(null);
   const [repsInput, setRepsInput] = useState("");
+
+  const normalizeErrorMessage = (raw: string) => {
+    const lower = raw.toLowerCase();
+    if (
+      lower.includes("not authorized") ||
+      lower.includes("notauthorized") ||
+      lower.includes("nao autorizad") ||
+      lower.includes("não autorizad") ||
+      lower.includes("saude nao") ||
+      lower.includes("saúde não")
+    ) {
+      return (
+        "Permissão do Apple Saúde não autorizada no Apple Watch.\n\n" +
+        "Para resolver e coletar dados do relógio:\n" +
+        "1. No Apple Watch, abra Ajustes > Saúde > Apps > WearableWorkoutWatch e ative 'Treinos' e todas as métricas.\n" +
+        "2. Ou no iPhone, abra o app Watch > Saúde > Apps > WearableWorkoutWatch e clique em 'Ativar Tudo'.\n" +
+        "3. Abra o app no Apple Watch e toque em 'Iniciar' novamente."
+      );
+    }
+    return raw;
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -83,12 +105,15 @@ export default function LiveWorkoutScreen() {
         if (isMounted) {
           setStatus(result.status);
           markCompanionConnection(result.delivered && result.reply?.companionAppConnected === true);
+          if (result.reply?.isHealthAuthorized !== undefined) {
+            setIsWatchHealthAuthorized(Boolean(result.reply.isHealthAuthorized));
+          }
           const nextState = result.reply?.state;
           if (nextState) {
             setWatchState((currentState) => preserveCollectingState(currentState, nextState));
           }
         }
-      } catch {}
+      } catch { }
     };
 
     watchConnectivity
@@ -116,11 +141,14 @@ export default function LiveWorkoutScreen() {
       if (isStateMessage(incomingMessage)) {
         setWatchState(incomingMessage.state);
         markCompanionConnection(true);
+        if (incomingMessage.isHealthAuthorized !== undefined) {
+          setIsWatchHealthAuthorized(Boolean(incomingMessage.isHealthAuthorized));
+        }
         return;
       }
 
       if (incomingMessage.messageType === "error" && typeof incomingMessage.message === "string") {
-        setMessage(incomingMessage.message);
+        setMessage(normalizeErrorMessage(incomingMessage.message));
       }
     });
 
@@ -150,6 +178,9 @@ export default function LiveWorkoutScreen() {
       setIsCompanionAppConnected((currentConnection) =>
         result.delivered ? result.reply?.companionAppConnected === true : currentConnection,
       );
+      if (result.reply?.isHealthAuthorized !== undefined) {
+        setIsWatchHealthAuthorized(Boolean(result.reply.isHealthAuthorized));
+      }
 
       const nextState = result.reply?.state;
       if (nextState) {
@@ -160,7 +191,7 @@ export default function LiveWorkoutScreen() {
         setMessage("Abra o app no Watch e mantenha esta tela aberta para conectar os dois apps.");
       }
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Nao foi possivel confirmar a conexao com o app do Watch.");
+      setMessage(normalizeErrorMessage(error instanceof Error ? error.message : "Nao foi possivel confirmar a conexao com o app do Watch."));
     }
   };
 
@@ -295,6 +326,9 @@ export default function LiveWorkoutScreen() {
       setIsCompanionAppConnected((currentConnection) =>
         result.delivered ? result.reply?.companionAppConnected !== false : currentConnection,
       );
+      if (result.reply?.isHealthAuthorized !== undefined) {
+        setIsWatchHealthAuthorized(Boolean(result.reply.isHealthAuthorized));
+      }
       const nextState = result.reply?.state;
       if (nextState) {
         setWatchState((currentState) => preserveCollectingState(currentState, nextState));
@@ -308,7 +342,7 @@ export default function LiveWorkoutScreen() {
 
       setMessage(result.queued ? "Comando enfileirado. Abra o app no Watch para receber." : "Serie iniciada no Watch.");
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Falha ao enviar comando ao Apple Watch.");
+      setMessage(normalizeErrorMessage(error instanceof Error ? error.message : "Falha ao enviar comando ao Apple Watch."));
     } finally {
       setIsSending(false);
     }
@@ -361,6 +395,25 @@ export default function LiveWorkoutScreen() {
         <Text selectable style={{ color: colors.muted, fontSize: 13 }}>
           Estado do treino no Watch: {watchState}
         </Text>
+        {isWatchHealthAuthorized === false ? (
+          <View
+            style={{
+              backgroundColor: "rgba(245, 158, 11, 0.12)",
+              borderColor: "#f59e0b",
+              borderWidth: 1,
+              borderRadius: 6,
+              padding: 10,
+              gap: 4,
+            }}
+          >
+            <Text style={{ color: "#f59e0b", fontSize: 13, fontWeight: "700" }}>
+              Permissão de Saúde pendente no Apple Watch
+            </Text>
+            <Text style={{ color: colors.text, fontSize: 12, lineHeight: 16 }}>
+              Abra o app no relógio para autorizar ou vá em Ajustes {">"} Saúde {">"} Apps {">"} WearableWorkoutWatch no Watch e ative 'Treinos'.
+            </Text>
+          </View>
+        ) : null}
         <Pressable
           onPress={refreshConnection}
           style={({ pressed }) => ({
@@ -408,7 +461,21 @@ export default function LiveWorkoutScreen() {
       {isSending ? <ActivityIndicator color={colors.primary} /> : null}
 
       {message ? (
-        <View style={{ backgroundColor: colors.surfaceMuted, borderRadius: 8, padding: 14 }}>
+        <View
+          style={{
+            backgroundColor: message.includes("Apple Saúde") ? "rgba(239, 68, 68, 0.12)" : colors.surfaceMuted,
+            borderColor: message.includes("Apple Saúde") ? "#ef4444" : colors.border,
+            borderWidth: message.includes("Apple Saúde") ? 1 : 0,
+            borderRadius: 8,
+            padding: 14,
+            gap: 6,
+          }}
+        >
+          {message.includes("Apple Saúde") ? (
+            <Text style={{ color: "#ef4444", fontSize: 15, fontWeight: "700" }}>
+              Permissão do Apple Saúde Necessária
+            </Text>
+          ) : null}
           <Text selectable style={{ color: colors.text, fontSize: 14, lineHeight: 20 }}>
             {message}
           </Text>
@@ -419,7 +486,7 @@ export default function LiveWorkoutScreen() {
         animationType="fade"
         transparent
         visible={Boolean(repsPromptEndedAt)}
-        onRequestClose={() => {}}
+        onRequestClose={() => { }}
       >
         <View
           style={{

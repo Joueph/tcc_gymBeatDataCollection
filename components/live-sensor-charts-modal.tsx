@@ -9,12 +9,15 @@ type LiveSensorChartsModalProps = {
   onClose: () => void;
 };
 
+type SensorGroup = "accelerometer" | "gyroscope";
+
 type SensorMetric = {
   key: keyof LiveExerciseSample;
   label: string;
   unit: string;
   color: string;
   formatValue: (value: number) => string;
+  group?: SensorGroup;
 };
 
 const chartHeight = 150;
@@ -39,6 +42,7 @@ const sensorMetrics: SensorMetric[] = [
     label: "Acelerometro X",
     unit: "g",
     color: "#15685A",
+    group: "accelerometer",
     formatValue: (value) => value.toFixed(3),
   },
   {
@@ -46,6 +50,7 @@ const sensorMetrics: SensorMetric[] = [
     label: "Acelerometro Y",
     unit: "g",
     color: "#8B6FB3",
+    group: "accelerometer",
     formatValue: (value) => value.toFixed(3),
   },
   {
@@ -53,6 +58,7 @@ const sensorMetrics: SensorMetric[] = [
     label: "Acelerometro Z",
     unit: "g",
     color: "#D9893D",
+    group: "accelerometer",
     formatValue: (value) => value.toFixed(3),
   },
   {
@@ -60,6 +66,7 @@ const sensorMetrics: SensorMetric[] = [
     label: "Giroscopio X",
     unit: "rad/s",
     color: "#3C7C8C",
+    group: "gyroscope",
     formatValue: (value) => value.toFixed(3),
   },
   {
@@ -67,6 +74,7 @@ const sensorMetrics: SensorMetric[] = [
     label: "Giroscopio Y",
     unit: "rad/s",
     color: "#9B5F4A",
+    group: "gyroscope",
     formatValue: (value) => value.toFixed(3),
   },
   {
@@ -74,6 +82,7 @@ const sensorMetrics: SensorMetric[] = [
     label: "Giroscopio Z",
     unit: "rad/s",
     color: "#4E6F3D",
+    group: "gyroscope",
     formatValue: (value) => value.toFixed(3),
   },
 ];
@@ -90,6 +99,34 @@ export function LiveSensorChartsModal({ group, onClose }: LiveSensorChartsModalP
 
   const selectedSeries = seriesTabs.find((series) => series.sessionId === selectedSeriesId) ?? seriesTabs[0];
   const selectedSamples = selectedSeries?.samples ?? [];
+
+  const groupDomains = useMemo(() => {
+    const domains: Partial<Record<SensorGroup, { min: number; max: number }>> = {};
+    const groups: SensorGroup[] = ["accelerometer", "gyroscope"];
+
+    for (const groupName of groups) {
+      const metricsInGroup = sensorMetrics.filter((m) => m.group === groupName);
+      const allValues: number[] = [];
+
+      for (const m of metricsInGroup) {
+        const points = getMetricPoints(selectedSamples, m.key);
+        if (points.length >= 2) {
+          for (const p of points) {
+            allValues.push(p.value);
+          }
+        }
+      }
+
+      if (allValues.length > 0) {
+        domains[groupName] = {
+          min: Math.min(...allValues),
+          max: Math.max(...allValues),
+        };
+      }
+    }
+
+    return domains;
+  }, [selectedSamples]);
 
   return (
     <Modal animationType="slide" visible={Boolean(group)} presentationStyle="pageSheet" onRequestClose={onClose}>
@@ -155,11 +192,27 @@ export function LiveSensorChartsModal({ group, onClose }: LiveSensorChartsModalP
         ) : null}
 
         {sensorMetrics.map((metric) => (
-          <SensorLineChart key={metric.key} metric={metric} samples={selectedSamples} chartWidth={chartWidth} />
+          <SensorLineChart
+            key={metric.key}
+            metric={metric}
+            samples={selectedSamples}
+            chartWidth={chartWidth}
+            scaleDomain={metric.group ? groupDomains[metric.group] : undefined}
+          />
         ))}
       </ScrollView>
     </Modal>
   );
+}
+
+function getMetricPoints(samples: LiveExerciseSample[], key: keyof LiveExerciseSample) {
+  return samples
+    .map((sample) => {
+      const value = sample[key];
+      return typeof value === "number" ? { timestamp: sample.timestamp, value } : null;
+    })
+    .filter((point): point is { timestamp: string; value: number } => point !== null)
+    .slice(-80);
 }
 
 function getSeriesTabs(samples: LiveExerciseSample[]) {
@@ -185,18 +238,14 @@ function SensorLineChart({
   metric,
   samples,
   chartWidth,
+  scaleDomain,
 }: {
   metric: SensorMetric;
   samples: LiveExerciseSample[];
   chartWidth: number;
+  scaleDomain?: { min: number; max: number };
 }) {
-  const points = samples
-    .map((sample) => {
-      const value = sample[metric.key];
-      return typeof value === "number" ? { timestamp: sample.timestamp, value } : null;
-    })
-    .filter((point): point is { timestamp: string; value: number } => point !== null)
-    .slice(-80);
+  const points = useMemo(() => getMetricPoints(samples, metric.key), [samples, metric.key]);
 
   if (points.length < 2) {
     return (
@@ -214,12 +263,15 @@ function SensorLineChart({
   }
 
   const values = points.map((point) => point.value);
-  const minValue = Math.min(...values);
-  const maxValue = Math.max(...values);
+  const minValue = scaleDomain ? scaleDomain.min : Math.min(...values);
+  const maxValue = scaleDomain ? scaleDomain.max : Math.max(...values);
   const range = Math.max(0.0001, maxValue - minValue);
+  const effectiveMin = maxValue === minValue ? minValue - 1 : minValue;
+  const effectiveRange = maxValue === minValue ? 2 : range;
+
   const coordinates = points.map((point, index) => ({
     x: (index / (points.length - 1)) * chartWidth,
-    y: chartHeight - ((point.value - minValue) / range) * chartHeight,
+    y: chartHeight - ((point.value - effectiveMin) / effectiveRange) * chartHeight,
     value: point.value,
   }));
 

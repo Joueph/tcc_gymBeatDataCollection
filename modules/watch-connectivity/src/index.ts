@@ -43,6 +43,7 @@ export type WatchStateMessage = {
   state: "waiting" | "collecting" | "paused" | "disconnected";
   sessionId?: string;
   setId?: string;
+  isHealthAuthorized?: boolean;
 };
 
 export type WatchErrorMessage = {
@@ -66,6 +67,7 @@ type SendCommandResult = {
   reply?: {
     companionAppConnected?: boolean;
     state?: WatchStateMessage["state"];
+    isHealthAuthorized?: boolean;
     message?: string;
   } & Record<string, unknown>;
   status: WatchConnectivityStatus;

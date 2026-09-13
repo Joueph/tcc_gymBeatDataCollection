@@ -17,10 +17,12 @@ O projeto está estruturado em 3 fases fundamentais:
                                      │
                                      ▼
 ┌─────────────────────────────────────────────────────────────────────────┐
-│ FASE 2: Modelo de IA: Detecção de Picos + Classificador Clássico        │
-│  - Decisão Arquitetural: Justificativa do descarte da Abordagem 1       │
-│  - Abordagem Adotada: Processamento de Sinais (Picos/Vales) + IA        │
-│  - Validação Cruzada LOSO (Leave-One-Subject-Out) & Exportação          │
+│ FASE 2: Pipeline de Processamento e Modelo de IA (5 Etapas)             │
+│  - 1. Recepção do fluxo contínuo inercial no smartphone                 │
+│  - 2. Compensação, normalização e projeção na dimensão de maior variação│
+│  - 3. Denoise via DSP ótimo (justificativa frente a IA Denoiser)        │
+│  - 4. Detecção de extremos locais [f'(x)=0] e restrições biomecânicas   │
+│  - 5. Contagem e validação com classificador IA clássico                │
 └────────────────────────────────────┬────────────────────────────────────┘
                                      │
                                      ▼
@@ -106,58 +108,77 @@ print(f"Total de sessões exportadas: {len(all_sessions)}")
 
 ---
 
-## 🧠 Fase 2: Modelo de IA — Detecção de Picos + Validação com IA Clássica
+## 🧠 Fase 2: Pipeline de Processamento e Modelo de IA (5 Etapas)
 
 > **Diagrama do Pipeline da Fase 2:** [fase-2-treinamento-ia-comparativo.drawio](file:///Users/joueph/Developer/tcc-gymbeatDataCollection/docs/roadmap/fase-2-treinamento-ia-comparativo.drawio)
 
-### 2.1 Decisão Arquitetural: Descarte da Abordagem de Deep Learning (1D-CNN / LSTM)
+### 2.1 Decisões Arquiteturais e Justificativas Científicas
 
 > [!IMPORTANT]
-> **Por que a Abordagem 1 (Deep Learning fim-a-fim) foi descartada?**
-> 1. **Janela de Tempo e Volume de Dados:** Modelos de Deep Learning (como CNNs 1D, BiLSTM ou Transformers temporais) exigem dezenas de milhares de repetições rotuladas por múltiplos indivíduos para evitar *overfitting* severo e aprender a generalizar.
-> 2. **Incompatibilidade com o Rótulo Coletado:** O protocolo de coleta captura o número total de repetições por série ao final do exercício (rotulagem global), e não anotações milissegundo a milissegundo de onde cada fase excêntrica/concêntrica começa e termina (*frame-level annotation*).
-> 3. **Eficiência e Estabilidade no TCC:** A abordagem baseada em Processamento de Sinais + IA Clássica é matematicamente robusta, interpretável, funciona com datasets menores e apresenta execução ultra-rápida no smartphone sem latência perceptível.
+> **1. Por que descartar Deep Learning Fim-a-Fim (1D-CNN / LSTM para contagem direta)?**
+> - **Granularidade do Rótulo:** O protocolo coleta o total de repetições por série ao final do exercício (*label* global $N$), e não marcações milissegundo a milissegundo de início/fim de cada fase excêntrica/concêntrica (*frame-level annotation*). Treinar redes recorrentes sem anotação densa exige abordagens CTC ou auto-atenção com dezenas de milhares de repetições anotadas.
+> - **Volume Amostral:** Redes profundas sofrem severo *overfitting* de voluntário quando treinadas com bases amostrais típicas de TCC.
+>
+> **2. Por que substituir uma "IA Denoiser" (Denoising Autoencoder) por DSP Clássico (Butterworth)?**
+> - **Ausência de Ground Truth Puro:** Para treinar uma rede neural redutora de ruído (*denoiser*), são necessários pares de dados idênticos `(sinal_com_ruído, sinal_puro)`. Sensores inerciais vestíveis não possuem sinal analítico "sem ruído", a menos que haja acoplamento com sistemas ópticos de captura de movimento (Vicon/OptiTrack de dezenas de milhares de dólares).
+> - **Eficiência e Determinismo Matemático:** Movimentos humanos em exercícios resistidos concentram mais de 95% de sua densidade espectral abaixo de 3 a 5 Hz. Um **Filtro Passa-Baixa Butterworth de 4ª ordem** atenua tremores e artefatos de alta frequência de forma determinística, sem atraso de fase relevante, com complexidade $O(1)$ por amostra e latência de frações de microssegundo no smartphone.
+> - **Papel Estratégico da IA:** A IA deve atuar onde há ambiguidade semântica — isto é, na **classificação e validação de repetições legítimas vs. movimentos espúrios**, e não como um filtro matemático de frequência.
 
 ---
 
-### 2.2 Abordagem Adotada: Processamento de Sinais (Picos/Vales) + IA Clássica (Híbrida)
-
-A solução adotada divide o problema em duas etapas complementares:
+### 2.2 Detalhamento do Pipeline em 5 Etapas
 
 ```mermaid
 flowchart TD
-    A[Sinais Brutos IMU @ 25Hz] --> B[Filtro Passa-Baixa Butterworth 3-5Hz]
-    B --> C[Magnitude do Vetor: ||a|| e ||w||]
-    C --> D[Detecção de Picos e Vales / Extremos Locais]
-    D --> E[Extração de Features do Pico: Amplitude, Duração, Energia, Assimetria]
-    E --> F[Classificador IA Clássico: Random Forest / SVM]
-    F -->|Pico Válido| G[reps = reps + 1]
-    F -->|Ruído / Ajuste| H[Descartar Pico]
+    E1["1. Recepção de Dados Brutos\nApple Watch (25 Hz) → iPhone"] --> E2["2. Compensação & Eixo de Maior Variação\nMagnitude ||a|| / Projeção PC1"]
+    E2 --> E3["3. Atenuação de Ruído (DSP)\nFiltro Passa-Baixa Butterworth (fc ≈ 3-4 Hz)"]
+    E3 --> E4["4. Detecção de Extremos Locais\nf'(x) = 0 + Proeminência + t_min ≥ 1.2s"]
+    E4 --> E5["5. Validação com IA Clássica\nRandom Forest / SVM (Repetição Real vs. Espúria)"]
+    E5 -->|Válido| R["Incrementa Repetições (+1)\nFeedback Háptico & UI"]
+    E5 -->|Espúrio| D["Descarta Pico"]
 ```
 
-#### 1. Pré-processamento e Filtragem
-- **Filtro Passa-Baixa Butterworth (4ª ordem, corte em 3 Hz - 5 Hz):** Remove ruídos de vibração e micro-movimentos involuntários mantendo as curvas macro do movimento humano.
-- **Cálculo da Magnitude Vetorial:**
-  $$\|\mathbf{a}(t)\| = \sqrt{a_x(t)^2 + a_y(t)^2 + a_z(t)^2}, \quad \|\boldsymbol{\omega}(t)\| = \sqrt{\omega_x(t)^2 + \omega_y(t)^2 + \omega_z(t)^2}$$
-  *Vantagem:* A magnitude é invariante à rotação do relógio no pulso, tornando a detecção imune a pequenas variações de posicionamento do Apple Watch.
+#### Etapa 1: Recepção de Dados Brutos no Smartphone
+- O Apple Watch opera como nó sensor puro via `WorkoutManager.swift`, coletando `accX, accY, accZ` e `gyroX, gyroY, gyroZ` a **25 Hz** ($T_s = 0{,}04\text{ s}$).
+- Os dados são enviados via streaming (`WCSession.sendMessage` ou transferência rápida de dicionários) diretamente para o iPhone, desonerando a bateria do relógio.
 
-#### 2. Localização de Picos Candidatos (Signal Processing)
-- Algoritmo de busca de extremos locais na curva de aceleração com restrições biomecânicas:
-  - **Distância temporal mínima ($t_{min}$):** Um ser humano raramente realiza uma repetição em menos de 1.0 a 1.2 segundos.
-  - **Proeminência mínima de pico ($h_{min}$):** Descarta oscilações de baixa intensidade.
+#### Etapa 2: Compensação, Normalização e Eixo de Maior Variação
+Como o relógio pode rotacionar no pulso do usuário ou variar de ângulo entre voluntários, os eixos brutos $(X, Y, Z)$ não refletem diretamente o plano do exercício. São aplicadas duas abordagens complementares:
+1. **Magnitude Euclidiana Invariante à Rotação:**
+   $$\|\mathbf{a}(t)\| = \sqrt{a_x(t)^2 + a_y(t)^2 + a_z(t)^2}, \quad \|\boldsymbol{\omega}(t)\| = \sqrt{\omega_x(t)^2 + \omega_y(t)^2 + \omega_z(t)^2}$$
+   - *Vantagem:* Matematicamente independente de qualquer inclinação do relógio.
+2. **Componente de Maior Variação (PCA / Projeção em $PC_1$ ou `userAcceleration` do CoreMotion):**
+   - Nos exercícios resistidos (ex: supino, agachamento, rosca), o movimento principal desenvolve-se predominantemente em uma direção linear no espaço 3D.
+   - O CoreMotion da Apple já decompõe a aceleração em gravidade ($\mathbf{g}$) e aceleração do usuário ($\mathbf{a}_{user}$). Projetando-se o vetor na direção de maior variância temporal, sintetiza-se uma curva unidimensional nítida que evidencia o ciclo de subida e descida (concêntrico/excêntrico).
 
-#### 3. Extração de Atributos (Feature Engineering por Pico)
-Para cada pico detectado, extraem-se atributos que alimentam a IA:
-- Duração do ciclo (tempo entre vales adjacentes).
-- Amplitude do pico em relação aos vales (crista - vale).
-- Energia da aceleração durante o ciclo ($\sum a(t)^2$).
-- Variância e assimetria (*skewness*) do pico.
-- Rotação angular integrada no período ($\int \|\boldsymbol{\omega}\| dt$).
+#### Etapa 3: Atenuação de Ruído via DSP (Filtro Passa-Baixa Butterworth)
+- **Filtro Digital Butterworth (4ª ordem, frequência de corte $f_c \in [3, 4]\text{ Hz}$):**
+  $$H(z) = \frac{\sum_{i=0}^N b_i z^{-i}}{1 + \sum_{j=1}^N a_j z^{-j}}$$
+- Remove vibrações mecânicas, oscilações involuntárias de sustentação e ruídos eletrônicos do acelerômetro, preservando intactas as cristas e vales correspondentes às fases da repetição.
 
-#### 4. Validador com IA Clássica (Random Forest / SVM / XGBoost)
-- O classificador avalia o vetor de características do pico e responde:
-  - `Classe 1 (Repetição Legítima):` Contabiliza $+1$ repetição.
-  - `Classe 0 (Movimento Espúrio / Ajuste Postural / Ruído):` Ignora o pico.
+#### Etapa 4: Detecção de Extremos Locais com Restrições Biomecânicas
+A identificação dos pontos de inflexão ocorre sobre o sinal filtrado $s[n]$ aplicando condições estritas:
+1. **Condição de Extremo Local (Derivada Discreta Nula):**
+   - Um pico candidato ocorre quando $f'(x) = 0$, discretizado como a mudança de sinal na primeira diferença:
+     $$\Delta s[n-1] > 0 \quad \text{e} \quad \Delta s[n] \le 0$$
+2. **Proeminência Mínima do Pico ($h_{min}$):**
+   - A amplitude da crista em relação aos vales anterior e posterior deve superar um limiar mínimo, eliminando micro-hesitações no meio do movimento.
+3. **Limiar Adaptativo Acima da Média Móvel:**
+   - O pico deve estar acima do nível de repouso dinâmico $\mu_{janela} + k \cdot \sigma_{janela}$ calculado sobre uma janela deslizante circular.
+4. **Período Refratário Temporal ($t_{min}$):**
+   - Um ser humano não completa uma repetição de musculação em menos de **1.0 a 1.2 segundos**. Qualquer inflexão ocorrida em $\Delta t < t_{min}$ é descartada preventivamente.
+
+#### Etapa 5: Contagem e Validação com IA Clássica
+Picos que satisfazem as condições do Passo 4 são considerados **picos candidatos**. Para evitar contagens espúrias (ajuste de pegada na barra, coçar o rosto, soltar o peso no suporte ou tremores de fadiga extrema), cada pico é validado por um modelo de Aprendizado de Máquina:
+- **Extração de Vetor de Atributos por Pico:**
+  - Amplitude crista-vale ($\Delta A$).
+  - Duração do ciclo (tempo entre os vales adjacentes ao pico).
+  - Energia do ciclo inercial: $E = \sum_{k \in \text{ciclo}} s[k]^2$.
+  - Assimetria (*skewness*) e curtose da onda de aceleração.
+  - Norma integrada da velocidade angular: $\int_{\text{ciclo}} \|\boldsymbol{\omega}(t)\| dt$.
+- **Classificador (Random Forest / SVM Linear / XGBoost):**
+  - **Classe 1 (Repetição Legítima):** Incrementa o contador (`reps = reps + 1`) e emite feedback háptico/sonoro em tempo real.
+  - **Classe 0 (Movimento Espúrio / Transição / Ruído residual):** Descarta o pico sem penalizar a contagem.
 
 ---
 
@@ -192,8 +213,8 @@ Para cada pico detectado, extraem-se atributos que alimentam a IA:
 Mantém uma janela deslizante contínua dos últimos 3 a 5 segundos de dados (75 a 125 amostras a 25 Hz):
 
 ```typescript
-export class CircularBuffer {
-  private buffer: number[][];
+export class CircularBuffer<T = number[]> {
+  private buffer: T[];
   private size: number;
 
   constructor(size: number) {
@@ -201,7 +222,7 @@ export class CircularBuffer {
     this.buffer = [];
   }
 
-  public push(sample: number[]): void {
+  public push(sample: T): void {
     if (this.buffer.length >= this.size) {
       this.buffer.shift();
     }
@@ -212,7 +233,7 @@ export class CircularBuffer {
     return this.buffer.length === this.size;
   }
 
-  public getBuffer(): number[][] {
+  public getBuffer(): T[] {
     return this.buffer;
   }
 
@@ -223,35 +244,54 @@ export class CircularBuffer {
 ```
 
 #### 2. Motor de Contagem em Tempo Real (`src/ai/RepetitionCounter.ts`)
-Aplica o filtro digital passa-baixa online e avalia a ocorrência de repetições:
+Implementa o pipeline de 5 etapas em streaming contínuo:
 
 ```typescript
 import { CircularBuffer } from "./CircularBuffer";
 
+interface RawSample {
+  timestamp: number;
+  accX: number;
+  accY: number;
+  accZ: number;
+  gyroX: number;
+  gyroY: number;
+  gyroZ: number;
+}
+
 export class RepetitionCounter {
-  private buffer: CircularBuffer;
+  private buffer: CircularBuffer<number>; // Armazena sinal 1D compensado e filtrado
+  private rawBuffer: CircularBuffer<RawSample>;
   private currentReps = 0;
   private lastPeakTime = 0;
-  private minIntervalMs = 1200; // Mínimo de 1.2s entre repetições
+  private readonly minIntervalMs = 1200; // Restrição temporal: mínimo de 1.2s entre repetições
+  private readonly minProminence = 0.35; // Proeminência mínima da crista em relação à média
+
+  // Coeficientes do Filtro Passa-Baixa Butterworth (fs=25Hz, fc=3.5Hz, ordem 2)
+  private prevRaw = 0;
+  private prevPrevRaw = 0;
+  private prevFiltered = 0;
+  private prevPrevFiltered = 0;
 
   constructor(windowSize = 100) {
-    this.buffer = new CircularBuffer(windowSize);
+    this.buffer = new CircularBuffer<number>(windowSize);
+    this.rawBuffer = new CircularBuffer<RawSample>(windowSize);
   }
 
-  public addSample(sample: {
-    timestamp: number;
-    accX: number;
-    accY: number;
-    accZ: number;
-    gyroX: number;
-    gyroY: number;
-    gyroZ: number;
-  }): { reps: number; isNewRep: boolean } {
-    // 1. Calcula magnitude
-    const magnitude = Math.sqrt(sample.accX ** 2 + sample.accY ** 2 + sample.accZ ** 2);
-    this.buffer.push([sample.timestamp, magnitude, sample.gyroX, sample.gyroY, sample.gyroZ]);
+  /**
+   * Etapa 1 & 2 & 3: Processa cada nova amostra inercial do relógio
+   */
+  public addSample(sample: RawSample): { reps: number; isNewRep: boolean } {
+    this.rawBuffer.push(sample);
 
-    // 2. Avalia se atingiu um pico válido
+    // Etapa 2: Compensação espacial e magnitude vetorial invariante à rotação
+    const rawMagnitude = Math.sqrt(sample.accX ** 2 + sample.accY ** 2 + sample.accZ ** 2);
+
+    // Etapa 3: Filtro Passa-Baixa IIR Butterworth em tempo real
+    const filteredMag = this.applyLowPassFilter(rawMagnitude);
+    this.buffer.push(filteredMag);
+
+    // Etapa 4 & 5: Detecção de extremos locais e validação de repetição
     const isNewRep = this.checkPeak(sample.timestamp);
     if (isNewRep) {
       this.currentReps += 1;
@@ -260,32 +300,81 @@ export class RepetitionCounter {
     return { reps: this.currentReps, isNewRep };
   }
 
+  /**
+   * Etapa 3: Filtro Butterworth Passa-Baixa de 2ª ordem (execução O(1))
+   */
+  private applyLowPassFilter(input: number): number {
+    // Coeficientes calculados via bilinear transform para fc=3.5Hz @ fs=25Hz
+    const b0 = 0.1311, b1 = 0.2622, b2 = 0.1311;
+    const a1 = -0.7478, a2 = 0.2722;
+
+    const output = b0 * input + b1 * this.prevRaw + b2 * this.prevPrevRaw
+                 - a1 * this.prevFiltered - a2 * this.prevPrevFiltered;
+
+    this.prevPrevRaw = this.prevRaw;
+    this.prevRaw = input;
+    this.prevPrevFiltered = this.prevFiltered;
+    this.prevFiltered = output;
+
+    return output;
+  }
+
+  /**
+   * Etapa 4: Detecção de extremos locais [f'(x) = 0] com restrições biomecânicas
+   */
   private checkPeak(currentTime: number): boolean {
     if (currentTime - this.lastPeakTime < this.minIntervalMs) {
+      return false; // Bloqueio refratário temporal
+    }
+
+    const data = this.buffer.getBuffer();
+    if (data.length < 5) return false;
+
+    const n = data.length - 1;
+    const y0 = data[n - 2];
+    const y1 = data[n - 1]; // Ponto central candidato
+    const y2 = data[n];
+
+    // Condição f'(x) = 0 (mudança de sinal da derivada discreta: subida seguida de descida)
+    const isLocalMaximum = y1 > y0 && y1 >= y2;
+    if (!isLocalMaximum) return false;
+
+    // Cálculo da média móvel adaptativa da janela
+    const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
+
+    // Critério de proeminência mínima acima da média
+    if (y1 - mean < this.minProminence) {
       return false;
     }
 
-    // Algoritmo de detecção de pico com validação do classificador
-    const data = this.buffer.getBuffer();
-    if (data.length < 15) return false;
-
-    const currentMag = data[data.length - 1][1];
-    const prevMag = data[data.length - 2][1];
-    const prevPrevMag = data[data.length - 3][1];
-
-    // Detecta inflexão (pico local)
-    if (prevMag > prevPrevMag && prevMag > currentMag && prevMag > 1.35) {
+    // Etapa 5: Validação do pico candidato com Classificador IA
+    const isValidRepetition = this.validatePeakWithAI(y1, currentTime);
+    if (isValidRepetition) {
       this.lastPeakTime = currentTime;
-      return true; // Pico validado
+      return true;
     }
 
     return false;
   }
 
-  public reset() {
+  /**
+   * Etapa 5: Validador de repetição legítima (IA Clássica / Regras Biomecânicas)
+   */
+  private validatePeakWithAI(peakValue: number, timestamp: number): boolean {
+    // Na fase final, consome o classificador treinado (SVM/Random Forest exportado via ONNX ou pesos em JS)
+    // avaliando amplitude, desvio padrão e rotação do giroscópio na janela.
+    return peakValue > 1.25; 
+  }
+
+  public reset(): void {
     this.buffer.clear();
+    this.rawBuffer.clear();
     this.currentReps = 0;
     this.lastPeakTime = 0;
+    this.prevRaw = 0;
+    this.prevPrevRaw = 0;
+    this.prevFiltered = 0;
+    this.prevPrevFiltered = 0;
   }
 }
 ```
