@@ -68,7 +68,8 @@ const getDatabase = async () => {
       started_at TEXT NOT NULL,
       ended_at TEXT NOT NULL,
       set_count INTEGER NOT NULL,
-      reps INTEGER
+      reps INTEGER,
+      detected_reps INTEGER
     );
 
     CREATE TABLE IF NOT EXISTS live_exercise_samples (
@@ -113,6 +114,9 @@ const addMissingLiveSessionColumns = async (db: SQLite.SQLiteDatabase) => {
 
   if (!existingColumns.has("reps")) {
     await db.execAsync("ALTER TABLE live_exercise_sessions ADD COLUMN reps INTEGER");
+  }
+  if (!existingColumns.has("detected_reps")) {
+    await db.execAsync("ALTER TABLE live_exercise_sessions ADD COLUMN detected_reps INTEGER");
   }
 };
 
@@ -186,6 +190,7 @@ type LiveExerciseSessionRow = {
   ended_at: string;
   set_count: number;
   reps: number | null;
+  detected_reps: number | null;
 };
 
 type UserProfileRow = {
@@ -436,8 +441,8 @@ export const database = {
     await db.withTransactionAsync(async () => {
       await db.runAsync(
         `INSERT OR REPLACE INTO live_exercise_sessions (
-          session_id, exercise_id, exercise_name, started_at, ended_at, set_count, reps
-        ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+          session_id, exercise_id, exercise_name, started_at, ended_at, set_count, reps, detected_reps
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
         session.sessionId,
         session.exerciseId,
         session.exerciseName,
@@ -445,6 +450,7 @@ export const database = {
         session.endedAt,
         session.setCount,
         session.reps,
+        session.detectedReps ?? null,
       );
 
       for (const [index, sample] of session.samples.entries()) {
@@ -545,7 +551,7 @@ export const database = {
   async getLiveExerciseSessions(limit = 100): Promise<LiveExerciseSessionRecord[]> {
     const db = await getDatabase();
     const sessions = await db.getAllAsync<LiveExerciseSessionRow>(
-      `SELECT session_id, exercise_id, exercise_name, started_at, ended_at, set_count, reps
+      `SELECT session_id, exercise_id, exercise_name, started_at, ended_at, set_count, reps, detected_reps
        FROM live_exercise_sessions
        ORDER BY started_at DESC
        LIMIT ?`,
@@ -584,6 +590,7 @@ export const database = {
       day: session.started_at.slice(0, 10),
       setCount: session.set_count,
       reps: session.reps,
+      detectedReps: session.detected_reps,
       samples: samplesBySession.get(session.session_id) ?? [],
     }));
   },

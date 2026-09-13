@@ -74,6 +74,7 @@ export type LiveExerciseSession = {
   endedAt: string;
   setCount: number;
   reps: number | null;
+  detectedReps?: number | null;
   samples: LiveExerciseSample[];
 };
 

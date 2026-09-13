@@ -189,6 +189,7 @@ const uploadSessions = async (uid: string, sessions: LiveExerciseSessionRecord[]
           endedAt: session.endedAt,
           setCount: session.setCount,
           reps: session.reps,
+          detectedReps: session.detectedReps ?? null,
           samples: session.samples,
           sampleCount: session.samples.length,
           syncedAt: serverTimestamp(),
@@ -221,6 +222,7 @@ const mapFirebaseSession = (data: Record<string, unknown>): LiveExerciseSessionR
     endedAt,
     setCount: numberValue(data.setCount) ?? 1,
     reps: numberValue(data.reps),
+    detectedReps: numberValue(data.detectedReps),
     samples: Array.isArray(data.samples)
       ? data.samples
           .map((sample, index) => mapFirebaseSample(sample, { sessionId, exerciseId, exerciseName }, index))

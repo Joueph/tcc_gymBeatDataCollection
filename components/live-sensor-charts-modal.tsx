@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Modal, Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
 
 import { colors } from "@/constants/colors";
+import { processSessionSamples, type ProcessedSeriesResult } from "@/src/ml";
 import type { LiveExerciseGroup, LiveExerciseSample } from "@/src/types/health";
 
 type LiveSensorChartsModalProps = {
@@ -100,6 +101,11 @@ export function LiveSensorChartsModal({ group, onClose }: LiveSensorChartsModalP
   const selectedSeries = seriesTabs.find((series) => series.sessionId === selectedSeriesId) ?? seriesTabs[0];
   const selectedSamples = selectedSeries?.samples ?? [];
 
+  const mlAnalysis = useMemo(() => {
+    if (!selectedSamples || selectedSamples.length < 3) return null;
+    return processSessionSamples(selectedSamples);
+  }, [selectedSamples]);
+
   const groupDomains = useMemo(() => {
     const domains: Partial<Record<SensorGroup, { min: number; max: number }>> = {};
     const groups: SensorGroup[] = ["accelerometer", "gyroscope"];
@@ -189,6 +195,14 @@ export function LiveSensorChartsModal({ group, onClose }: LiveSensorChartsModalP
               );
             })}
           </ScrollView>
+        ) : null}
+
+        {mlAnalysis ? (
+          <RepetitionSignalChart
+            analysis={mlAnalysis}
+            chartWidth={chartWidth}
+            groundTruthReps={group?.totalReps}
+          />
         ) : null}
 
         {sensorMetrics.map((metric) => (
@@ -349,6 +363,136 @@ function SensorLineChart({
         </Text>
         <Text selectable style={{ color: colors.muted, fontSize: 12 }}>
           Max {metric.formatValue(maxValue)}
+        </Text>
+      </View>
+    </View>
+  );
+}
+
+function RepetitionSignalChart({
+  analysis,
+  chartWidth,
+  groundTruthReps,
+}: {
+  analysis: ProcessedSeriesResult;
+  chartWidth: number;
+  groundTruthReps?: number;
+}) {
+  const signal = analysis.synthesizedSignal;
+  if (signal.length < 2) return null;
+
+  const minValue = Math.min(...signal);
+  const maxValue = Math.max(...signal);
+  const range = Math.max(0.0001, maxValue - minValue);
+  const effectiveMin = maxValue === minValue ? minValue - 1 : minValue;
+  const effectiveRange = maxValue === minValue ? 2 : range;
+
+  const coordinates = signal.map((val, index) => ({
+    x: (index / (signal.length - 1)) * chartWidth,
+    y: chartHeight - ((val - effectiveMin) / effectiveRange) * chartHeight,
+    value: val,
+    index,
+  }));
+
+  const peakIndexSet = new Set(analysis.detectedReps.map((r) => r.peakIndex));
+
+  return (
+    <View style={[chartContainerStyle, { borderColor: "#22C55E", borderWidth: 1.5 }]}>
+      <View style={{ gap: 4 }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+          <Text selectable style={{ color: "#22C55E", fontSize: 16, fontWeight: "900" }}>
+            Sinal de Repetição (IA GymBeat)
+          </Text>
+          <View
+            style={{
+              backgroundColor: "rgba(34, 197, 94, 0.16)",
+              paddingHorizontal: 8,
+              paddingVertical: 3,
+              borderRadius: 6,
+            }}
+          >
+            <Text style={{ color: "#22C55E", fontSize: 12, fontWeight: "800" }}>
+              IA: {analysis.repCount} reps
+              {typeof groundTruthReps === "number" ? ` | Real: ${groundTruthReps}` : ""}
+            </Text>
+          </View>
+        </View>
+        <Text selectable style={{ color: colors.muted, fontSize: 11 }}>
+          Síntese 6D → 1D (PCA + Giroscópio) · {analysis.fs.toFixed(1)} Hz · {analysis.durationSeconds.toFixed(1)}s
+        </Text>
+      </View>
+
+      <View style={{ width: chartWidth, height: chartHeight + 18, alignSelf: "center" }}>
+        <View style={{ position: "absolute", left: 0, right: 0, top: 0, height: chartHeight }}>
+          {[0, 1, 2].map((line) => (
+            <View
+              key={line}
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: (line / 2) * chartHeight,
+                height: 1,
+                backgroundColor: colors.border,
+              }}
+            />
+          ))}
+
+          {coordinates.slice(0, -1).map((point, index) => {
+            const nextPoint = coordinates[index + 1];
+            const deltaX = nextPoint.x - point.x;
+            const deltaY = nextPoint.y - point.y;
+            const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            const angle = Math.atan2(deltaY, deltaX);
+
+            return (
+              <View
+                key={`ml-seg-${index}`}
+                style={{
+                  position: "absolute",
+                  left: point.x + deltaX / 2 - length / 2,
+                  top: point.y + deltaY / 2,
+                  width: length,
+                  height: 2.2,
+                  borderRadius: 1,
+                  backgroundColor: "#22C55E",
+                  transform: [{ rotateZ: `${angle}rad` }],
+                }}
+              />
+            );
+          })}
+
+          {coordinates.map((point) => {
+            const isPeak = peakIndexSet.has(point.index);
+            if (!isPeak) return null;
+
+            return (
+              <View
+                key={`ml-peak-${point.index}`}
+                style={{
+                  position: "absolute",
+                  left: point.x - 5,
+                  top: point.y - 5,
+                  width: 10,
+                  height: 10,
+                  borderRadius: 5,
+                  backgroundColor: "#EF4444",
+                  borderWidth: 2,
+                  borderColor: "#FFFFFF",
+                  zIndex: 10,
+                }}
+              />
+            );
+          })}
+        </View>
+      </View>
+
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Text selectable style={{ color: colors.muted, fontSize: 12 }}>
+          Min {minValue.toFixed(2)}
+        </Text>
+        <Text selectable style={{ color: colors.muted, fontSize: 12 }}>
+          Max {maxValue.toFixed(2)}
         </Text>
       </View>
     </View>

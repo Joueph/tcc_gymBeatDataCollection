@@ -5,6 +5,7 @@ import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TextInput, View 
 import { MetricCard } from "@/components/metric-card";
 import { colors } from "@/constants/colors";
 import { syncLocalDataToFirebase } from "@/src/firebase/sync";
+import { processSessionSamples } from "@/src/ml";
 import { database } from "@/src/storage/database";
 import type { LiveExerciseSample } from "@/src/types/health";
 import { findExercise } from "@/src/watch/exercises";
@@ -61,6 +62,7 @@ export default function LiveWorkoutScreen() {
   const [isWatchHealthAuthorized, setIsWatchHealthAuthorized] = useState<boolean | null>(null);
   const [repsPromptEndedAt, setRepsPromptEndedAt] = useState<string | null>(null);
   const [repsInput, setRepsInput] = useState("");
+  const [detectedReps, setDetectedReps] = useState<number | null>(null);
 
   const normalizeErrorMessage = (raw: string) => {
     const lower = raw.toLowerCase();
@@ -213,7 +215,7 @@ export default function LiveWorkoutScreen() {
     return Array.from(summaries.values());
   }, [samples, sessionId]);
 
-  const saveLiveSession = async (endedAt: string, reps: number) => {
+  const saveLiveSession = async (endedAt: string, reps: number, detectedRepsCount?: number | null) => {
     if (!exercise || !sessionId || !sessionStartedAt) {
       return;
     }
@@ -245,6 +247,7 @@ export default function LiveWorkoutScreen() {
       endedAt,
       setCount: 1,
       reps,
+      detectedReps: detectedRepsCount ?? null,
       samples: liveSamples,
     });
   };
@@ -256,6 +259,7 @@ export default function LiveWorkoutScreen() {
     setSetIndex(1);
     setRepsPromptEndedAt(null);
     setRepsInput("");
+    setDetectedReps(null);
   };
 
   const handleSaveReps = async () => {
@@ -273,7 +277,7 @@ export default function LiveWorkoutScreen() {
     setMessage(null);
 
     try {
-      await saveLiveSession(repsPromptEndedAt, Math.round(reps));
+      await saveLiveSession(repsPromptEndedAt, Math.round(reps), detectedReps);
       await syncLocalDataToFirebase();
       resetCurrentSession();
       setMessage(samples.length > 0 ? "Serie salva no historico local." : "Serie salva sem amostras.");
@@ -336,6 +340,15 @@ export default function LiveWorkoutScreen() {
       if (command === "stopSession") {
         const endedAt = new Date().toISOString();
         setWatchState("waiting");
+
+        // Executa a inferência instantânea da IA GymBeat sobre as amostras coletadas (< 1ms)
+        const analysis = processSessionSamples(samples, sessionStartedAt ?? undefined, endedAt);
+        const detected = analysis?.repCount ?? null;
+        setDetectedReps(detected);
+        if (detected !== null && detected > 0) {
+          setRepsInput(String(detected));
+        }
+
         setRepsPromptEndedAt(endedAt);
         return;
       }
@@ -513,6 +526,23 @@ export default function LiveWorkoutScreen() {
               <Text selectable style={{ color: colors.muted, fontSize: 14, lineHeight: 20 }}>
                 Esse numero sera salvo junto dos sensores para facilitar a classificacao das repeticoes depois.
               </Text>
+              {detectedReps !== null ? (
+                <View
+                  style={{
+                    backgroundColor: "rgba(34, 197, 94, 0.12)",
+                    borderColor: "#22C55E",
+                    borderWidth: 1,
+                    borderRadius: 6,
+                    paddingVertical: 6,
+                    paddingHorizontal: 10,
+                    marginTop: 4,
+                  }}
+                >
+                  <Text style={{ color: "#22C55E", fontSize: 13, fontWeight: "700" }}>
+                    IA GymBeat detectou: {detectedReps} {detectedReps === 1 ? "repetição" : "repetições"}
+                  </Text>
+                </View>
+              ) : null}
             </View>
 
             <TextInput
