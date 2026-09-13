@@ -1,11 +1,11 @@
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useMemo, useState } from "react";
-import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ActivityIndicator, Modal, Pressable, ScrollView, Text, TextInput, Vibration, View } from "react-native";
 
 import { MetricCard } from "@/components/metric-card";
 import { colors } from "@/constants/colors";
 import { syncLocalDataToFirebase } from "@/src/firebase/sync";
-import { processSessionSamples } from "@/src/ml";
+import { processSessionSamples, StreamingRepetitionCounter } from "@/src/ml";
 import { database } from "@/src/storage/database";
 import type { LiveExerciseSample } from "@/src/types/health";
 import { findExercise } from "@/src/watch/exercises";
@@ -63,6 +63,9 @@ export default function LiveWorkoutScreen() {
   const [repsPromptEndedAt, setRepsPromptEndedAt] = useState<string | null>(null);
   const [repsInput, setRepsInput] = useState("");
   const [detectedReps, setDetectedReps] = useState<number | null>(null);
+  const [liveReps, setLiveReps] = useState(0);
+
+  const streamingCounter = useRef(new StreamingRepetitionCounter());
 
   const normalizeErrorMessage = (raw: string) => {
     const lower = raw.toLowerCase();
@@ -137,6 +140,13 @@ export default function LiveWorkoutScreen() {
     const messageSubscription = watchConnectivity.addListener("onWatchMessage", (incomingMessage) => {
       if (isMetricSample(incomingMessage)) {
         setSamples((currentSamples) => [...currentSamples, incomingMessage]);
+
+        // Processamento em tempo real da repetição via streaming (< 0.05ms)
+        const event = streamingCounter.current.pushSample(incomingMessage);
+        if (event.isRepetition) {
+          Vibration.vibrate(45); // Pulso tátil imediato no celular
+          setLiveReps(event.currentReps);
+        }
         return;
       }
 
@@ -260,6 +270,8 @@ export default function LiveWorkoutScreen() {
     setRepsPromptEndedAt(null);
     setRepsInput("");
     setDetectedReps(null);
+    setLiveReps(0);
+    streamingCounter.current.reset();
   };
 
   const handleSaveReps = async () => {
@@ -316,6 +328,8 @@ export default function LiveWorkoutScreen() {
         setSessionStartedAt(startedAt);
         setSetId(nextSetId);
         setSetIndex(nextSetIndex);
+        setLiveReps(0);
+        streamingCounter.current.reset();
       }
 
       const result = await watchConnectivity.sendCommand(command, {
@@ -341,12 +355,19 @@ export default function LiveWorkoutScreen() {
         const endedAt = new Date().toISOString();
         setWatchState("waiting");
 
-        // Executa a inferência instantânea da IA GymBeat sobre as amostras coletadas (< 1ms)
-        const analysis = processSessionSamples(samples, sessionStartedAt ?? undefined, endedAt);
-        const detected = analysis?.repCount ?? null;
-        setDetectedReps(detected);
-        if (detected !== null && detected > 0) {
-          setRepsInput(String(detected));
+        // Repetições detectadas ao vivo pelo motor de streaming
+        const streamCount = streamingCounter.current.getRepCount();
+        let finalDetected = streamCount;
+
+        // Fallback: se o streaming não detectou repetições por qualquer motivo, roda o motor batch
+        if (finalDetected === 0 && samples.length > 5) {
+          const analysis = processSessionSamples(samples, sessionStartedAt ?? undefined, endedAt);
+          finalDetected = analysis?.repCount ?? 0;
+        }
+
+        setDetectedReps(finalDetected > 0 ? finalDetected : null);
+        if (finalDetected > 0) {
+          setRepsInput(String(finalDetected));
         }
 
         setRepsPromptEndedAt(endedAt);
@@ -442,6 +463,34 @@ export default function LiveWorkoutScreen() {
           <Text style={{ color: colors.primary, fontSize: 15, fontWeight: "700" }}>Atualizar conexao</Text>
         </Pressable>
       </View>
+
+      {isCollecting ? (
+        <View
+          style={{
+            backgroundColor: "rgba(34, 197, 94, 0.10)",
+            borderColor: "#22C55E",
+            borderWidth: 1.5,
+            borderRadius: 12,
+            padding: 18,
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 6,
+          }}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: "#22C55E" }} />
+            <Text style={{ color: "#22C55E", fontSize: 13, fontWeight: "800", textTransform: "uppercase", letterSpacing: 0.5 }}>
+              Detecção ao Vivo (IA GymBeat)
+            </Text>
+          </View>
+          <Text style={{ color: "#FFFFFF", fontSize: 52, fontWeight: "900", fontVariant: ["tabular-nums"] }}>
+            {liveReps}
+          </Text>
+          <Text style={{ color: colors.muted, fontSize: 13, fontWeight: "600" }}>
+            {liveReps === 1 ? "repetição completada" : "repetições completadas"}
+          </Text>
+        </View>
+      ) : null}
 
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
         <MetricCard
