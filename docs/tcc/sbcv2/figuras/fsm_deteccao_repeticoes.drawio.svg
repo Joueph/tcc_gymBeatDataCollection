@@ -1,150 +1,137 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 560" width="980" height="560"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 580" width="1020" height="580"
      style="background-color: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif;">
-  <!-- content="&lt;mxfile&gt;&lt;diagram name=&quot;fsm_deteccao_repeticoes&quot;&gt;&lt;/diagram&gt;&lt;/mxfile&gt;" -->
+  <!-- content="<mxfile><diagram name=\"fsm_deteccao_repeticoes\"></diagram></mxfile>" -->
 
   <defs>
-    <filter id="fsmShadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.08"/>
-    </filter>
-
-    <marker id="fsmArrBlue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#2563EB"/>
-    </marker>
-    <marker id="fsmArrGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#16A34A"/>
-    </marker>
-    <marker id="fsmArrRed" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#DC2626"/>
-    </marker>
-    <marker id="fsmArrGray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#64748B"/>
+    <marker id="fsmArr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#111111"/>
     </marker>
   </defs>
 
   <!-- Title & Subtitle -->
-  <text x="490" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0F172A">
+  <text x="510" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#111111">
     Máquina de Estados Finitos (FSM) — Detecção de Repetições
   </text>
-  <text x="490" y="46" text-anchor="middle" font-size="11" fill="#64748B">
-    Controle temporal e de histerese biomecânica no motor de streaming (`StreamingRepetitionCounter`)
+  <text x="510" y="50" text-anchor="middle" font-size="11" fill="#4B5563">
+    Controle temporal e histerese biomecânica no motor de streaming (StreamingRepetitionCounter)
   </text>
 
   <!-- Initial pseudo-state (black circle) -->
-  <circle cx="60" cy="140" r="12" fill="#0F172A"/>
-  <path d="M 72,140 L 115,140" fill="none" stroke="#64748B" stroke-width="2" marker-end="url(#fsmArrGray)"/>
-  <text x="93" y="130" text-anchor="middle" font-size="8.5" fill="#64748B">iniciar</text>
+  <circle cx="65" cy="145" r="11" fill="#111111"/>
+  <path d="M 76,145 L 120,145" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#fsmArr)"/>
+  <text x="98" y="135" text-anchor="middle" font-size="8.5" fill="#4B5563">iniciar</text>
 
   <!-- ================= STATE 1: IDLE / RESET ================= -->
-  <g transform="translate(120, 95)" filter="url(#fsmShadow)">
-    <rect width="180" height="90" rx="10" fill="#F8FAFC" stroke="#64748B" stroke-width="1.8"/>
-    <rect x="0" y="0" width="180" height="26" rx="10 10 0 0" fill="#475569"/>
-    <text x="90" y="17" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">IDLE / RESET</text>
+  <g transform="translate(125, 100)">
+    <rect width="190" height="92" rx="8" fill="#F9FAFB" stroke="#4B5563" stroke-width="1.8"/>
+    <rect x="0" y="0" width="190" height="26" rx="8 8 0 0" fill="#374151"/>
+    <text x="95" y="17" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">IDLE / RESET</text>
 
-    <text x="12" y="44" font-size="9" font-family="monospace" fill="#334155">sampleCount = 0</text>
-    <text x="12" y="58" font-size="9" font-family="monospace" fill="#334155">currentReps = 0</text>
-    <text x="12" y="72" font-size="9" font-family="monospace" fill="#334155">lastPeakIdx = -100</text>
+    <text x="15" y="44" font-size="9" font-family="monospace" fill="#111111">sampleCount = 0</text>
+    <text x="15" y="58" font-size="9" font-family="monospace" fill="#111111">currentReps = 0</text>
+    <text x="15" y="72" font-size="9" font-family="monospace" fill="#111111">lastPeakIdx = -100</text>
   </g>
 
   <!-- Transition IDLE -> WARMING_UP -->
-  <path d="M 300,140 L 375,140" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#fsmArrBlue)"/>
-  <rect x="308" y="112" width="60" height="24" rx="4" fill="#EFF6FF" stroke="#BFDBFE"/>
-  <text x="338" y="122" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#1E40AF">1ª Amostra</text>
-  <text x="338" y="132" text-anchor="middle" font-size="7" fill="#3B82F6">pushSample()</text>
+  <path d="M 315,145 L 390,145" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#fsmArr)"/>
+  <rect x="323" y="117" width="60" height="24" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="353" y="127" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#111111">1ª Amostra</text>
+  <text x="353" y="137" text-anchor="middle" font-size="7" fill="#4B5563">pushSample()</text>
 
   <!-- ================= STATE 2: WARMING_UP ================= -->
-  <g transform="translate(380, 85)" filter="url(#fsmShadow)">
-    <rect width="230" height="110" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.8"/>
-    <rect x="0" y="0" width="230" height="26" rx="10 10 0 0" fill="#D97706"/>
-    <text x="115" y="17" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">AQUECIMENTO (Warming Up)</text>
+  <g transform="translate(395, 90)">
+    <rect width="240" height="110" rx="8" fill="#F9FAFB" stroke="#4B5563" stroke-width="1.8" stroke-dasharray="6,4"/>
+    <rect x="0" y="0" width="240" height="26" rx="8 8 0 0" fill="#4B5563"/>
+    <text x="120" y="17" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">AQUECIMENTO (Warming Up)</text>
 
-    <text x="12" y="44" font-size="9" font-weight="600" fill="#92400E">Condição de permanência:</text>
-    <text x="12" y="58" font-size="9" font-family="monospace" fill="#B45309">sampleCount &lt; 8 (~1,8 s)</text>
+    <text x="12" y="44" font-size="9" font-weight="bold" fill="#111111">Condição de permanência:</text>
+    <text x="12" y="58" font-size="9" font-family="monospace" fill="#111111">sampleCount &lt; 8 (~1,8 s)</text>
 
-    <text x="12" y="75" font-size="8.5" fill="#78350F">• Acumula no buffer circular</text>
-    <text x="12" y="89" font-size="8.5" fill="#78350F">• Suprime transiente de início do peso</text>
-    <text x="12" y="101" font-size="8.5" font-weight="bold" fill="#DC2626">• Picos ignorados (isRepetition = false)</text>
+    <text x="12" y="75" font-size="8.5" fill="#374151">• Acumula no buffer circular</text>
+    <text x="12" y="89" font-size="8.5" fill="#374151">• Suprime transiente de início do peso</text>
+    <text x="12" y="101" font-size="8.5" font-weight="bold" fill="#111111">• Picos ignorados (isRepetition = false)</text>
   </g>
 
   <!-- Transition WARMING_UP -> ACTIVE_MONITORING -->
-  <path d="M 610,140 L 685,140" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#fsmArrBlue)"/>
-  <rect x="618" y="112" width="60" height="24" rx="4" fill="#EFF6FF" stroke="#BFDBFE"/>
-  <text x="648" y="123" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#1E40AF">Buffer Pronto</text>
-  <text x="648" y="133" text-anchor="middle" font-size="7" font-family="monospace" fill="#3B82F6">N &gt;= 8</text>
+  <path d="M 635,145 L 710,145" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#fsmArr)"/>
+  <rect x="643" y="117" width="60" height="24" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="673" y="128" text-anchor="middle" font-size="7.5" font-weight="bold" fill="#111111">Buffer Pronto</text>
+  <text x="673" y="138" text-anchor="middle" font-size="7" font-family="monospace" fill="#111111">N &gt;= 8</text>
 
   <!-- ================= STATE 3: ACTIVE_MONITORING ================= -->
-  <g transform="translate(690, 75)" filter="url(#fsmShadow)">
-    <rect width="250" height="135" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="2"/>
-    <rect x="0" y="0" width="250" height="26" rx="10 10 0 0" fill="#2563EB"/>
-    <text x="125" y="17" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">MONITORAMENTO ATIVO</text>
+  <g transform="translate(715, 80)">
+    <rect width="265" height="135" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="2.2"/>
+    <rect x="0" y="0" width="265" height="26" rx="8 8 0 0" fill="#111111"/>
+    <text x="132" y="17" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">MONITORAMENTO ATIVO</text>
 
-    <text x="12" y="44" font-size="9" font-weight="600" fill="#1E40AF">Atividades contínuas (do /):</text>
-    <text x="12" y="58" font-size="8.5" fill="#1E293B">1. Atualizar Moving PCA e eixo principal</text>
-    <text x="12" y="72" font-size="8.5" fill="#1E293B">2. Passo do filtro biquad causal IIR</text>
-    <text x="12" y="86" font-size="8.5" fill="#1E293B">3. Normalizar z-score sobre a janela</text>
-    <text x="12" y="100" font-size="8.5" fill="#1E293B">4. Testar crista: s_{n-1} &gt; s_{n-2} e s_{n-1} &gt;= s_n</text>
-    <text x="12" y="114" font-size="8.5" fill="#1E293B">5. Testar altura: s_{n-1} &gt;= h_min (0,25)</text>
-    <text x="12" y="128" font-size="8.5" font-weight="600" fill="#047857">6. Testar refratário: Δn &gt;= ⌊t_min · f_s⌋</text>
+    <text x="12" y="44" font-size="9" font-weight="bold" fill="#111111">Atividades contínuas por amostra:</text>
+    <text x="12" y="58" font-size="8.5" fill="#374151">1. Atualizar Moving PCA e eixo principal</text>
+    <text x="12" y="72" font-size="8.5" fill="#374151">2. Passo causal do filtro IIR biquad</text>
+    <text x="12" y="86" font-size="8.5" fill="#374151">3. Normalizar z-score sobre a janela</text>
+    <text x="12" y="100" font-size="8.5" fill="#374151">4. Testar crista: s_{n-1} &gt; s_{n-2} e s_{n-1} &gt;= s_n</text>
+    <text x="12" y="114" font-size="8.5" fill="#374151">5. Testar amplitude: s_{n-1} &gt;= 0,25</text>
+    <text x="12" y="128" font-size="8.5" font-weight="bold" fill="#111111">6. Testar refratário: Δn &gt;= ⌊1,6 · f_s⌋</text>
   </g>
 
   <!-- Transition ACTIVE_MONITORING down to REFRACTORY_LOCK (Peak detected!) -->
-  <path d="M 815,210 L 815,310" fill="none" stroke="#16A34A" stroke-width="2.5" marker-end="url(#fsmArrGreen)"/>
-  <g transform="translate(685, 235)">
-    <rect width="260" height="52" rx="6" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
-    <text x="130" y="16" text-anchor="middle" font-size="9" font-weight="bold" fill="#166534">CRISTA VÁLIDA DETECTADA!</text>
-    <text x="130" y="30" text-anchor="middle" font-size="8" font-family="monospace" fill="#15803D">[s_{n-1} &gt;= 0,25 e Δt &gt;= 1,6 s]</text>
-    <text x="130" y="44" text-anchor="middle" font-size="8" font-weight="bold" fill="#047857">/ currentReps++, vibrate(45), emitEvent()</text>
+  <path d="M 847,215 L 847,320" fill="none" stroke="#111111" stroke-width="2.5" marker-end="url(#fsmArr)"/>
+  <g transform="translate(715, 245)">
+    <rect width="265" height="52" rx="6" fill="#F3F4F6" stroke="#111111" stroke-width="1.8"/>
+    <text x="132" y="17" text-anchor="middle" font-size="9" font-weight="bold" fill="#111111">CRISTA VÁLIDA DETECTADA!</text>
+    <text x="132" y="31" text-anchor="middle" font-size="8" font-family="monospace" fill="#111111">[s_{n-1} &gt;= 0,25 e Δt &gt;= 1,6 s]</text>
+    <text x="132" y="44" text-anchor="middle" font-size="8" font-weight="bold" fill="#111111">/ reps++, vibrate(45 ms), emit()</text>
   </g>
 
   <!-- ================= STATE 4: REFRACTORY_LOCK ================= -->
-  <g transform="translate(690, 315)" filter="url(#fsmShadow)">
-    <rect width="250" height="135" rx="10" fill="#FEF2F2" stroke="#DC2626" stroke-width="2"/>
-    <rect x="0" y="0" width="250" height="26" rx="10 10 0 0" fill="#DC2626"/>
-    <text x="125" y="17" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">BLOQUEIO REFRATÁRIO</text>
+  <g transform="translate(715, 325)">
+    <rect width="265" height="135" rx="8" fill="#F9FAFB" stroke="#111111" stroke-width="2"/>
+    <rect x="0" y="0" width="265" height="26" rx="8 8 0 0" fill="#374151"/>
+    <text x="132" y="17" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">BLOQUEIO REFRATÁRIO</text>
 
-    <text x="12" y="44" font-size="9" font-weight="600" fill="#991B1B">Janela Fisiológica Ativa:</text>
-    <text x="12" y="58" font-size="9" font-family="monospace" fill="#B91C1C">t &lt; t_min (1,6 s · ~7 amostras)</text>
+    <text x="12" y="44" font-size="9" font-weight="bold" fill="#111111">Janela Fisiológica Ativa:</text>
+    <text x="12" y="58" font-size="9" font-family="monospace" fill="#111111">t &lt; t_min (1,6 s · ~7 amostras)</text>
 
-    <text x="12" y="76" font-size="8.5" fill="#7F1D1D">• Amostras continuam alimentando buffer e IIR</text>
-    <text x="12" y="90" font-size="8.5" fill="#7F1D1D">• Filtro mantém continuidade de fase</text>
-    <text x="12" y="104" font-size="8.5" font-weight="bold" fill="#DC2626">• BLOQUEIA novos picos (isRepetition = false)</text>
-    <text x="12" y="118" font-size="8.5" fill="#6B7280">• Elimina repetições duplicadas por ricochete</text>
-    <text x="12" y="130" font-size="8.5" fill="#6B7280">• Protege contra tremor muscular terminal</text>
+    <text x="12" y="76" font-size="8.5" fill="#374151">• Amostras continuam alimentando buffer e IIR</text>
+    <text x="12" y="90" font-size="8.5" fill="#374151">• Filtro mantém continuidade de fase</text>
+    <text x="12" y="104" font-size="8.5" font-weight="bold" fill="#111111">• BLOQUEIA novos picos (isRepetition = false)</text>
+    <text x="12" y="118" font-size="8.5" fill="#4B5563">• Elimina repetições duplicadas por ricochete</text>
+    <text x="12" y="130" font-size="8.5" fill="#4B5563">• Protege contra tremor muscular terminal</text>
   </g>
 
   <!-- Transition REFRACTORY_LOCK -> ACTIVE_MONITORING (Timeout elapsed) -->
-  <path d="M 690,380 L 640,380 L 640,180 L 685,180" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#fsmArrBlue)"/>
-  <g transform="translate(540, 260)">
-    <rect width="95" height="34" rx="4" fill="#EFF6FF" stroke="#BFDBFE"/>
-    <text x="47" y="14" text-anchor="middle" font-size="8" font-weight="bold" fill="#1E40AF">Janela Expirada</text>
-    <text x="47" y="26" text-anchor="middle" font-size="7.5" font-family="monospace" fill="#2563EB">Δt &gt;= 1,6 s</text>
+  <path d="M 715,392 L 665,392 L 665,188 L 710,188" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#fsmArr)"/>
+  <g transform="translate(560, 270)">
+    <rect width="100" height="34" rx="4" fill="#FFFFFF" stroke="#4B5563"/>
+    <text x="50" y="14" text-anchor="middle" font-size="8" font-weight="bold" fill="#111111">Janela Expirada</text>
+    <text x="50" y="26" text-anchor="middle" font-size="7.5" font-family="monospace" fill="#111111">Δt &gt;= 1,6 s</text>
   </g>
 
   <!-- ================= RESET / STOP TRANSITIONS ================= -->
   <!-- Line from Active Monitoring to Idle -->
-  <path d="M 760,75 L 760,50 L 210,50 L 210,90" fill="none" stroke="#64748B" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#fsmArrGray)"/>
-  <rect x="430" y="40" width="110" height="18" rx="4" fill="#F1F5F9" stroke="#CBD5E1"/>
-  <text x="485" y="52" text-anchor="middle" font-size="8" fill="#475569">reset() / Fim da Série</text>
+  <path d="M 785,80 L 785,55 L 220,55 L 220,95" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#fsmArr)"/>
+  <rect x="440" y="45" width="120" height="18" rx="4" fill="#FFFFFF" stroke="#9CA3AF"/>
+  <text x="500" y="57" text-anchor="middle" font-size="8" fill="#4B5563">reset() / Fim da Série</text>
 
   <!-- Line from Refractory Lock to Idle -->
-  <path d="M 815,450 L 815,490 L 210,490 L 210,190" fill="none" stroke="#64748B" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#fsmArrGray)"/>
-  <rect x="430" y="480" width="110" height="18" rx="4" fill="#F1F5F9" stroke="#CBD5E1"/>
-  <text x="485" y="492" text-anchor="middle" font-size="8" fill="#475569">reset() / Série Encerrada</text>
+  <path d="M 847,460 L 847,505 L 220,505 L 220,195" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#fsmArr)"/>
+  <rect x="440" y="495" width="120" height="18" rx="4" fill="#FFFFFF" stroke="#9CA3AF"/>
+  <text x="500" y="507" text-anchor="middle" font-size="8" fill="#4B5563">reset() / Série Encerrada</text>
 
   <!-- ================= CALLOUT BOX: Histerese Biomecânica ================= -->
-  <g transform="translate(60, 280)" filter="url(#fsmShadow)">
-    <rect width="360" height="145" rx="8" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="360" height="24" rx="8 8 0 0" fill="#334155"/>
-    <text x="180" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#FFFFFF">Fundamentação Biomecânica dos Estados</text>
+  <g transform="translate(60, 285)">
+    <rect width="380" height="150" rx="8" fill="#F9FAFB" stroke="#4B5563" stroke-width="1.5"/>
+    <rect x="0" y="0" width="380" height="24" rx="8 8 0 0" fill="#374151"/>
+    <text x="190" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#FFFFFF">Fundamentação Biomecânica dos Estados</text>
 
-    <text x="15" y="42" font-size="8.5" font-weight="bold" fill="#D97706">1. Aquecimento (8 amostras · ~1,8 s):</text>
-    <text x="25" y="56" font-size="8" fill="#475569">O atleta retira a barra do suporte ou posiciona halteres. Transientes</text>
-    <text x="25" y="68" font-size="8" fill="#475569">iniciais violam a premissa de periodicidade e devem ser filtrados.</text>
+    <text x="15" y="44" font-size="8.5" font-weight="bold" fill="#111111">1. Aquecimento (8 amostras · ~1,8 s):</text>
+    <text x="25" y="58" font-size="8" fill="#374151">O atleta retira a barra do suporte ou posiciona halteres. Transientes</text>
+    <text x="25" y="70" font-size="8" fill="#374151">iniciais violam a premissa de periodicidade e devem ser filtrados.</text>
 
-    <text x="15" y="86" font-size="8.5" font-weight="bold" fill="#DC2626">2. Janela Refratária (1,6 s):</text>
-    <text x="25" y="100" font-size="8" fill="#475569">Fisiologicamente, uma repetição dinâmica com carga não ocorre em</text>
-    <text x="25" y="112" font-size="8" fill="#475569">menos de 1,6 s. Oscilações secundárias decorrem de amortecimento</text>
-    <text x="25" y="124" font-size="8" fill="#475569">viscoelástico dos tendões e desaceleração do membro.</text>
+    <text x="15" y="90" font-size="8.5" font-weight="bold" fill="#111111">2. Janela Refratária (1,6 s):</text>
+    <text x="25" y="104" font-size="8" fill="#374151">Fisiologicamente, uma repetição dinâmica com carga não ocorre em</text>
+    <text x="25" y="116" font-size="8" fill="#374151">menos de 1,6 s. Oscilações secundárias decorrem de amortecimento</text>
+    <text x="25" y="128" font-size="8" fill="#374151">viscoelástico dos tendões e desaceleração do membro.</text>
   </g>
 </svg>

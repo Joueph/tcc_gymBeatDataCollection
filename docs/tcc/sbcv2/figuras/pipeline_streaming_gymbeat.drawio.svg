@@ -1,239 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 620" width="1020" height="620"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 650" width="1060" height="650"
      style="background-color: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif;">
-  <!-- content="&lt;mxfile&gt;&lt;diagram name=&quot;pipeline_streaming_gymbeat&quot;&gt;&lt;/diagram&gt;&lt;/mxfile&gt;" -->
+  <!-- content="<mxfile><diagram name=\"pipeline_streaming_gymbeat\"></diagram></mxfile>" -->
 
   <defs>
-    <filter id="boxShadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.08"/>
-    </filter>
-
-    <marker id="arrBlue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#2563EB"/>
+    <marker id="arr1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#111111"/>
     </marker>
-    <marker id="arrGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#16A34A"/>
-    </marker>
-    <marker id="arrPurple" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0 0, 8 3, 0 6" fill="#7C3AED"/>
-    </marker>
-
-    <linearGradient id="inputGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#EEF2FF"/>
-      <stop offset="100%" style="stop-color:#E0E7FF"/>
-    </linearGradient>
-    <linearGradient id="outputGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#DCFCE7"/>
-      <stop offset="100%" style="stop-color:#BBF7D0"/>
-    </linearGradient>
   </defs>
 
   <!-- Title & Subtitle -->
-  <text x="510" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0F172A">
+  <text x="530" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#111111">
     Pipeline de Processamento em Tempo Real (Streaming GymBeat)
   </text>
-  <text x="510" y="46" text-anchor="middle" font-size="11" fill="#64748B">
-    Classe `StreamingRepetitionCounter` (TypeScript) · Fluxo causal por amostra com latência &lt; 0,05 ms
+  <text x="530" y="50" text-anchor="middle" font-size="11" fill="#4B5563">
+    Classe StreamingRepetitionCounter (TypeScript) · Processamento causal por amostra com latência &lt; 0,05 ms
   </text>
 
   <!-- ================= INPUT NODE ================= -->
-  <g transform="translate(30, 75)" filter="url(#boxShadow)">
-    <rect width="180" height="90" rx="8" fill="url(#inputGrad)" stroke="#6366F1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="180" height="24" rx="8 8 0 0" fill="#4F46E5"/>
-    <text x="90" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">ENTRADA INERCIAL</text>
+  <g transform="translate(30, 78)">
+    <rect width="190" height="92" rx="6" fill="#F9FAFB" stroke="#111111" stroke-width="1.8"/>
+    <rect x="0" y="0" width="190" height="24" rx="6 6 0 0" fill="#111111"/>
+    <text x="95" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">ENTRADA INERCIAL</text>
 
-    <text x="90" y="42" text-anchor="middle" font-size="10" font-weight="bold" fill="#1E1B4B">Amostra Instantânea</text>
-    <text x="90" y="58" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#4338CA">s_n = [a_x, a_y, a_z]^T</text>
-    <text x="90" y="74" text-anchor="middle" font-size="8.5" fill="#6B7280">Via WCSession (BT ~4,4 Hz)</text>
-    <text x="90" y="86" text-anchor="middle" font-size="8.5" fill="#6B7280">Push O(1) no buffer circular</text>
+    <text x="95" y="44" text-anchor="middle" font-size="10" font-weight="bold" fill="#111111">Amostra Instantânea</text>
+    <text x="95" y="60" text-anchor="middle" font-size="9.5" font-family="monospace" fill="#111111">s_n = [a_x, a_y, a_z]^T</text>
+    <text x="95" y="74" text-anchor="middle" font-size="8.5" fill="#4B5563">Via WCSession (BT ~4,4 Hz)</text>
+    <text x="95" y="86" text-anchor="middle" font-size="8.5" fill="#4B5563">Push O(1) no buffer circular</text>
   </g>
 
   <!-- Arrow to Step 1 -->
-  <path d="M 210,120 L 250,120" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#arrBlue)"/>
+  <path d="M 220,124 L 260,124" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#arr1)"/>
 
   <!-- ================= ETAPA 1: Buffer Circular ================= -->
-  <g transform="translate(255, 75)" filter="url(#boxShadow)">
-    <rect width="210" height="90" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="210" height="24" rx="8 8 0 0" fill="#2563EB"/>
-    <text x="105" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">1. BUFFER CIRCULAR</text>
+  <g transform="translate(265, 78)">
+    <rect width="220" height="92" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+    <rect x="0" y="0" width="220" height="24" rx="6 6 0 0" fill="#374151"/>
+    <text x="110" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">1. BUFFER CIRCULAR</text>
 
-    <text x="15" y="42" font-size="9.5" font-weight="600" fill="#1E293B">Capacidade fixa:</text>
-    <text x="135" y="42" font-size="9.5" font-family="monospace" fill="#2563EB">W = 35 (~8 s)</text>
+    <text x="15" y="44" font-size="9.5" font-weight="bold" fill="#111111">Capacidade fixa:</text>
+    <text x="140" y="44" font-size="9.5" font-family="monospace" fill="#111111">W = 35 (~8 s)</text>
 
-    <text x="15" y="58" font-size="9.5" font-weight="600" fill="#1E293B">Complexidade:</text>
-    <text x="135" y="58" font-size="9.5" font-family="monospace" fill="#059669">O(1) sem GC</text>
+    <text x="15" y="60" font-size="9.5" font-weight="bold" fill="#111111">Complexidade:</text>
+    <text x="140" y="60" font-size="9.5" font-family="monospace" fill="#111111">O(1) sem GC</text>
 
-    <text x="15" y="74" font-size="9.5" font-weight="600" fill="#1E293B">Aquecimento:</text>
-    <text x="135" y="74" font-size="9.5" font-family="monospace" fill="#D97706">N &gt;= 8 amostras</text>
+    <text x="15" y="76" font-size="9.5" font-weight="bold" fill="#111111">Aquecimento:</text>
+    <text x="140" y="76" font-size="9.5" font-family="monospace" fill="#111111">N &gt;= 8 amostras</text>
   </g>
 
   <!-- Arrow to Step 2 -->
-  <path d="M 465,120 L 505,120" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#arrBlue)"/>
+  <path d="M 485,124 L 525,124" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#arr1)"/>
 
   <!-- ================= ETAPA 2: Moving PCA ================= -->
-  <g transform="translate(510, 75)" filter="url(#boxShadow)">
-    <rect width="235" height="90" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="235" height="24" rx="8 8 0 0" fill="#7C3AED"/>
-    <text x="117" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">2. MOVING PCA (3D → 1D)</text>
+  <g transform="translate(530, 78)">
+    <rect width="245" height="92" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+    <rect x="0" y="0" width="245" height="24" rx="6 6 0 0" fill="#374151"/>
+    <text x="122" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">2. MOVING PCA (3D → 1D)</text>
 
-    <text x="15" y="42" font-size="9" fill="#1E293B">Matriz Covariância 3x3:</text>
-    <text x="145" y="42" font-size="9" font-family="monospace" fill="#7C3AED">C = (1/N) a_c^T a_c</text>
+    <text x="15" y="44" font-size="9" fill="#111111">Matriz Covariância 3x3:</text>
+    <text x="155" y="44" font-size="9" font-family="monospace" fill="#111111">C = (1/N) a_c^T a_c</text>
 
-    <text x="15" y="58" font-size="9" fill="#1E293B">Power Iteration:</text>
-    <text x="145" y="58" font-size="9" font-family="monospace" fill="#7C3AED">25 iters → v_1</text>
+    <text x="15" y="60" font-size="9" fill="#111111">Power Iteration:</text>
+    <text x="155" y="60" font-size="9" font-family="monospace" fill="#111111">25 iters → v_1</text>
 
-    <text x="15" y="74" font-size="9" fill="#1E293B">Alinhamento Polaridade:</text>
-    <text x="145" y="74" font-size="9" font-family="monospace" fill="#D97706">skewness γ_1 &gt; 0</text>
+    <text x="15" y="76" font-size="9" fill="#111111">Alinhamento Polaridade:</text>
+    <text x="155" y="76" font-size="9" font-family="monospace" font-weight="bold" fill="#111111">skewness γ_1 &gt; 0</text>
   </g>
 
   <!-- Arrow to Step 3 -->
-  <path d="M 745,120 L 785,120" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#arrBlue)"/>
+  <path d="M 775,124 L 815,124" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#arr1)"/>
 
   <!-- ================= ETAPA 3: Projeção Instantânea ================= -->
-  <g transform="translate(790, 75)" filter="url(#boxShadow)">
-    <rect width="200" height="90" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="200" height="24" rx="8 8 0 0" fill="#0D9488"/>
-    <text x="100" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">3. PROJEÇÃO ESCALAR</text>
+  <g transform="translate(820, 78)">
+    <rect width="210" height="92" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+    <rect x="0" y="0" width="210" height="24" rx="6 6 0 0" fill="#374151"/>
+    <text x="105" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">3. PROJEÇÃO ESCALAR</text>
 
-    <text x="100" y="44" text-anchor="middle" font-size="9.5" font-weight="600" fill="#134E4A">Projeção no Eixo Principal</text>
-    <rect x="18" y="52" width="164" height="24" rx="4" fill="#F0FDFA" stroke="#99F6E4"/>
-    <text x="100" y="68" text-anchor="middle" font-size="10" font-family="monospace" font-weight="bold" fill="#0F766E">p(t) = a(t) · v_1</text>
+    <text x="105" y="44" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#111111">Produto Escalar 1D</text>
+    <rect x="20" y="52" width="170" height="24" rx="4" fill="#F3F4F6" stroke="#4B5563"/>
+    <text x="105" y="68" text-anchor="middle" font-size="9.5" font-family="monospace" font-weight="bold" fill="#111111">p = a_x v_x + a_y v_y + a_z v_z</text>
+    <text x="105" y="86" text-anchor="middle" font-size="8.5" fill="#4B5563">Sinal 1D alinhado na crista</text>
   </g>
 
   <!-- Arrow from Step 3 down to Step 4 -->
-  <path d="M 890,165 L 890,205 L 890,225" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#arrBlue)"/>
-  <rect x="850" y="185" width="80" height="18" rx="4" fill="#EFF6FF" stroke="#BFDBFE"/>
-  <text x="890" y="197" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#1E40AF">p(t) escalar</text>
+  <path d="M 925,170 L 925,235" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#arr1)"/>
+  <rect x="880" y="195" width="90" height="18" rx="4" fill="#F3F4F6" stroke="#4B5563"/>
+  <text x="925" y="207" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#111111">Escalar p(t)</text>
 
-  <!-- ================= ETAPA 4: Filtragem Causal IIR ================= -->
-  <g transform="translate(745, 230)" filter="url(#boxShadow)">
-    <rect width="245" height="105" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="245" height="24" rx="8 8 0 0" fill="#2563EB"/>
-    <text x="122" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">4. FILTRAGEM CAUSAL IIR</text>
+  <!-- ================= ETAPA 4: Filtro IIR Biquad Causal ================= -->
+  <g transform="translate(760, 240)">
+    <rect width="270" height="105" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+    <rect x="0" y="0" width="270" height="24" rx="6 6 0 0" fill="#374151"/>
+    <text x="135" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">4. FILTRAGEM CAUSAL IIR</text>
 
-    <text x="15" y="44" font-size="9.5" fill="#1E293B">Topologia:</text>
-    <text x="110" y="44" font-size="9.5" font-weight="600" fill="#2563EB">Biquad DF-II Transposta</text>
+    <text x="15" y="44" font-size="9" fill="#111111">Butterworth 2ª Ordem (Direta II Transposta):</text>
+    <rect x="15" y="50" width="240" height="24" rx="4" fill="#F3F4F6" stroke="#4B5563"/>
+    <text x="135" y="66" text-anchor="middle" font-size="8.5" font-family="monospace" fill="#111111">y[n] = b0 x[n] + b1 x[n-1] ... - a1 y[n-1]</text>
 
-    <text x="15" y="60" font-size="9.5" fill="#1E293B">Corte:</text>
-    <text x="110" y="60" font-size="9.5" font-family="monospace" fill="#059669">f_c = 1,2 Hz (Butterworth)</text>
-
-    <text x="15" y="76" font-size="9.5" fill="#1E293B">Memória:</text>
-    <text x="110" y="76" font-size="9.5" font-family="monospace" fill="#7C3AED">w_1, w_2 persistentes (O(1))</text>
-
-    <text x="15" y="94" font-size="8.5" fill="#64748B">Remove tremor / ruído de alta freq.</text>
+    <text x="15" y="90" font-size="9" fill="#111111">Corte: fc = min(1,2 Hz; 0,4 fs) · Atraso ~120 ms</text>
   </g>
 
   <!-- Arrow from Step 4 left to Step 5 -->
-  <path d="M 745,282 L 675,282" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#arrBlue)"/>
-  <rect x="682" y="265" width="55" height="16" rx="3" fill="#EFF6FF" stroke="#BFDBFE"/>
-  <text x="709" y="276" text-anchor="middle" font-size="8" font-weight="bold" fill="#1E40AF">s(t) filtrado</text>
+  <path d="M 760,292 L 710,292" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#arr1)"/>
+  <rect x="715" y="278" width="40" height="16" rx="3" fill="#F3F4F6" stroke="#4B5563"/>
+  <text x="735" y="290" text-anchor="middle" font-size="8" font-weight="bold" fill="#111111">y[n]</text>
 
-  <!-- ================= ETAPA 5: Normalização z-score ================= -->
-  <g transform="translate(425, 230)" filter="url(#boxShadow)">
-    <rect width="245" height="105" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="245" height="24" rx="8 8 0 0" fill="#475569"/>
-    <text x="122" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">5. NORMALIZAÇÃO DESLIZANTE</text>
+  <!-- ================= ETAPA 5: Normalização z-Score ================= -->
+  <g transform="translate(435, 240)">
+    <rect width="270" height="105" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+    <rect x="0" y="0" width="270" height="24" rx="6 6 0 0" fill="#374151"/>
+    <text x="135" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">5. NORMALIZAÇÃO z-SCORE</text>
 
-    <text x="15" y="44" font-size="9.5" fill="#1E293B">Estatística da Janela:</text>
-    <text x="140" y="44" font-size="9" font-family="monospace" fill="#475569">μ, σ em buffer(W)</text>
+    <text x="15" y="44" font-size="9" fill="#111111">Média e Desvio Padrão Móveis:</text>
+    <rect x="15" y="50" width="240" height="24" rx="4" fill="#F3F4F6" stroke="#4B5563"/>
+    <text x="135" y="66" text-anchor="middle" font-size="9.5" font-family="monospace" font-weight="bold" fill="#111111">s = (filtPca - μ) / (σ + 10⁻⁶)</text>
 
-    <rect x="25" y="52" width="195" height="22" rx="4" fill="#F8FAFC" stroke="#E2E8F0"/>
-    <text x="122" y="67" text-anchor="middle" font-size="9.5" font-family="monospace" font-weight="bold" fill="#334155">z = (s(t) - μ) / (σ + 1e-6)</text>
-
-    <text x="122" y="93" text-anchor="middle" font-size="8.5" fill="#64748B">Torna o algoritmo invariante à intensidade</text>
+    <text x="15" y="90" font-size="9" fill="#111111">Adaptação à fadiga muscular ao longo da série</text>
   </g>
 
   <!-- Arrow from Step 5 left to Step 6 -->
-  <path d="M 425,282 L 355,282" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#arrBlue)"/>
-  <rect x="362" y="265" width="55" height="16" rx="3" fill="#EFF6FF" stroke="#BFDBFE"/>
-  <text x="389" y="276" text-anchor="middle" font-size="8" font-weight="bold" fill="#1E40AF">z(t) norm</text>
+  <path d="M 435,292 L 375,292" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#arr1)"/>
+  <rect x="380" y="278" width="50" height="16" rx="3" fill="#F3F4F6" stroke="#4B5563"/>
+  <text x="405" y="290" text-anchor="middle" font-size="8" font-weight="bold" fill="#111111">s[n]</text>
 
   <!-- ================= ETAPA 6: Detecção de Crista Local ================= -->
-  <g transform="translate(100, 230)" filter="url(#boxShadow)">
-    <rect width="250" height="105" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="250" height="24" rx="8 8 0 0" fill="#D97706"/>
-    <text x="125" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">6. DETECÇÃO DE CRISTA LOCAL</text>
+  <g transform="translate(100, 240)">
+    <rect width="270" height="105" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+    <rect x="0" y="0" width="270" height="24" rx="6 6 0 0" fill="#374151"/>
+    <text x="135" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">6. DETECÇÃO DE CRISTA LOCAL</text>
 
-    <text x="15" y="44" font-size="9" fill="#1E293B">Avaliação no instante anterior (n-1):</text>
-    <rect x="15" y="50" width="220" height="24" rx="4" fill="#FEF3C7" stroke="#FDE68A"/>
-    <text x="125" y="66" text-anchor="middle" font-size="9.5" font-family="monospace" font-weight="bold" fill="#92400E">s_{n-1} &gt; s_{n-2}  e  s_{n-1} &gt;= s_n</text>
+    <text x="15" y="44" font-size="9" fill="#111111">Avaliação no instante anterior (n-1):</text>
+    <rect x="15" y="50" width="240" height="24" rx="4" fill="#F3F4F6" stroke="#4B5563"/>
+    <text x="135" y="66" text-anchor="middle" font-size="9" font-family="monospace" font-weight="bold" fill="#111111">s_{n-1} &gt; s_{n-2}  e  s_{n-1} &gt;= s_n</text>
 
-    <text x="15" y="90" font-size="9" fill="#1E293B">Limiar mínimo:</text>
-    <text x="110" y="90" font-size="9" font-family="monospace" font-weight="bold" fill="#B45309">s_{n-1} &gt;= h_min (0,25)</text>
+    <text x="15" y="90" font-size="9" fill="#111111">Limiar mínimo: s_{n-1} &gt;= h_min (0,25)</text>
   </g>
 
   <!-- Arrow from Step 6 down to Step 7 -->
-  <path d="M 225,335 L 225,385" fill="none" stroke="#2563EB" stroke-width="2" marker-end="url(#arrBlue)"/>
-  <rect x="180" y="350" width="90" height="18" rx="4" fill="#FEF3C7" stroke="#FDE68A"/>
-  <text x="225" y="362" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#B45309">Crista Candidata</text>
+  <path d="M 235,345 L 235,395" fill="none" stroke="#111111" stroke-width="2" marker-end="url(#arr1)"/>
+  <rect x="185" y="360" width="100" height="18" rx="4" fill="#F3F4F6" stroke="#4B5563"/>
+  <text x="235" y="372" text-anchor="middle" font-size="8.5" font-weight="bold" fill="#111111">Crista Candidata</text>
 
   <!-- ================= ETAPA 7: Validação Refratária Fisiológica ================= -->
-  <g transform="translate(100, 390)" filter="url(#boxShadow)">
-    <rect width="360" height="120" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="360" height="24" rx="8 8 0 0" fill="#DC2626"/>
-    <text x="180" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">7. VALIDAÇÃO POR JANELA REFRATÁRIA</text>
+  <g transform="translate(60, 400)">
+    <rect width="400" height="120" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+    <rect x="0" y="0" width="400" height="24" rx="6 6 0 0" fill="#111111"/>
+    <text x="200" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#FFFFFF">7. VALIDAÇÃO POR JANELA REFRATÁRIA</text>
 
-    <text x="15" y="44" font-size="9.5" font-weight="600" fill="#1E293B">Critério Biomecânico Temporal:</text>
-    <rect x="15" y="52" width="330" height="26" rx="4" fill="#FEF2F2" stroke="#FECACA"/>
-    <text x="180" y="69" text-anchor="middle" font-size="10" font-family="monospace" font-weight="bold" fill="#991B1B">Δt = (idx_pico - idx_ultimoPico) / f_s &gt;= t_min</text>
+    <text x="15" y="44" font-size="9.5" font-weight="bold" fill="#111111">Critério Biomecânico Temporal:</text>
+    <rect x="15" y="52" width="370" height="26" rx="4" fill="#F9FAFB" stroke="#4B5563"/>
+    <text x="200" y="69" text-anchor="middle" font-size="9.5" font-family="monospace" font-weight="bold" fill="#111111">Δt = (idx_pico - idx_ultimoPico) / f_s &gt;= t_min</text>
 
-    <text x="15" y="94" font-size="9" fill="#1E293B">Janela Fisiológica:</text>
-    <text x="125" y="94" font-size="9" font-family="monospace" font-weight="bold" fill="#B91C1C">t_min = 1,6 s (~7 amostras)</text>
+    <text x="15" y="94" font-size="9" font-weight="bold" fill="#111111">Janela Fisiológica:</text>
+    <text x="125" y="94" font-size="9" font-family="monospace" fill="#111111">t_min = 1,6 s (~7 amostras)</text>
 
-    <text x="15" y="108" font-size="8.5" fill="#64748B">Descarta oscilações secundárias e ricochete elástico</text>
+    <text x="15" y="110" font-size="8.5" fill="#4B5563">Descarta oscilações secundárias e ricochete elástico</text>
   </g>
 
   <!-- Decision Fork: SIM / NÃO -->
-  <!-- SIM to Output -->
-  <path d="M 460,450 L 540,450" fill="none" stroke="#16A34A" stroke-width="2.5" marker-end="url(#arrGreen)"/>
-  <rect x="475" y="432" width="50" height="18" rx="4" fill="#DCFCE7" stroke="#86EFAC"/>
-  <text x="500" y="444" text-anchor="middle" font-size="9" font-weight="bold" fill="#166534">SIM</text>
-
-  <!-- NÃO loop back -->
-  <path d="M 280,510 L 280,540 L 40,540 L 40,282 L 95,282" fill="none" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <rect x="120" y="530" width="100" height="18" rx="4" fill="#F1F5F9" stroke="#CBD5E1"/>
-  <text x="170" y="542" text-anchor="middle" font-size="8.5" fill="#64748B">NÃO (Descarte / Ruído)</text>
+  <path d="M 460,460 L 530,460" fill="none" stroke="#111111" stroke-width="2.5" marker-end="url(#arr1)"/>
+  <rect x="475" y="442" width="45" height="18" rx="4" fill="#111111"/>
+  <text x="497" y="455" text-anchor="middle" font-size="9" font-weight="bold" fill="#FFFFFF">SIM</text>
 
   <!-- ================= OUTPUT NODE: REPETIÇÃO CONFIRMADA ================= -->
-  <g transform="translate(545, 385)" filter="url(#boxShadow)">
-    <rect width="445" height="130" rx="8" fill="url(#outputGrad)" stroke="#16A34A" stroke-width="2"/>
-    <rect x="0" y="0" width="445" height="26" rx="8 8 0 0" fill="#15803D"/>
-    <text x="222" y="18" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">EVENTO: REPETIÇÃO VÁLIDA CONFIRMADA</text>
+  <g transform="translate(535, 395)">
+    <rect width="495" height="130" rx="8" fill="#F3F4F6" stroke="#111111" stroke-width="2.2"/>
+    <rect x="0" y="0" width="495" height="26" rx="8 8 0 0" fill="#111111"/>
+    <text x="247" y="18" text-anchor="middle" font-size="11" font-weight="bold" fill="#FFFFFF">EVENTO: REPETIÇÃO VÁLIDA CONFIRMADA</text>
 
     <!-- Sub-actions in output -->
     <g transform="translate(15, 36)">
-      <!-- Counter increment -->
-      <rect x="0" y="0" width="130" height="80" rx="6" fill="#FFFFFF" stroke="#86EFAC"/>
-      <text x="65" y="18" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#166534">1. Contador</text>
-      <text x="65" y="46" text-anchor="middle" font-size="20" font-family="monospace" font-weight="bold" fill="#15803D">reps++</text>
-      <text x="65" y="66" text-anchor="middle" font-size="8" fill="#4B5563">currentReps += 1</text>
+      <rect x="0" y="0" width="145" height="80" rx="6" fill="#FFFFFF" stroke="#374151" stroke-width="1.2"/>
+      <text x="72" y="18" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#111111">1. Contador</text>
+      <text x="72" y="48" text-anchor="middle" font-size="20" font-family="monospace" font-weight="bold" fill="#111111">reps++</text>
+      <text x="72" y="68" text-anchor="middle" font-size="8" fill="#4B5563">currentReps += 1</text>
     </g>
 
-    <g transform="translate(155, 36)">
-      <!-- Haptic Pulse -->
-      <rect x="0" y="0" width="130" height="80" rx="6" fill="#FFFFFF" stroke="#86EFAC"/>
-      <text x="65" y="18" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#166534">2. Feedback Tátil</text>
-      <text x="65" y="40" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563EB">Vibration</text>
-      <text x="65" y="56" text-anchor="middle" font-size="9" font-family="monospace" fill="#1D4ED8">.vibrate(45 ms)</text>
-      <text x="65" y="70" text-anchor="middle" font-size="8" fill="#4B5563">Pulso curto no iPhone</text>
+    <g transform="translate(175, 36)">
+      <rect x="0" y="0" width="145" height="80" rx="6" fill="#FFFFFF" stroke="#374151" stroke-width="1.2"/>
+      <text x="72" y="18" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#111111">2. Feedback Tátil</text>
+      <text x="72" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#111111">Vibration</text>
+      <text x="72" y="56" text-anchor="middle" font-size="9" font-family="monospace" fill="#111111">.vibrate(45 ms)</text>
+      <text x="72" y="70" text-anchor="middle" font-size="8" fill="#4B5563">Pulso tátil imediato</text>
     </g>
 
-    <g transform="translate(295, 36)">
-      <!-- Live HUD -->
-      <rect x="0" y="0" width="135" height="80" rx="6" fill="#FFFFFF" stroke="#86EFAC"/>
-      <text x="67" y="18" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#166534">3. Display HUD</text>
-      <text x="67" y="40" text-anchor="middle" font-size="12" font-weight="bold" fill="#047857">Card 52 px</text>
-      <text x="67" y="55" text-anchor="middle" font-size="8" font-family="monospace" fill="#065F46">tabular-nums</text>
-      <text x="67" y="68" text-anchor="middle" font-size="8" fill="#4B5563">Borda verde pulsante</text>
+    <g transform="translate(335, 36)">
+      <rect x="0" y="0" width="145" height="80" rx="6" fill="#FFFFFF" stroke="#374151" stroke-width="1.2"/>
+      <text x="72" y="18" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#111111">3. Display HUD</text>
+      <text x="72" y="42" text-anchor="middle" font-size="12" font-weight="bold" fill="#111111">Card 52 px</text>
+      <text x="72" y="56" text-anchor="middle" font-size="8.5" font-family="monospace" fill="#111111">tabular-nums</text>
+      <text x="72" y="70" text-anchor="middle" font-size="8" fill="#4B5563">Contagem visível</text>
     </g>
   </g>
 
   <!-- Bottom Badge: Performance -->
-  <g transform="translate(30, 580)">
-    <rect x="0" y="0" width="960" height="28" rx="6" fill="#F8FAFC" stroke="#E2E8F0"/>
-    <text x="20" y="18" font-size="9.5" font-weight="600" fill="#0F172A">Garantias de Desempenho:</text>
-    <text x="180" y="18" font-size="9.5" fill="#475569">Tempo de execução por amostra: &lt; 0,05 ms · Taxa de amostragem: ~4,4 Hz · Uso de CPU do iPhone: &lt; 1,2%</text>
-    <text x="940" y="18" text-anchor="end" font-size="9" font-family="monospace" font-weight="bold" fill="#16A34A">LATÊNCIA PERCEPTUAL: ZERO</text>
+  <g transform="translate(30, 595)">
+    <rect x="0" y="0" width="1000" height="28" rx="4" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1"/>
+    <text x="20" y="18" font-size="9.5" font-weight="bold" fill="#111111">Garantias de Desempenho:</text>
+    <text x="185" y="18" font-size="9.5" fill="#374151">Tempo de execução por amostra: &lt; 0,045 ms · Taxa sustentada: ~4,4 Hz · Uso de CPU do iPhone: &lt; 1,2%</text>
+    <text x="980" y="18" text-anchor="end" font-size="9.5" font-family="monospace" font-weight="bold" fill="#111111">LATÊNCIA PERCEPTUAL: ZERO</text>
   </g>
 </svg>

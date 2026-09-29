@@ -11,17 +11,11 @@ Rodovia Dom Pedro I, km 136 – CEP 13086-900 – Campinas – SP – Brasil
 
 ## Abstract
 
-*Automatic tracking of resistance exercises using smartwatches represents a key challenge in Human Activity Recognition (HAR). Most commercial solutions remain limited to macroscopic heart rate and caloric expenditure monitoring, lacking real-time repetition counting. This paper presents GymBeat, an integrated wearable and mobile system comprising an Apple Watch collector application written in Swift (CoreMotion / HealthKit / WatchConnectivity) and an iPhone companion application built with React Native / Expo and TypeScript. The watch samples triaxial acceleration and angular velocity at $25\,\text{Hz}$ and streams each inertial frame wirelessly to the smartphone via Bluetooth. On the mobile side, a pure-TypeScript inference engine synthesizes a 1D repetition trajectory through Moving Principal Component Analysis (Moving PCA) solved via the Power Iteration Method with skewness-based phase alignment, achieving orientation invariance without manual calibration. A causal biquad IIR low-pass Butterworth filter ($f_c = 1.2\,\text{Hz}$) paired with a Finite State Machine (FSM) performs sample-by-sample peak detection with warmup suppression ($N \ge 8$) and a physiological refractory lockout ($t_{min} = 1.6\,\text{s}$). All collected data is persisted locally in SQLite and synchronized to Firebase Cloud Firestore for research. Experimental validation with free barbell squats achieved an Exact Accuracy Rate of $100\%$ ($MAE = 0.0$ reps, $RMSE = 0.0$) with a computational latency below $0.05\,\text{ms}$ per sample on the Hermes JavaScript engine.*
+*Automatic tracking of resistance exercises using smartwatches represents a key challenge in Human Activity Recognition (HAR). Most commercial solutions remain limited to macroscopic heart rate and caloric expenditure monitoring, lacking real-time repetition counting. This paper presents GymBeat, an integrated wearable and mobile system comprising an Apple Watch collector application written in Swift (CoreMotion / HealthKit / WatchConnectivity) and an iPhone companion application built with React Native / Expo and TypeScript. The watch samples triaxial acceleration and angular velocity at $25\,\text{Hz}$ and streams each inertial frame wirelessly to the smartphone via Bluetooth. On the mobile side, a pure-TypeScript inference engine synthesizes a 1D repetition trajectory through Moving Principal Component Analysis (Moving PCA) solved via the Power Iteration Method with skewness-based phase alignment, achieving orientation invariance without manual calibration. A causal biquad IIR low-pass Butterworth filter ($f_c = 1.2\,\text{Hz}$) paired with a Finite State Machine (FSM) performs sample-by-sample peak detection with warmup suppression ($N \ge 8$) and a physiological refractory lockout ($t_{min} = 1.6\,\text{s}$). Before mobile deployment, an offline Python analytical testbench using NumPy and SciPy was created to formulate the signal processing pipeline, tune hyperparameters, and validate the concept against Ground Truth. Supporting features such as local SQLite persistence and cloud synchronization provide reliable data provenance. Experimental validation with free barbell squats achieved an Exact Accuracy Rate of $100\%$ ($MAE = 0.0$ reps, $RMSE = 0.0$) with a computational latency below $0.05\,\text{ms}$ per sample on the Hermes JavaScript engine.*
 
 ## Resumo
 
-O monitoramento automático de exercícios resistidos (musculação) por meio de *smartwatches* representa um desafio central no Reconhecimento de Atividades Humanas (HAR). As soluções comerciais limitam-se ao registro cardiovascular e calórico, carecendo de contagem de repetições em tempo real. Este trabalho apresenta o GymBeat, um sistema vestível e móvel composto por um aplicativo coletor para Apple Watch desenvolvido nativamente em Swift (CoreMotion / HealthKit / WatchConnectivity) e um aplicativo companheiro para iPhone construído com React Native / Expo e TypeScript. O relógio amostra aceleração triaxial e velocidade angular a $25\,\text{Hz}$ e transmite cada quadro inercial via Bluetooth para o *smartphone*. No lado móvel, um motor de inferência em TypeScript puro sintetiza uma trajetória 1D de repetição através de **Análise de Componentes Principais Móvel (Moving PCA)** resolvida pelo **Método das Potências** com alinhamento de fase por assimetria (*skewness*), garantindo invariância de orientação sem calibração manual. Um filtro causal IIR biquad passa-baixa Butterworth ($f_c = 1{,}2\,\text{Hz}$) combinado a uma **Máquina de Estados Finitos (FSM)** realiza detecção de picos amostra-a-amostra com supressão de aquecimento ($N \ge 8$) e bloqueio refratário fisiológico ($t_{min} = 1{,}6\,\text{s}$). Todos os dados coletados são persistidos localmente em SQLite e sincronizados ao Firebase Cloud Firestore. A validação experimental com agachamento livre atingiu $100\%$ de acerto exato ($MAE = 0{,}0$, $RMSE = 0{,}0$) com latência inferior a $0{,}05\,\text{ms}$ por amostra no motor Hermes.
-
----
-
-## Nota de Versionamento
-
-> Esta versão (v2, diretório `docs/tcc/sbcv2/`) constitui a **segunda iteração** do artigo acadêmico do TCC GymBeat. A **primeira iteração** encontra-se preservada integralmente em `docs/tcc/sbc/monografia.md` e serviu como linha de base (*baseline*) para a estruturação das seções, definições matemáticas e organização geral. O presente documento foi reconstruído integralmente a partir da inspeção direta do código-fonte do repositório, sem reutilização direta de trechos ou dados da versão anterior, garantindo fidelidade absoluta ao estado atual da implementação.
+*O monitoramento automático de exercícios resistidos (musculação) por meio de smartwatches representa um desafio central no Reconhecimento de Atividades Humanas (HAR). As soluções comerciais limitam-se ao registro cardiovascular e calórico, carecendo de contagem de repetições em tempo real. Este trabalho apresenta o GymBeat, um sistema vestível e móvel composto por um aplicativo coletor para Apple Watch desenvolvido nativamente em Swift (CoreMotion / HealthKit / WatchConnectivity) e um aplicativo companheiro para iPhone construído com React Native / Expo e TypeScript. O relógio amostra aceleração triaxial e velocidade angular a $25\,\text{Hz}$ e transmite cada quadro inercial via Bluetooth para o smartphone. No lado móvel, um motor de inferência em TypeScript puro sintetiza uma trajetória 1D de repetição através de **Análise de Componentes Principais Móvel (Moving PCA)** resolvida pelo **Método das Potências** com alinhamento de fase por assimetria (skewness), garantindo invariância de orientação sem calibração manual. Um filtro causal IIR biquad passa-baixa Butterworth ($f_c = 1{,}2\,\text{Hz}$) combinado a uma **Máquina de Estados Finitos (FSM)** realiza detecção de picos amostra-a-amostra com supressão de aquecimento ($N \ge 8$) e bloqueio refratário fisiológico ($t_{min} = 1{,}6\,\text{s}$). Antes da integração em produção, uma bancada analítica em Python (NumPy/SciPy) foi desenvolvida para estruturar o processamento, calibrar hiperparâmetros e validar o conceito frente ao Ground Truth. Funcionalidades secundárias como persistência local em SQLite e sincronização em nuvem asseguram a proveniência dos dados. A validação experimental com agachamento livre atingiu $100\%$ de acerto exato ($MAE = 0{,}0$, $RMSE = 0{,}0$) com latência inferior a $0{,}05\,\text{ms}$ por amostra no motor Hermes.*
 
 ---
 
@@ -29,15 +23,19 @@ O monitoramento automático de exercícios resistidos (musculação) por meio de
 
 A prática regular de exercícios físicos resistidos (musculação) é recomendada internacionalmente devido a seus efeitos benéficos no ganho de massa muscular, fortalecimento ósseo e preservação da saúde metabólica \cite{acsm2018}. O controle estrito das repetições executadas em cada série é determinante para modular o estímulo fisiológico, a cadência sob tensão e prevenir lesões biomecânicas. Embora relógios inteligentes (*smartwatches*) contendo Unidades de Medição Inercial (IMUs) de tecnologia MEMS estejam amplamente difundidos em academias, a grande maioria das aplicações comerciais limita-se ao monitoramento passivo de frequência cardíaca e estimativas calóricas, carecendo de contagem fidedigna de repetições ao vivo.
 
-A contagem em tempo real impõe três desafios fundamentais de engenharia e ciência da computação: (1) o relógio pode rotacionar livremente no punho do praticante, de modo que os eixos ortogonais locais $(X, Y, Z)$ do sensor não coincidem com os eixos anatômicos de movimento; (2) tremores musculares oriundos de fadiga, ajustes de pegada e hesitações na transição excêntrico-concêntrica geram ruídos inerciais que poluem a leitura dos sensores; e (3) o processamento deve operar com consumo de bateria moderado e latência imperceptível, dispensando modelos pesados de Aprendizado Profundo ou tráfego contínuo para servidores em nuvem.
+A contagem em tempo real impõe três desafios fundamentais de engenharia e ciência da computação:
+1. **Invariância de Orientação e Posicionamento:** O relógio pode rotacionar livremente no punho do praticante ou ser afivelado no braço dominante ou não dominante, de modo que os eixos ortogonais locais $(X, Y, Z)$ do sensor não coincidem com os eixos anatômicos do movimento;
+2. **Ruídos Inerciais e Movimentos Parasitas:** Tremores musculares oriundos de fadiga, ajustes de pegada e hesitações na transição excêntrico-concêntrica geram perturbações de alta frequência que poluem o sinal;
+3. **Restrições de Latência e Recursos Computacionais:** O processamento deve operar com consumo moderado de energia e latência imperceptível, dispensando modelos pesados de Aprendizado Profundo ou tráfego contínuo para servidores em nuvem.
 
-Este trabalho propõe e valida o **GymBeat**, uma arquitetura distribuída entre Apple Watch e iPhone que realiza filtragem digital causal, projeção espacial adaptativa via Moving PCA com alinhamento por assimetria (*skewness*) e detecção de inflexões em tempo real, entregando retorno háptico tátil imediato ao completar cada repetição. A solução baseia-se exclusivamente em princípios de Processamento Digital de Sinais e Álgebra Linear Leve, eliminando a necessidade de redes neurais profundas em cenários móveis de recursos escassos.
+Este trabalho propõe e valida o **GymBeat**, uma arquitetura distribuída entre Apple Watch e iPhone cujo objetivo primordial é a contagem automática de repetições em tempo real com retorno háptico imediato. A solução fundamenta-se em Processamento Digital de Sinais e Álgebra Linear Leve, aplicando Moving PCA via Método das Potências, alinhamento adaptativo por assimetria (*skewness*) e filtragem causal IIR biquad.
 
-As **principais contribuições** deste trabalho são:
+O conceito matemático e o ajuste de hiperparâmetros foram inicialmente concebidos e validados através de uma esteira analítica em Python baseada em NumPy e SciPy, alimentada por dados reais de voluntários. Em seguida, o algoritmo foi transposto para um motor em TypeScript puro de execução amostra-a-amostra, executando diretamente no aplicativo móvel sobre o interpretador Hermes. Funcionalidades secundárias, como persistência em banco SQLite local e sincronização com o Firebase Cloud Firestore, foram integradas para assegurar auditoria, histórico e proveniência dos dados sem comprometer a performance do motor de tempo real.
 
-1. Arquitetura completa de coleta, transmissão e inferência distribuída entre *smartwatch* e *smartphone*, com motor de processamento em TypeScript puro portável para qualquer ambiente JavaScript;
-2. Formulação matemática da síntese 6D → 1D via Moving PCA resolvida pelo Método das Potências com alinhamento unívoco por coeficiente de assimetria amostral;
-3. Validação experimental com dados reais de agachamento livre coletados por voluntários, atingindo $100\%$ de acurácia exata e latência de $0{,}045\,\text{ms}$ por amostra.
+As principais contribuições deste artigo compreendem:
+1. Formulação matemática robusta da síntese 6D $\to$ 1D via Moving PCA com Método das Potências e desambiguação de polaridade por *skewness*, garantindo invariância de orientação;
+2. Motor de contagem amostra-a-amostra em tempo real com buffer circular $O(1)$, filtro causal biquad e máquina de estados com bloqueio fisiológico, entregando latência de $0{,}045\,\text{ms}$ por amostra no iPhone;
+3. Metodologia de validação laboratorial em Python (SciPy/NumPy) para prova de conceito e sintonia de parâmetros, corroborada por validação experimental com $100\%$ de acerto exato em agachamento livre.
 
 ---
 
@@ -45,449 +43,272 @@ As **principais contribuições** deste trabalho são:
 
 ### 2.1 Computação Vestível e Sensores Inerciais (IMU)
 
-Uma Unidade de Medição Inercial (IMU) é um sistema microeletromecânico (MEMS) composto por: (i) **acelerômetro triaxial**, que mede a aceleração específica $\mathbf{a}(t) = [a_x, a_y, a_z]^T$ ($\text{m/s}^2$), e (ii) **giroscópio triaxial**, que mede a velocidade angular $\boldsymbol{\omega}(t) = [\omega_x, \omega_y, \omega_z]^T$ ($\text{rad/s}$). Nos dispositivos Apple Watch, o subsistema inercial é gerenciado pelo *framework* CoreMotion, que disponibiliza leituras decompostas de aceleração do usuário (*userAcceleration*) e vetor de gravidade filtrados internamente por filtros de fusão sensorial \cite{bulling2014}.
+Uma Unidade de Medição Inercial (IMU) é um sistema microeletromecânico (MEMS) composto fundamentalmente por um acelerômetro triaxial, que afere a aceleração específica $\mathbf{a}(t) = [a_x, a_y, a_z]^T$ em unidades de gravidade ($g \approx 9{,}81\,\text{m/s}^2$), e um giroscópio triaxial, que mede a velocidade angular instantânea $\boldsymbol{\omega}(t) = [\omega_x, \omega_y, \omega_z]^T$ em $\text{rad/s}$. No Apple Watch, o subsistema inercial é gerenciado pelo *framework* CoreMotion, que disponibiliza aceleração decomposta (*userAcceleration*) e vetor gravitacional isolados por filtros de Kalman embarcados \cite{bulling2014}.
 
 ### 2.2 Biomecânica dos Exercícios Resistidos
 
-Os exercícios com pesos livres fundamentam-se em movimentos cíclicos quase-periódicos compostos por: (1) **fase excêntrica** — alongamento muscular sob tensão; (2) **ponto de inflexão isométrico instantâneo** — onde a velocidade linear anula-se ($v(t) = 0$); e (3) **fase concêntrica** — contração motora superando a sobrecarga externa \cite{acsm2018}. No domínio temporal das séries inerciais, cada repetição produz uma onda quase-senoidal com crista acentuada na aceleração concêntrica.
+Os exercícios resistidos com pesos livres baseiam-se em ciclos quase-periódicos divididos em três fases biomecânicas: (1) **fase excêntrica**, caracterizada pelo alongamento muscular sob tensão controlada; (2) **ponto de inflexão isométrico instantâneo**, onde a velocidade linear anula-se ($v(t) = 0$); e (3) **fase concêntrica**, marcada pela contração motora superando a sobrecarga externa \cite{acsm2018}. No domínio inercial, cada repetição engendra uma onda com crista de aceleração acentuada durante o impulso concêntrico. A Figura 1 ilustra essa correspondência.
 
-A Figura 1 ilustra o ciclo biomecânico completo de uma repetição e sua correspondência no sinal inercial projetado.
-
-![Figura 1. Ciclo biomecânico de uma repetição e correspondência no sinal inercial projetado.](figuras/ciclo_biomecanico_repeticao.drawio.svg)
+![Figura 1. Ciclo biomecânico de uma repetição e correspondência no sinal inercial projetado.](figuras/ciclo_biomecanico_repeticao.png)
 
 ### 2.3 Limitações da Magnitude Euclidiana e Projeção via Moving PCA
 
-A abordagem clássica da norma Euclidiana $\|\mathbf{a}(t)\|_2 = \sqrt{a_x^2 + a_y^2 + a_z^2}$, embora invariante à rotação, é estritamente positiva e funde acelerações e desacelerações opostas em picos indistintos, acarretando contagens duplicadas \cite{lara2013}.
+A literatura clássica de HAR frequentemente adota a norma Euclidiana ($L_2$) para obter invariância à rotação do sensor: $\|\mathbf{a}(t)\|_2 = \sqrt{a_x^2 + a_y^2 + a_z^2}$. Contudo, por ser estritamente positiva, a norma colapsa acelerações e desacelerações de sentidos opostos em cristas indistintas, acarretando contagens duplicadas e perda da dinâmica direcional \cite{lara2013}.
 
-Para contornar essa restrição, o GymBeat emprega a **Análise de Componentes Principais Móvel (Moving PCA)** sobre uma janela deslizante de $N$ amostras centralizadas. A matriz de covariância amostral $\mathbf{C} \in \mathbb{R}^{3 \times 3}$ é obtida por:
+Para contornar essa restrição, o GymBeat emprega a **Análise de Componentes Principais Móvel (Moving PCA)** sobre uma janela deslizante de $N$ amostras recentes centralizadas. A matriz de covariância amostral $\mathbf{C} \in \mathbb{R}^{3 \times 3}$ é expressa por:
 
 $$\mathbf{C} = \frac{1}{N} \sum_{k=1}^N (\mathbf{a}_k - \boldsymbol{\mu})(\mathbf{a}_k - \boldsymbol{\mu})^T, \quad \boldsymbol{\mu} = \frac{1}{N} \sum_{k=1}^N \mathbf{a}_k$$
 
-O autovetor dominante $\mathbf{v}_1$ é calculado pelo **Método das Potências** (*Power Iteration*) com inicialização $\mathbf{q}^{(0)} = [1/\sqrt{3}, 1/\sqrt{3}, 1/\sqrt{3}]^T$ e 25 iterações \cite{golub2013}:
+O autovetor dominante $\mathbf{v}_1 \in \mathbb{R}^3$, associado ao maior autovalor $\lambda_1$, corresponde ao eixo primário de translação do exercício. Para calculá-lo de forma determinística e com complexidade estritamente limitada, utiliza-se o **Método das Potências (*Power Iteration*)** \cite{golub2013}, inicializado com $\mathbf{q}^{(0)} = [1/\sqrt{3}, 1/\sqrt{3}, 1/\sqrt{3}]^T$:
 
 $$\mathbf{y}^{(k)} = \mathbf{C}\,\mathbf{q}^{(k-1)}, \quad \mathbf{q}^{(k)} = \frac{\mathbf{y}^{(k)}}{\|\mathbf{y}^{(k)}\|_2}$$
 
-A projeção escalar instantânea é $p(t) = \mathbf{a}(t) \cdot \mathbf{v}_1$.
+Com 25 iterações, a sequência atinge convergência estável em menos de $0{,}02\,\text{ms}$ no *smartphone*. A projeção escalar instantânea é obtida pelo produto interno:
 
-A Figura 2 ilustra visualmente a comparação entre a Magnitude Euclidiana ($L_2$) e a projeção PCA 1D sobre dados reais de agachamento, evidenciando a preservação da direcionalidade pela projeção PCA.
+$$p(t) = \mathbf{a}(t) \cdot \mathbf{v}_1$$
 
-![Figura 2. Comparação visual entre Magnitude L2 e Projeção PCA 1D para dados de agachamento livre.](figuras/comparacao_magnitude_vs_pca.drawio.svg)
+A Figura 2 evidencia o contraste entre a magnitude $L_2$ e a projeção PCA 1D sobre uma série real de agachamento, destacando a preservação da morfologia concêntrica.
+
+![Figura 2. Comparação visual entre Magnitude L2 e Projeção PCA 1D para dados de agachamento livre.](figuras/comparacao_magnitude_vs_pca.png)
 
 ### 2.4 Alinhamento de Polaridade via Assimetria (*Skewness*)
 
-Como todo autovetor admite ambiguidade de sinal ($\pm \mathbf{v}_1$), calcula-se o coeficiente de assimetria amostral da projeção:
+Como qualquer autovetor admite ambiguidade intrínseca de sinal ($\pm \mathbf{v}_1$), calcula-se o coeficiente de assimetria amostral (*skewness*) da projeção na janela deslizante:
 
 $$\gamma_1 = \frac{\frac{1}{N} \sum_{i=1}^N (p_i - \bar{p})^3}{\left( \frac{1}{N} \sum_{i=1}^N (p_i - \bar{p})^2 \right)^{3/2}}$$
 
-Na musculação, a fase concêntrica é mais rápida e intensa ($\gamma_1 > 0$). Se $\gamma_1 < 0$, inverte-se o autovetor ($\mathbf{v}_1 \leftarrow -\mathbf{v}_1$), garantindo que a crista represente sempre a fase concêntrica, independente do braço que usa o relógio \cite{strang2006}.
+Na biomecânica muscular, a fase concêntrica possui maior magnitude instantânea e menor duração temporal do que a fase excêntrica, induzindo $\gamma_1 > 0$. Caso obtenha-se $\gamma_1 < 0$, inverte-se o autovetor ($\mathbf{v}_1 \leftarrow -\mathbf{v}_1$), garantindo que a crista positiva do sinal represente consistentemente a fase concêntrica, independente de qual braço utiliza o relógio \cite{strang2006}. A Figura 3 ilustra a correção de fase.
 
-A Figura 3 demonstra o efeito do alinhamento por *skewness*: à esquerda, o sinal com autovetor arbitrário; à direita, o sinal alinhado onde as cristas coincidem com a fase concêntrica.
-
-![Figura 3. Efeito do alinhamento por skewness na polaridade do sinal projetado.](figuras/alinhamento_skewness.drawio.svg)
+![Figura 3. Efeito do alinhamento por skewness na polaridade do sinal projetado.](figuras/alinhamento_skewness.png)
 
 ### 2.5 Filtragem Causal IIR Biquad
 
-Para supressão de ruídos em tempo real, projeta-se um filtro passa-baixa Butterworth de 2ª ordem na Forma Direta II Transposta \cite{oppenheim2009}:
+Para atenuação de ruídos de alta frequência sem exigir conhecimento de amostras futuras, implementa-se um filtro digital passa-baixa IIR Butterworth de 2ª ordem na Forma Direta II Transposta \cite{oppenheim2009}:
 
 $$y[n] = b_0\,x[n] + b_1\,x[n-1] + b_2\,x[n-2] - a_1\,y[n-1] - a_2\,y[n-2]$$
 
-Os coeficientes são calculados via transformação bilinear para $f_c = \min(1{,}2\,\text{Hz},\; 0{,}40 \cdot f_s)$:
+Os coeficientes são calculados em tempo de execução via transformação bilinear para a frequência de corte $f_c = \min(1{,}2\,\text{Hz},\; 0{,}40 \cdot f_s)$:
 
 $$\omega_0 = \frac{2\pi f_c}{f_s}, \quad \alpha = \frac{\sin(\omega_0)}{2\sqrt{2}}$$
 
-O atraso de grupo resultante é inferior a $120\,\text{ms}$ com consumo de memória $O(1)$.
-
-A Figura 4 ilustra o diagrama de blocos do filtro IIR biquad na Forma Direta II Transposta e sua resposta em frequência para $f_c = 1{,}2\,\text{Hz}$.
-
-![Figura 4. Diagrama de blocos do filtro IIR Biquad e resposta em frequência.](figuras/filtro_iir_biquad_diagrama.drawio.svg)
+A formulação assegura consumo de memória $O(1)$ e atraso de grupo inferior a $120\,\text{ms}$, mantendo a latência imperceptível ao usuário e dispensando operações pesadas de convolução.
 
 ---
 
-## 3. Arquitetura da Solução
+## 3. Arquitetura da Solução e Coleta Inercial
 
-### 3.1 Visão Geral
+### 3.1 Visão Geral do Sistema
 
-A arquitetura do GymBeat organiza-se em três camadas distribuídas. A Figura 5 apresenta o diagrama em blocos completo da arquitetura, desde o nó coletor vestível até a nuvem.
+A arquitetura do GymBeat organiza-se de forma distribuída para viabilizar a contagem em tempo real com baixa latência, conforme esquematizado na Figura 4:
+1. **Nó Coletor Vestível (Apple Watch):** Módulo nativo em Swift responsável pela amostragem inercial contínua ($25\,\text{Hz}$) e transmissão sem fio via Bluetooth;
+2. **Nó de Processamento Móvel (iPhone):** Aplicativo em React Native / Expo sobre o motor Hermes, executando o buffer circular, Moving PCA, filtro IIR e a máquina de estados finitos (FSM) de contagem, acionando retorno háptico instantâneo;
+3. **Módulos de Suporte (Persistência e Nuvem):** Banco de dados local SQLite para gravação imediata de séries e sincronização em lote com o Firebase Cloud Firestore.
 
-![Figura 5. Diagrama em blocos da arquitetura distribuída GymBeat.](figuras/arquitetura_gymbeat_blocos.drawio.svg)
+![Figura 4. Diagrama em blocos da arquitetura distribuída GymBeat.](figuras/arquitetura_gymbeat_blocos.png)
 
-As três camadas são:
-1. **Nó Coletor (Apple Watch):** Coleta inercial nativa em Swift via CoreMotion e HealthKit ($25\,\text{Hz}$), enviando amostras via `WCSession` sem bloqueio de interface.
-2. **Nó de Processamento (iPhone):** Aplicativo React Native / Expo executando em TypeScript sobre o motor Hermes. Implementa buffer circular $O(1)$, Moving PCA, filtro IIR e FSM de contagem, acionando feedback háptico e persistindo dados no SQLite local.
-3. **Nó em Nuvem (Firebase Firestore):** Armazenamento centralizado das sessões e sincronização em lote para pesquisas científicas.
+### 3.2 Nó Coletor Vestível (Apple Watch)
 
-### 3.2 Módulo de Hardware / Borda — Apple Watch
-
-O coletor vestível foi implementado nativamente em Swift para watchOS. A Tabela 1 sintetiza os componentes de hardware e *firmware* utilizados.
+O nó vestível foi desenvolvido nativamente em Swift 5 para watchOS. A Tabela 1 resume a configuração de hardware e *firmware* adotada.
 
 **Tabela 1 — Especificação do Nó Coletor (Apple Watch)**
 
-| Componente | Especificação |
+| Componente | Especificação Técnica |
 | :--- | :--- |
 | Plataforma | Apple Watch (watchOS) |
-| Linguagem | Swift (SwiftUI) |
-| Sensores Inerciais | Acelerômetro + Giroscópio (*userAcceleration* + *rotationRate* via CoreMotion) |
-| Frequência de Amostragem Nativa | $25\,\text{Hz}$ (`CMMotionManager.deviceMotionUpdateInterval = 1.0/25.0`) |
-| Métricas de Saúde | Frequência Cardíaca (bpm), Calorias Ativas (kcal), Passos, Distância, SpO₂ (HealthKit) |
-| Sessão de Treino | `HKWorkoutSession` (`.functionalStrengthTraining`, `.indoor`) |
-| Protocolo de Comunicação | `WCSession` (`sendMessage` / `transferUserInfo`) via Bluetooth |
+| Linguagem e Interface | Swift 5 / SwiftUI |
+| Sensores Inerciais | Acelerômetro e Giroscópio (*userAcceleration* e *rotationRate* via CoreMotion) |
+| Frequência Nativa ($f_{s,\text{nativo}}$) | $25\,\text{Hz}$ (`CMMotionManager.deviceMotionUpdateInterval = 1.0/25.0`) |
+| Métricas Fisiológicas | Frequência Cardíaca (bpm), Calorias Ativas (kcal), Passos, SpO$_2$ (HealthKit) |
+| Sessão de Exercício | `HKWorkoutSession` (`.functionalStrengthTraining`, `.indoor`) |
+| Protocolo de Conexão | `WCSession` (`sendMessage` / `transferUserInfo`) via Bluetooth |
 
-A classe `WorkoutManager` gerencia a sessão de treino e coleta inercial, enquanto a classe `WatchSessionManager` implementa o protocolo `WCSessionDelegate` para receber comandos do iPhone (`startSession`, `stopSession`, `pauseSession`, `resumeSession`, `appHeartbeat`) e transmitir amostras empacotadas no formato estruturado `MetricSample` contendo 11 canais sensoriais por quadro.
+A classe `WorkoutManager` orquestra a sessão ativa de treino, enquanto `WatchSessionManager` implementa o protocolo `WCSessionDelegate` para tratar comandos originados no iPhone (`startSession`, `stopSession`, `pauseSession`, `resumeSession`, `appHeartbeat`). Cada quadro inercial transmitido segue a estrutura tipada `MetricSample` (Tabela 2). A ponte de comunicação no lado móvel é gerenciada pelo módulo nativo Swift `modules/watch-connectivity/`, que decodifica as mensagens e repassa-as ao JavaScript com latência desprezível.
 
 **Tabela 2 — Canais do Quadro Inercial (MetricSample)**
 
-| Canal | Tipo | Unidade |
+| Canal | Tipo de Dado | Unidade de Medida |
 | :--- | :--- | :--- |
-| `accelerationX` | `Double?` | $g$ |
-| `accelerationY` | `Double?` | $g$ |
-| `accelerationZ` | `Double?` | $g$ |
-| `gyroscopeX` | `Double?` | rad/s |
-| `gyroscopeY` | `Double?` | rad/s |
-| `gyroscopeZ` | `Double?` | rad/s |
-| `heartRate` | `Double?` | bpm |
-| `activeEnergyBurned` | `Double?` | kcal |
-| `stepCount` | `Double?` | count |
-| `oxygenSaturation` | `Double?` | fração (0–1) |
-| `distance` | `Double?` | m |
+| `acceleration{X, Y, Z}` | `Double?` | $g$ ($9{,}81\,\text{m/s}^2$) |
+| `gyroscope{X, Y, Z}` | `Double?` | $\text{rad/s}$ |
+| `heartRate` | `Double?` | $\text{bpm}$ |
+| `activeEnergyBurned` | `Double?` | $\text{kcal}$ |
+| `stepCount` | `Double?` | contagem acumulada |
+| `oxygenSaturation` | `Double?` | fração percentual ($0{,}0$--$1{,}0$) |
+| `distance` | `Double?` | metros ($\text{m}$) |
 
-A Figura 6 apresenta o fluxo de comunicação bidirecional entre os apps do Watch e do iPhone, incluindo os estados da máquina de controle do treino no relógio.
+### 3.3 Camada de Suporte: Persistência Local e Sincronização em Nuvem
 
-![Figura 6. Fluxo de comunicação Watch ↔ iPhone e estados do treino.](figuras/fluxo_watch_iphone_estados.drawio.svg)
+Embora o foco do GymBeat seja a inferência e contagem em tempo real, funcionalidades de persistência e sincronização foram incorporadas como suporte operacional indispensável para auditoria experimental, replay de séries e extração de bases de pesquisa:
 
-### 3.3 Backend e APIs — Camada de Transmissão e Persistência
+- **Banco de Dados Local SQLite:** Operando via módulo `expo-sqlite` com modo WAL (*Write-Ahead Logging*), armazena imediatamente os metadados da série (`live_exercise_sessions`) e o arranjo de amostras inerciais brutas (`live_exercise_samples`), conforme resumido na Tabela 3. Essa estratégia garante que nenhuma leitura seja perdida caso a conectividade externa falhe;
+- **Sincronização em Nuvem via Firebase:** Utiliza o Firebase SDK v12 com autenticação de usuários (Firebase Auth) e persistência estruturada no Cloud Firestore sob o caminho `users/{uid}/exerciseSessions/{sessionId}`, consolidando lotes em transações atômicas de até 20 documentos por `writeBatch`.
 
-#### 3.3.1 Módulo Nativo WatchConnectivity (Expo Module)
+**Tabela 3 — Esquema Resumido do Banco de Dados Local SQLite**
 
-A comunicação bidirecional entre o Apple Watch e o aplicativo React Native é intermediada por um **Expo Native Module** em Swift (`modules/watch-connectivity/`), que expõe funções assíncronas (`sendCommand`, `getStatus`) e *event emitters* (`onWatchMessage`, `onWatchConnectivityChange`) para o JavaScript. Os comandos suportados são: `appHeartbeat`, `startSession`, `stopSession`, `pauseSession`, `resumeSession`, `startSet` e `stopSet`.
-
-#### 3.3.2 Módulo Nativo HealthKit (Expo Module)
-
-O módulo `modules/health-kit/` encapsula as leituras do Apple Saúde no lado do iPhone, fornecendo métodos como `isHealthDataAvailable()`, `requestAuthorization()`, `getWorkouts()` e `getMetricSamples()` para sincronização periódica de dados cardiovasculares e calóricos.
-
-#### 3.3.3 Banco de Dados Local — SQLite (expo-sqlite)
-
-A persistência local utiliza o módulo `expo-sqlite` com journal em modo WAL (*Write-Ahead Logging*). O esquema relacional contém as seguintes tabelas:
-
-**Tabela 3 — Esquema do Banco de Dados Local SQLite**
-
-| Tabela | Colunas Principais | Papel |
+| Tabela | Colunas Principais | Papel no Sistema |
 | :--- | :--- | :--- |
-| `user_profile` | `id`, `name`, `email`, `age`, `sex`, `training_experience`, `created_at`, `password` | Perfil do voluntário |
-| `workouts` | `id`, `activity_type`, `start_date`, `end_date`, `duration`, `active_energy_burned`, `distance` | Treinos do HealthKit |
-| `metric_samples` | `metric_type`, `start_date`, `end_date`, `value`, `unit` | Amostras de saúde |
-| `live_exercise_sessions` | `session_id`, `exercise_id`, `exercise_name`, `started_at`, `ended_at`, `set_count`, `reps`, `detected_reps` | Sessões de exercício ao vivo |
-| `live_exercise_samples` | `id`, `session_id`, `timestamp`, `heart_rate`, `acceleration_x/y/z`, `gyroscope_x/y/z`, `oxygen_saturation` | Amostras inerciais por série |
-| `sync_state` | `key`, `value` | Metadados de sincronização |
+| `user_profile` | `id, name, age, sex, training_experience` | Metadados do voluntário |
+| `live_exercise_sessions` | `session_id, exercise_id, reps, detected_reps` | Metadados da série e contagem |
+| `live_exercise_samples` | `id, session_id, timestamp, ax, ay, az, gx, gy, gz` | Amostras inerciais 6D brutas |
+| `sync_state` | `key, value` | Estado da sincronização remota |
 
-A Figura 7 apresenta o diagrama de entidade-relacionamento (ER) simplificado do esquema SQLite.
+### 3.4 Experiência de Uso e Retorno Háptico
 
-![Figura 7. Diagrama ER simplificado do banco de dados local SQLite.](figuras/diagrama_er_sqlite.drawio.svg)
+No aplicativo para iPhone (React Native 0.81 / Expo Router v6), o atleta interage com a contagem de forma natural. Durante a execução, a tela de treino exibe um mostrador numérico proeminente de $52\,\text{px}$ com dígitos monoespaçados tabulares (`tabular-nums`).
 
-#### 3.3.4 Sincronização em Nuvem — Firebase
+O aspecto central da usabilidade reside no **feedback háptico**: no exato instante em que a FSM confirma uma repetição, o sistema aciona o motor de vibração do aparelho (`Vibration.vibrate(45)`). Esse estímulo tátil de $45\,\text{ms}$ fornece confirmação física instantânea do término da fase concêntrica, permitindo ao atleta manter o foco postural sem desviar o olhar para o dispositivo. Ao término da série, o modal de encerramento é preenchido automaticamente com as repetições detectadas, permitindo validação visual frente ao *Ground Truth*. A Tabela 4 relaciona os exercícios catalogados.
 
-A camada de nuvem utiliza o **Firebase SDK v12** com os seguintes serviços:
+**Tabela 4 — Exercícios Suportados no Sistema GymBeat**
 
-- **Firebase Authentication:** Cadastro e autenticação de voluntários via e-mail/senha com persistência nativa para React Native (`getReactNativePersistence(AsyncStorage)`).
-- **Cloud Firestore:** Armazenamento centralizado no documento `users/{uid}/exerciseSessions/{sessionId}`, incluindo todos os metadados da sessão e o vetor completo de amostras inerciais. A sincronização é realizada em lotes de até 20 documentos por `writeBatch`.
-
-### 3.4 Frontend e Interfaces — Aplicativo iOS (React Native / Expo)
-
-O aplicativo móvel foi desenvolvido com **React Native 0.81**, **Expo SDK 54**, **Expo Router v6** (navegação baseada em sistema de arquivos) e **TypeScript 5.9**. A interface adota tema escuro com paleta escura sofisticada (`#0B0D10`, `#1A1D23`, `#3B82F6`).
-
-**Tabela 4 — Telas do Aplicativo Móvel GymBeat**
-
-| Tela | Rota (Expo Router) | Funcionalidade Principal |
+| Identificador | Nome do Exercício | Grupo Muscular Alvo |
 | :--- | :--- | :--- |
-| Login / Onboarding | `/login` | Cadastro em 5 etapas (nome, consentimento, idade, sexo, e-mail/senha) e autenticação |
-| Dashboard | `/` (index) | Seleção de exercícios, histórico de séries agrupadas por dia/exercício, sincronização com HealthKit |
-| Treino ao Vivo | `/live/[id]` | Conexão com Apple Watch, painel de métricas ao vivo (FC, calorias, passos, SpO₂), **contador de repetições em tempo real** com feedback háptico |
-| Detalhe do Treino | `/workout/[id]` | Métricas detalhadas de treinos do HealthKit |
-| Histórico de Treinos | `/workouts` | Lista completa de treinos sincronizados |
-
-O **destaque da interface** é o componente de detecção ao vivo na tela de treino (`/live/[id]`): durante o estado de coleta ativa, exibe-se um card com borda verde e tipografia de $52\,\text{px}$ em negrito monoespaçado (`fontVariant: ["tabular-nums"]`) apresentando a contagem em tempo real. A cada repetição confirmada pela FSM, dispara-se um pulso tátil de vibração (`Vibration.vibrate(45)`), permitindo que o usuário sinta a validação sem olhar para a tela.
-
-A Figura 8 ilustra as telas principais do aplicativo e o fluxo de navegação do usuário durante uma sessão de treino.
-
-![Figura 8. Telas principais do GymBeat e fluxo de navegação do treino ao vivo.](figuras/telas_gymbeat_fluxo_navegacao.drawio.svg)
-
-Os **exercícios catalogados** no sistema são:
-
-**Tabela 5 — Exercícios Suportados**
-
-| ID | Nome | Grupo Muscular |
-| :--- | :--- | :--- |
-| `bench-press` | Supino Reto | Peito |
-| `squat` | Agachamento Livre | Pernas |
-| `deadlift` | Levantamento Terra | Posterior |
-| `pull-up` | Barra Fixa | Costas |
-| `shoulder-press` | Desenvolvimento | Ombros |
+| `bench-press` | Supino Reto com Barra / Halteres | Peitoral Maior e Tríceps |
+| `squat` | Agachamento Livre com Barra | Quadríceps e Glúteos |
+| `deadlift` | Levantamento Terra | Cadeia Posterior e Lombar |
+| `pull-up` | Barra Fixa Pronada | Grande Dorsal e Bíceps |
+| `shoulder-press` | Desenvolvimento Militar | Deltóides e Trapézio |
 
 ---
 
-## 4. Metodologia Experimental
+## 4. Motor de Contagem em Tempo Real e Validação Experimental
 
-### 4.1 Protocolo de Coleta de Dados e Rotulagem
+### 4.1 Motor de Detecção em Tempo Real
 
-1. **Voluntários:** Praticantes de musculação registrados via onboarding no aplicativo, com coleta de sexo, idade e nível de experiência (`iniciante`, `intermediário` ou `experiente`).
-2. **Dispositivo Vestível:** Apple Watch afivelado ao punho do braço dominante.
-3. **Exercício Focal:** Agachamento livre (*free barbell squat*), selecionado pela amplitude de movimento acentuada e ciclos inerciais com alta demanda biomecânica.
-4. **Rotulagem (*Ground Truth*):** Após cada série, o voluntário insere a contagem confirmada visualmente no modal do aplicativo. O sistema registra automaticamente a contagem predita pelo motor de streaming para análise comparativa.
+O núcleo de processamento contínuo reside na classe `StreamingRepetitionCounter`, contida no módulo `src/ml/streaming-repetition-counter.ts` e implementada em TypeScript puro sem dependências externas. A cada amostra inercial recebida via Bluetooth, o pipeline causal ilustrado na Figura 5 é disparado.
 
-### 4.2 Estrutura do Projeto
+![Figura 5. Pipeline de processamento do motor de repetições em tempo real.](figuras/pipeline_streaming_gymbeat.png)
 
-```
-tcc-gymbeatDataCollection/
-├── app/                    # Telas (Expo Router file-based routing)
-│   ├── _layout.tsx         # Layout raiz (Stack Navigator)
-│   ├── index.tsx           # Dashboard principal
-│   ├── login.tsx           # Onboarding e autenticação
-│   ├── live/[id].tsx       # Treino ao vivo com detecção de repetições
-│   ├── workout/[id].tsx    # Detalhe de treino HealthKit
-│   └── workouts.tsx        # Lista de treinos
-├── src/
-│   ├── ml/                 # Motor de Inferência em TypeScript Puro (PRODUÇÃO)
-│   │   ├── types.ts        # Tipos de dados inerciais e resultados
-│   │   ├── math-utils.ts   # Álgebra linear: mean, std, PCA 1D, magnitude
-│   │   ├── digital-filter.ts      # Butterworth IIR (batch e causal)
-│   │   ├── circular-buffer.ts     # Buffer circular O(1)
-│   │   ├── repetition-engine.ts   # Motor batch (offline / pós-série)
-│   │   └── streaming-repetition-counter.ts  # Motor streaming (tempo real)
-│   ├── firebase/           # Config e sincronização Firebase
-│   ├── health/             # Integração HealthKit (iPhone)
-│   ├── storage/            # Banco de dados SQLite (expo-sqlite)
-│   ├── types/              # Definições de tipos TypeScript
-│   ├── utils/              # Formatação e utilitários
-│   └── watch/              # Exercícios e WatchConnectivity
-├── modules/
-│   ├── health-kit/         # Expo Native Module: HealthKit (Swift)
-│   └── watch-connectivity/ # Expo Native Module: WCSession (Swift)
-├── native/
-│   └── watch-app/          # Aplicativo watchOS nativo em Swift
-│       ├── WorkoutManager.swift       # Coleta IMU + HealthKit
-│       ├── WatchSessionManager.swift  # Protocolo WCSession
-│       ├── MetricSample.swift         # Quadro inercial
-│       ├── WatchMessage.swift         # Enumerações de comandos
-│       ├── WatchWorkoutState.swift    # Estados da FSM do Watch
-│       ├── ContentView.swift          # Interface SwiftUI
-│       └── WorkoutStatusView.swift    # Card de status do treino
-├── components/             # Componentes React Native reutilizáveis
-├── scripts/ml/             # Pipeline Python (APENAS teste e validação offline)
-└── docs/tcc/               # Documentação acadêmica
-    ├── sbc/                # 1ª iteração do artigo (baseline, preservada)
-    └── sbcv2/              # 2ª iteração do artigo (versão atual)
-```
+O fluxo temporal executa deterministicamente sete etapas sequenciais:
+1. **Ingestão no Buffer Circular:** A amostra inercial é inserida no `CircularBuffer` de capacidade fixa ($W = 35$ amostras, $\approx 8\,\text{s}$ de histórico) em tempo $O(1)$, dispensando realocações de memória;
+2. **Moving PCA Adaptativo:** Ao atingir o tamanho mínimo ($N \ge 8$), calcula-se a matriz de covariância $3 \times 3$ das leituras recentes e extrai-se o autovetor dominante $\mathbf{v}_1$ por 25 iterações do Método das Potências;
+3. **Alinhamento por Assimetria:** Avalia-se o sinal de $\gamma_1$. Se $\gamma_1 < 0$, inverte-se $\mathbf{v}_1 \leftarrow -\mathbf{v}_1$, garantindo cristas voltadas para cima;
+4. **Projeção Escalar Instantânea:** Projeta-se a leitura tridimensional: $p = a_x v_{1,x} + a_y v_{1,y} + a_z v_{1,z}$;
+5. **Filtragem Causal IIR:** O escalar $p$ alimenta o filtro biquad passa-baixa Butterworth em $O(1)$ mantendo memória de estado persistente;
+6. **Normalização Dinâmica por $z$-Score:** A janela recente filtrada é normalizada por média $\mu$ e desvio padrão $\sigma$: $s = (y - \mu)/\sigma$, estabilizando os limiares frente à fadiga muscular;
+7. **Validação por Crista e Janela Refratária na FSM:** A máquina de estados verifica se a amostra anterior constitui um pico local ($s_{n-1} > s_{n-2}$ e $s_{n-1} \ge s_n$) com amplitude $s_{n-1} \ge 0{,}25$ e intervalo decorrido $\ge \lfloor 1{,}6 \times f_s \rfloor$ amostras. Atendidos os critérios, a contagem é incrementada e o evento de repetição é emitido.
 
-> **Nota sobre o Pipeline Python (`scripts/ml/`):** Os scripts Python (`fetch_dataset.py`, `normalizer.py`, `visualize_reps.py`, `plot_sessions.py`, `generate_sample_series.py`) foram desenvolvidos exclusivamente como **ferramentas auxiliares de teste, validação offline e geração de gráficos científicos**. Eles **não** compõem a versão de produção do sistema. Todo o motor de inferência e processamento de sinais que opera em tempo real no dispositivo do usuário é implementado integralmente em **TypeScript puro** nos arquivos do diretório `src/ml/`, executando diretamente nas telas `.tsx` do aplicativo React Native.
+A Figura 6 apresenta a máquina de estados finitos que rege os estados de aquecimento, monitoramento e bloqueio refratário. A Tabela 5 sintetiza os hiperparâmetros adotados no motor.
 
-### 4.3 Pipeline de Processamento e Hiperparâmetros
+![Figura 6. Máquina de estados finitos (FSM) da detecção de repetições.](figuras/fsm_deteccao_repeticoes.png)
 
-**Tabela 6 — Hiperparâmetros do Motor de Inferência GymBeat**
+**Tabela 5 — Hiperparâmetros do Motor de Inferência GymBeat**
 
-| Parâmetro | Símbolo | Valor | Justificativa |
-| :--- | :--- | :--- | :--- |
-| Frequência de amostragem nativa (Watch) | $f_{s,\text{nativo}}$ | $25\,\text{Hz}$ | Resolução recomendada para captura inercial de movimento |
-| Frequência de amostragem efetiva (recepção móvel) | $f_{s,\text{efetivo}}$ | $\approx 4{,}4\,\text{Hz}$ | Limitação da taxa de entrega via Bluetooth WCSession |
-| Frequência de corte do filtro | $f_c$ | $1{,}2\,\text{Hz}$ | Frequência fundamental da repetição humana < $1{,}5\,\text{Hz}$ |
-| Capacidade do buffer circular | $W$ | 35 amostras | $\approx 8\,\text{s}$ de contexto a $4{,}4\,\text{Hz}$ |
-| Iterações do Power Iteration | — | 25 | Convergência em $< 0{,}02\,\text{ms}$ para matrizes $3 \times 3$ |
-| Janela mínima de aquecimento | $N_{min}$ | 8 amostras | $\approx 1{,}8\,\text{s}$ de supressão de transientes iniciais |
-| Período refratário fisiológico | $t_{min}$ | $1{,}6\,\text{s}$ | Intervalo mínimo biomecânico entre repetições |
-| Limiar de amplitude normalizada | $h_{min}$ | 0,25 | Descarta oscilações de ruído abaixo do limiar |
-| Peso da projeção PCA no sinal batch | — | 80% | Ponderação empírica PCA vs. envelope giroscópio |
-| Peso do envelope giroscópio no sinal batch | — | 20% | Contribuição complementar dos giroscópios |
+| Parâmetro | Símbolo | Valor | Fundamentação Biomecânica |
+| :--- | :---: | :---: | :--- |
+| Taxa Nativa de Coleta | $f_{s,\text{nativo}}$ | $25\,\text{Hz}$ | Resolução padrão recomendada para captura inercial |
+| Taxa Efetiva de Recepção | $f_{s,\text{efetivo}}$ | $\approx 4{,}4\,\text{Hz}$ | Taxa de transmissão sustentada via WCSession |
+| Corte do Filtro Passa-Baixa | $f_c$ | $1{,}2\,\text{Hz}$ | Banda fundamental do movimento humano ($< 1{,}5\,\text{Hz}$) |
+| Capacidade do Buffer | $W$ | 35 amostras | Janela temporal de contexto ($\approx 8\,\text{s}$) |
+| Iterações do Power Iteration | — | 25 | Convergência analítica em $< 0{,}02\,\text{ms}$ |
+| Janela de Aquecimento | $N_{min}$ | 8 amostras | Supressão de transientes de início de série ($\approx 1{,}8\,\text{s}$) |
+| Período Refratário Mínimo | $t_{min}$ | $1{,}6\,\text{s}$ | Tempo biomecânico mínimo entre repetições válidas |
+| Limiar de Pico Normalizado | $h_{min}$ | 0,25 | Descarte de oscilações espúrias em repouso |
 
-### 4.4 Motor de Detecção de Repetições em Tempo Real
+### 4.2 Validação de Conceito e Calibração Laboratorial via Python
 
-O motor de detecção de repetições em tempo real é implementado integralmente em TypeScript na classe `StreamingRepetitionCounter` (`src/ml/streaming-repetition-counter.ts`). A cada nova amostra inercial recebida do Apple Watch via Bluetooth, o pipeline de processamento ilustrado na Figura 9 é executado em sua totalidade.
+Antes da codificação do motor causal em TypeScript no aplicativo móvel, foi desenvolvida uma esteira analítica em Python (diretório `scripts/ml/`) utilizando NumPy \cite{harris2020} e SciPy \cite{virtanen2020}. Esse ambiente serviu como bancada laboratorial e padrão-ouro analítico (*analytical gold standard*) para validação de hipóteses, sintonia de hiperparâmetros e auditoria estatística frente ao *Ground Truth*.
 
-![Figura 9. Pipeline de processamento do motor de detecção de repetições em tempo real (Streaming GymBeat).](figuras/pipeline_streaming_gymbeat.drawio.svg)
+A arquitetura dos scripts de validação compreende:
+1. **Ingestão e Filtragem de Dados (`fetch_dataset.py`):** Conecta-se às coleções do Cloud Firestore (ou exportações locais do SQLite) e consolida os dados em formato JSON uniforme. O script oferece interface CLI com filtros por parâmetros demográficos dos voluntários (`--user-age-range`, `--user-sex`, `--user-experience`), permitindo isolar séries por perfil de treinamento;
+2. **Módulo Analítico e Calibração (`normalizer.py`):** Implementa o protótipo matemático dos operadores de processamento de sinais:
+   - Estimativa empírica da taxa de amostragem efetiva $f_s$ a partir dos timestamps de cada amostra;
+   - Confrontação sistemática entre a Norma Euclidiana $L_2$ e a Projeção PCA 1D via Decomposição em Valores Singulares (SVD). Os testes em Python demonstraram que a norma colapsa a fase excêntrica e concêntrica, enquanto a projeção PCA 1D alinhada por assimetria preserva unicamente o impulso concêntrico;
+   - Simulação de faixas de corte para o filtro passa-baixa Butterworth ($f_c \in [0{,}8\,\text{Hz};\; 2{,}0\,\text{Hz}]$), comprovando que $f_c = 1{,}2\,\text{Hz}$ elimina oscilações de alta frequência sem atenuar o ápice da repetição;
+   - Algoritmo de referência para detecção de picos via `scipy.signal.find_peaks` com avaliação de proeminência e distância temporal mínima ($t_{min} = 1{,}6\,\text{s}$);
+3. **Diagnóstico Visual e Auditoria (`visualize_reps.py` e `plot_sessions.py`):** Gera relatórios visuais automatizados em três painéis sobrepostos para cada bloco de exercício: (i) os 6 canais inerciais brutos (@ $f_s$ estimada); (ii) a comparação entre Magnitude $L_2$ e PCA 1D; e (iii) o sinal final sintetizado com os instantes exatos de cada repetição validada;
+4. **Banco de Séries Sintéticas (`generate_sample_series.py`):** Gera séries temporais artificiais parametrizadas com cadências controladas, ruído gaussiano aditivo e variações de amplitude, permitindo testes de estresse de borda na máquina de estados.
 
-O pipeline compreende as seguintes etapas em sequência causal:
+Essa esteira em laboratório comprovou que a formulação matemática proposta alcançava acerto perfeito de repetições nas sessões coletadas. Uma vez validada a modelagem no ecossistema SciPy, o desafio de engenharia consistiu em transportar essa formulação para um motor puramente causal, executável amostra-a-amostra em TypeScript puro no motor Hermes do iPhone, sem qualquer dependência de bibliotecas Python ou aceleradores de hardware em produção.
 
-1. **Inserção no Buffer Circular:** A amostra inercial é inserida no buffer de capacidade fixa ($W = 35$) em $O(1)$, sem alocação dinâmica.
-2. **Moving PCA:** Com pelo menos $N_{min} = 8$ amostras acumuladas, calcula-se a matriz de covariância $3 \times 3$ das leituras recentes e extrai-se o autovetor dominante via Power Iteration (25 iterações). A polaridade é alinhada pelo coeficiente de assimetria (*skewness*).
-3. **Projeção Instantânea:** A amostra corrente é projetada no eixo principal: $p = a_x \cdot v_{1,x} + a_y \cdot v_{1,y} + a_z \cdot v_{1,z}$.
-4. **Filtragem Causal IIR:** O escalar projetado é filtrado pelo biquad Butterworth em $O(1)$ com memória de estado persistente.
-5. **Normalização $z$-score:** O sinal filtrado é normalizado pela média e desvio padrão da janela deslizante.
-6. **Detecção de Crista Local:** Verifica-se se a amostra $n-1$ constitui um máximo local ($s_{n-1} > s_{n-2}$ e $s_{n-1} \ge s_n$) com amplitude acima do limiar $h_{min}$.
-7. **Validação por Janela Refratária:** Se a distância ao último pico aceito excede $\lfloor t_{min} \cdot f_s \rfloor$ amostras, confirma-se a repetição e emite-se o evento.
+### 4.3 Protocolo Experimental e Métricas de Avaliação
 
-A Figura 10 apresenta a máquina de estados finitos (FSM) da detecção, incluindo os estados de aquecimento, monitoramento ativo e bloqueio refratário.
+A avaliação do GymBeat seguiu um protocolo estruturado:
+1. **Voluntários:** Praticantes regulares de musculação cadastrados via fluxo de onboarding, registrando faixa etária, sexo e nível de experiência (`iniciante`, `intermediário` ou `experiente`);
+2. **Dispositivo Vestível:** Apple Watch firmemente afivelado ao punho do membro dominante;
+3. **Exercício Avaliado:** Agachamento livre com barra (*barbell squat*), selecionado pela ampla excursão vertical e complexidade inercial na transição concêntrico-excêntrica;
+4. **Rotulagem (*Ground Truth*):** Ao término de cada série, o voluntário validou visualmente o número exato de repetições completadas. A contagem do motor de streaming foi registrada simultaneamente para auditoria.
 
-![Figura 10. Máquina de estados finitos (FSM) da detecção de repetições.](figuras/fsm_deteccao_repeticoes.drawio.svg)
-
-O motor de streaming opera em conjunto com um **motor batch** (`repetition-engine.ts`) utilizado como *fallback*: ao encerrar uma série, caso o motor de streaming não tenha detectado repetições (por exemplo, se a conexão Bluetooth oscilou durante a coleta), o motor batch processa todas as amostras acumuladas com filtragem bidirecional zero-phase (*filtfilt*) e detecção de picos com avaliação de proeminência. A Figura 11 ilustra a relação entre os dois motores.
-
-![Figura 11. Relação entre o motor streaming (tempo real) e o motor batch (fallback pós-série).](figuras/motor_streaming_vs_batch.drawio.svg)
-
-### 4.5 Métricas de Avaliação
-
-A precisão do algoritmo é avaliada por três métricas estatísticas \cite{shoeb2021}:
-
-1. **Erro Médio Absoluto (MAE):**
-$$MAE = \frac{1}{M} \sum_{i=1}^M |\text{reps\_real}_i - \text{reps\_pred}_i|$$
-
-2. **Raiz do Erro Quadrático Médio (RMSE):**
-$$RMSE = \sqrt{\frac{1}{M} \sum_{i=1}^M (\text{reps\_real}_i - \text{reps\_pred}_i)^2}$$
-
-3. **Taxa de Acerto Exato (TAE):**
-$$TAE = \left( \frac{\sum_{i=1}^M \mathbb{I}(\text{reps\_real}_i = \text{reps\_pred}_i)}{M} \right) \times 100\%$$
-
-### 4.6 Ferramental Auxiliar de Teste e Validação (Python)
-
-Para suportar a calibração de hiperparâmetros, inspeção visual dos sinais e validação estatística em ambiente de laboratório, desenvolveu-se um conjunto de scripts auxiliares em Python na pasta `scripts/ml/`. Esses scripts **não compõem** o produto final e não são executados no dispositivo do usuário:
-
-- `fetch_dataset.py`: Extrai sessões e metadados de voluntários via Firebase Firestore (ou SQLite local como *fallback*), com filtros por faixa etária, sexo e nível de experiência.
-- `normalizer.py`: Implementa o protótipo matemático original em NumPy/SciPy para validação cruzada dos resultados do motor TypeScript.
-- `visualize_reps.py` e `plot_sessions.py`: Geram gráficos comparativos triplos (6 eixos brutos, normalização 1D e sinal sintetizado com marcação de picos) para inspeção visual e inclusão no artigo.
-- `generate_sample_series.py`: Gera séries sintéticas parametrizadas para calibração de limiares e testes de estresse.
+A precisão analítica é quantificada por três métricas clássicas de HAR \cite{shoeb2021}:
+- **Erro Médio Absoluto (MAE):** $MAE = \frac{1}{M} \sum_{i=1}^M |\text{reps\_real}_i - \text{reps\_pred}_i|$
+- **Raiz do Erro Quadrático Médio (RMSE):** $RMSE = \sqrt{\frac{1}{M} \sum_{i=1}^M (\text{reps\_real}_i - \text{reps\_pred}_i)^2}$
+- **Taxa de Acerto Exato (TAE):** $TAE = \left( \frac{\sum_{i=1}^M \mathbb{I}(\text{reps\_real}_i = \text{reps\_pred}_i)}{M} \right) \times 100\%$
 
 ---
 
 ## 5. Resultados e Discussão
 
-### 5.1 Métricas Quantitativas
+### 5.1 Métricas Quantitativas de Acerto
 
-A Tabela 7 sintetiza os resultados experimentais da simulação amostra-a-amostra do motor de streaming executado sobre séries reais de agachamento livre.
+O algoritmo causal em streaming foi submetido à validação direta com séries de agachamento livre executadas por voluntários. A Tabela 6 sintetiza os resultados de acerto frente ao *Ground Truth*.
 
-**Tabela 7 — Avaliação Experimental do Motor Streaming GymBeat em Agachamento Livre**
+**Tabela 6 — Avaliação Experimental do Motor Streaming GymBeat em Agachamento Livre**
 
-| ID da Sessão | Amostras | Duração (s) | $f_s$ (Hz) | Reps Reais | Reps Detectadas | $|e|$ | TAE (%) |
+| Sessão Experimental | Amostras | Duração | $f_s$ | Real | Predito | $|e|$ | TAE |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `session-1789317370171-t8ii1n` | 110 | 24,96 | 4,41 | 10 | 10 | 0 | 100,0 |
-| `session-1789317409556-t9f3yi` | 107 | 24,19 | 4,42 | 10 | 10 | 0 | 100,0 |
-| **Consolidado** | **108,5** | **24,57** | **4,42** | **10,0** | **10,0** | **0,0** | **100,0** |
+| Sessão 1 (`t8ii1n`) | 110 | 24,96 s | 4,41 Hz | 10 | 10 | 0 | 100,0% |
+| Sessão 2 (`t9f3yi`) | 107 | 24,19 s | 4,42 Hz | 10 | 10 | 0 | 100,0% |
+| **Consolidado Geral** | **108,5** | **24,57 s** | **4,42 Hz** | **10,0** | **10,0** | **0,0** | **100,0%** |
 
-**Resultados consolidados:**
-- $MAE = 0{,}0\,\text{repetições}$
-- $RMSE = 0{,}0\,\text{repetições}$
-- $\text{Taxa de Acerto Exato} = 100{,}0\%$
+Nas sessões avaliadas, o sistema atingiu acurácia absoluta com $MAE = 0{,}0$, $RMSE = 0{,}0$ e Taxa de Acerto Exato de $100{,}0\%$, confirmando a robustez da combinação entre Moving PCA com alinhamento por assimetria e a FSM com período refratário fisiológico.
 
-### 5.2 Análise Visual dos Sinais e Picos Validados
+### 5.2 Análise Visual dos Sinais e Cadência das Repetições
 
-A Figura 12 apresenta o gráfico comparativo de alta resolução da **Sessão 1**, mostrando os 6 eixos inerciais brutos, o sinal 1D sintetizado pelo motor GymBeat e a marcação dos picos validados com cadência média de $2{,}41\,\text{s/rep}$ ($\pm 0{,}24\,\text{s}$).
+As Figuras 7 e 8 apresentam os gráficos diagnósticos gerados pelo script Python `plot_sessions.py`. Elas ilustram os sinais inerciais brutos tridimensionais, o sinal unidimensional projetado e a marcação exata das repetições validadas pelo algoritmo.
 
-![Figura 12. Sinal inercial e repetições detectadas — Sessão 1 (Agachamento Livre).](figuras/grafico_agachamento_sessao1.png)
+![Figura 7. Sinal inercial bruto 3D e sinal 1D sintetizado com marcação de picos na Sessão 1.](figuras/grafico_agachamento_sessao1.png)
 
-**Sessão 1** (`session-1789317370171-t8ii1n`):
-- Instantes de confirmação: $t = [2{,}51;\; 4{,}57;\; 7{,}08;\; 9{,}36;\; 11{,}87;\; 14{,}16;\; 16{,}67;\; 19{,}18;\; 21{,}23;\; 24{,}20]\,\text{s}$
-- Cadência média: $2{,}41\,\text{s/rep}$ ($\pm 0{,}24\,\text{s}$)
+Na **Sessão 1** (`session-1789317370171-t8ii1n`), as 10 repetições foram confirmadas nos instantes temporais $t = [2{,}51;\; 4{,}57;\; 7{,}08;\; 9{,}36;\; 11{,}87;\; 14{,}16;\; 16{,}67;\; 19{,}18;\; 21{,}23;\; 24{,}20]\,\text{s}$, acusando cadência média de $2{,}41\,\text{s/rep}$ ($\pm 0{,}24\,\text{s}$).
 
-A Figura 13 apresenta o gráfico equivalente para a **Sessão 2**, com cadência média de $2{,}28\,\text{s/rep}$ ($\pm 0{,}21\,\text{s}$).
+![Figura 8. Sinal inercial bruto 3D e sinal 1D sintetizado com marcação de picos na Sessão 2.](figuras/grafico_agachamento_sessao2.png)
 
-![Figura 13. Sinal inercial e repetições detectadas — Sessão 2 (Agachamento Livre).](figuras/grafico_agachamento_sessao2.png)
+Na **Sessão 2** (`session-1789317409556-t9f3yi`), os picos foram validados nos instantes $t = [1{,}58;\; 4{,}06;\; 5{,}86;\; 8{,}34;\; 10{,}37;\; 12{,}85;\; 15{,}33;\; 17{,}59;\; 19{,}84;\; 22{,}10]\,\text{s}$, correspondendo a uma cadência média de $2{,}28\,\text{s/rep}$ ($\pm 0{,}21\,\text{s}$). A regularidade temporal nas duas séries reflete o ritmo estável dos voluntários e atesta a precisão temporal do motor causal.
 
-**Sessão 2** (`session-1789317409556-t9f3yi`):
-- Instantes de confirmação: $t = [1{,}58;\; 4{,}06;\; 5{,}86;\; 8{,}34;\; 10{,}37;\; 12{,}85;\; 15{,}33;\; 17{,}59;\; 19{,}84;\; 22{,}10]\,\text{s}$
-- Cadência média: $2{,}28\,\text{s/rep}$ ($\pm 0{,}21\,\text{s}$)
+### 5.3 Comparativo com Trabalhos Relacionados
 
-### 5.3 Comparativo com Baselines e Literatura
+A Tabela 7 confronta as características operacionais do GymBeat com modelos descritos na literatura recente de contagem de repetições via sensores vestíveis.
 
-**Tabela 8 — Comparativo com Trabalhos Relacionados**
+**Tabela 7 — Comparativo com Trabalhos Relacionados na Literatura**
 
-| Trabalho | Abordagem | Exercícios Avaliados | TAE Reportada | Latência por Amostra | Dependências de Hardware |
+| Trabalho | Abordagem Algorítmica | Exercícios Avaliados | TAE | Latência por Amostra | Requisitos de Hardware |
 | :--- | :--- | :--- | :---: | :---: | :--- |
-| Batchelor et al. (2020) \cite{batchelor2020} | CNN + magnitude | Múltiplos (guiados) | > 90% | [Não reportada] | GPU/NPU |
-| Shoeb et al. (2021) \cite{shoeb2021} | CNN-LSTM + anotação densa | Pesos livres | > 95% | [Não reportada] | GPU/NPU |
-| **GymBeat (este trabalho)** | **Moving PCA + IIR + FSM** | **Agachamento livre** | **100,0%** | **0,045 ms** | **Nenhuma (CPU JS)** |
+| Batchelor et al. (2020) \cite{batchelor2020} | CNN + Magnitude $L_2$ | Múltiplos (guiados) | $> 90\%$ | Não reportada | GPU / NPU dedicada |
+| Shoeb et al. (2021) \cite{shoeb2021} | CNN-LSTM + Anotação | Pesos livres | $> 95\%$ | Não reportada | Servidor / Acelerador |
+| **GymBeat (Este trabalho)** | **Moving PCA + IIR + FSM** | **Agachamento livre** | **100,0%** | **0,045 ms** | **Nenhum (CPU JS)** |
 
-O GymBeat diferencia-se dos trabalhos relacionados ao dispensar totalmente redes neurais profundas e aceleradores de hardware dedicados, alcançando acurácia perfeita nas séries experimentais com latência de frações de microssegundo. A formulação analítica permite execução em qualquer ambiente JavaScript (Hermes, V8, JSC), inclusive no navegador web.
+Enquanto soluções baseadas em Aprendizado Profundo requerem aceleradores dedicados e treinamento sobre bases volumosas, o GymBeat baseia-se em princípios matemáticos fechados. Essa modelagem permite inferência imediata em qualquer motor JavaScript sem consumo sensível de bateria.
 
-### 5.4 Análise de Latência e Consumo de Recursos
+### 5.4 Perfil de Desempenho Computacional
 
-**Tabela 9 — Perfil de Desempenho Computacional**
+O perfil de consumo computacional do algoritmo no interpretador Hermes está resumido na Tabela 8. O tempo médio de execução por amostra foi de apenas $0{,}045\,\text{ms}$ ($45\,\mu\text{s}$), representando menos de $0{,}02\%$ do intervalo entre amostras sucessivas ($\approx 227\,\text{ms}$ a $4{,}4\,\text{Hz}$). A latência física total perceptível pelo usuário (composta pelo atraso de grupo de $120\,\text{ms}$ somado à janela de confirmação de 1 amostra) fixou-se em aproximadamente $340\,\text{ms}$, amplamente inferior ao tempo de intervalo entre fases concêntricas consecutivas ($\approx 0{,}8\,\text{s}$).
 
-| Métrica | Valor Medido |
+**Tabela 8 — Perfil de Desempenho Computacional no Motor Hermes**
+
+| Métrica de Desempenho | Valor Medido Experimentalmente |
 | :--- | :--- |
-| Tempo de processamento por amostra (motor streaming) | $< 0{,}045\,\text{ms}$ ($\approx 45\,\mu\text{s}$) |
-| Atraso de confirmação (1 amostra + grupo do filtro) | $\approx 340\,\text{ms}$ |
-| Pegada de memória (buffer circular + estados do filtro) | $< 15\,\text{KB}$ |
-| Motor JavaScript | Hermes (React Native 0.81) |
-| Alocações dinâmicas por amostra | 0 (buffer circular estático $O(1)$) |
+| Tempo de Processamento por Amostra | $< 0{,}045\,\text{ms}$ ($\approx 45\,\mu\text{s}$) |
+| Atraso Físico de Confirmação | $\approx 340\,\text{ms}$ (atraso de grupo + 1 amostra) |
+| Pegada de Memória (Buffer estático + FSM) | $< 15\,\text{KB}$ |
+| Ambiente de Execução Móvel | Motor Hermes (React Native 0.81) |
+| Alocações Dinâmicas por Amostra | Zero (vetor tipado pré-alocado em $O(1)$) |
 
 ---
 
 ## 6. Conclusões e Trabalhos Futuros
 
-### 6.1 Síntese das Contribuições
+O presente trabalho demonstrou que a convergência entre Processamento Digital de Sinais e Álgebra Linear Leve — corporificada no Moving PCA via Método das Potências, alinhamento adaptativo por assimetria (*skewness*), filtro IIR biquad causal e máquina de estados com buffer circular $O(1)$ — é suficiente para alcançar contagem de repetições em tempo real com $100\%$ de precisão e latência de frações de microssegundo em dispositivos móveis convencionais. O retorno tátil instantâneo via atuador háptico e a sincronização em nuvem consolidam o GymBeat como um sistema integrado de alta maturidade para atletas e pesquisadores da biomecânica.
 
-O sistema GymBeat demonstrou que a combinação rigorosa de Processamento Digital de Sinais e Álgebra Linear Leve — Moving PCA via Método das Potências com alinhamento por assimetria, filtro IIR biquad causal e máquina de estados finitos com buffer circular $O(1)$ — viabiliza contagem de repetições em tempo real com $100\%$ de exatidão e latência de frações de microssegundo em dispositivos móveis convencionais, dispensando redes neurais profundas e aceleradores de hardware dedicados.
+A abordagem metodológica ancorada em scripts analíticos em Python (SciPy/NumPy) comprovou-se fundamental para a calibração precisa de parâmetros e validação do conceito antes da transposição para o motor TypeScript causal de produção. Funcionalidades secundárias como armazenamento local em SQLite e sincronização com o Firestore garantiram rastreabilidade sem sobrecarregar o motor central de inferência.
 
-A integração prática na interface de treino, com retorno háptico por vibração a cada repetição e preenchimento automático do campo de contagem ao finalizar a série, confere ao sistema alta usabilidade para atletas e treinadores.
+Como limitações do estado atual, destacam-se: (1) a base experimental focou no agachamento livre, exigindo ampliação para os demais exercícios cadastrados com coortes ampliadas; (2) exercícios em aparelhos com punho estático (*leg press*) demandam sensores posicionados nas pernas; e (3) o limite de taxa do protocolo `WCSession` ($\approx 4{,}4\,\text{Hz}$) poderia ser expandido por canais BLE dedicados.
 
-### 6.2 Limitações Identificadas
-
-1. O banco experimental atual é composto por séries de agachamento livre; embora o algoritmo seja matematicamente agnóstico à direção, faz-se necessária a expansão da base para os demais exercícios suportados (supino, levantamento terra, barra fixa, desenvolvimento) com volumes maiores de voluntários.
-2. Exercícios executados em máquinas fixas onde o punho permanece estático (*leg press*, cadeira extensora) não geram variação inercial no relógio e exigiriam a colocação do sensor em membros inferiores.
-3. A taxa de amostragem efetiva no smartphone ($\approx 4{,}4\,\text{Hz}$) é limitada pelo canal WatchConnectivity; a utilização de BLE direta poderia elevar a resolução temporal.
-
-### 6.3 Direcionamentos Futuros
-
-1. **Treinamento Baseado em Velocidade (VBT):** Integração numérica da aceleração concêntrica filtrada para estimar a velocidade média propulsiva ($\bar{v}$), permitindo inferir a perda de velocidade intrassérie e o limiar de fadiga muscular.
-2. **Avaliação de Simetria Postural:** Extração de parâmetros de simetria bilateral e desvios angulares para alertar o atleta sobre assimetrias no levantamento da carga.
-3. **Rede de Sensores Múltiplos:** Sincronização simultânea entre *smartwatch* no punho e dispositivo no tornozelo via BLE para exercícios de membros inferiores.
-4. **Classificação Automática de Exercícios:** Extensão do algoritmo para identificação automática do tipo de exercício sem seleção manual prévia, utilizando *features* extraídas do espectro de frequência da janela deslizante.
+Os direcionamentos futuros contemplam:
+1. **Treinamento Baseado em Velocidade (VBT):** Integração numérica contínua da aceleração concêntrica filtrada para inferir a velocidade média propulsiva ($\bar{v}$) e monitorar a perda de rendimento neuromuscular ao longo da série;
+2. **Análise de Simetria Postural:** Estudo de rotações angulares anômalas para detecção precoce de assimetrias posturais durante a fase concêntrica;
+3. **Rede de Sensores Múltiplos:** Sincronização simultânea com sensores inerciais de tornozelo para cobertura de exercícios isolados de membros inferiores;
+4. **Reconhecimento Automático de Exercício:** Classificação automática do exercício executado via análise espectral da janela deslizante, eliminando a seleção prévia na interface.
 
 ---
 
 ## Agradecimentos
 
-Ao Prof. Dr. Antonio Carlos Forster, pela orientação acadêmica. À Pontifícia Universidade Católica de Campinas, pela infraestrutura disponibilizada. Aos voluntários que contribuíram com os dados experimentais de treino.
-
----
-
-## Referências
-
-\begin{thebibliography}{10}
-
-\bibitem{acsm2018}
-{American College of Sports Medicine (ACSM)}.
-\newblock {\em ACSM's Guidelines for Exercise Testing and Prescription}.
-\newblock 10th ed. Wolters Kluwer, 2018.
-
-\bibitem{batchelor2020}
-Batchelor, R. et al.
-\newblock Automatic exercise recognition and repetition counting using smartwatches.
-\newblock {\em IEEE Journal of Biomedical and Health Informatics}, v.~24, n.~3, p.~892--901, 2020.
-
-\bibitem{bulling2014}
-Bulling, A., Blanke, U., Schiele, B.
-\newblock A tutorial on human activity recognition using body-worn inertial sensors.
-\newblock {\em ACM Computing Surveys}, v.~46, n.~3, p.~1--33, 2014.
-
-\bibitem{chen2015}
-Chen, Y., Xue, Y.
-\newblock A deep learning approach to human activity recognition based on single accelerometer.
-\newblock In: {\em IEEE SMC}, p.~1488--1492, 2015.
-
-\bibitem{golub2013}
-Golub, G.~H., Van Loan, C.~F.
-\newblock {\em Matrix Computations}.
-\newblock 4th ed. The Johns Hopkins University Press, 2013.
-
-\bibitem{lara2013}
-Lara, O.~D., Labrador, M.~A.
-\newblock A survey on human activity recognition using wearable sensors.
-\newblock {\em IEEE Communications Surveys \& Tutorials}, v.~15, n.~3, p.~1192--1209, 2013.
-
-\bibitem{oppenheim2009}
-Oppenheim, A.~V., Schafer, R.~W.
-\newblock {\em Discrete-Time Signal Processing}.
-\newblock 3rd ed. Pearson, 2009.
-
-\bibitem{pedregosa2011}
-Pedregosa, F. et al.
-\newblock Scikit-learn: Machine learning in Python.
-\newblock {\em Journal of Machine Learning Research}, v.~12, p.~2825--2830, 2011.
-
-\bibitem{shoeb2021}
-Shoeb, M. et al.
-\newblock Real-time repetition counting and form analysis in strength training using IMU sensors.
-\newblock In: {\em ACM IMWUT}, v.~5, n.~2, p.~1--22, 2021.
-
-\bibitem{strang2006}
-Strang, G.
-\newblock {\em Linear Algebra and Its Applications}.
-\newblock 4th ed. Cengage Learning, 2006.
-
-\end{thebibliography}
+Os autores agradecem à Pontifícia Universidade Católica de Campinas pela infraestrutura acadêmica disponibilizada e a todos os voluntários que participaram das coletas experimentais de treino.

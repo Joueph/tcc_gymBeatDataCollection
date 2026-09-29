@@ -1,107 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 450" width="920" height="450"
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 470" width="960" height="470"
      style="background-color: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif;">
-  <!-- content="&lt;mxfile&gt;&lt;diagram name=&quot;alinhamento_skewness&quot;&gt;&lt;/diagram&gt;&lt;/mxfile&gt;" -->
+  <!-- content="<mxfile><diagram name=\"alinhamento_skewness\"></diagram></mxfile>" -->
 
   <defs>
     <marker id="arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+      <polygon points="0 0, 10 3.5, 0 7" fill="#111111"/>
     </marker>
   </defs>
 
   <!-- Title -->
-  <text x="460" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">
+  <text x="480" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#111111">
     Alinhamento de Polaridade via Coeficiente de Assimetria (Skewness)
   </text>
 
   <!-- ===== LEFT: Before alignment (inverted) ===== -->
-  <rect x="20" y="48" width="420" height="385" rx="8" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.5"/>
-  <text x="230" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#C2410C">
+  <rect x="30" y="52" width="415" height="395" rx="8" fill="#F9FAFB" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="237" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#111111">
     (a) Antes — Autovetor Arbitrário (γ₁ &lt; 0)
   </text>
-  <text x="230" y="90" text-anchor="middle" font-size="10" fill="#9A3412" font-style="italic">
+  <text x="237" y="94" text-anchor="middle" font-size="10" fill="#4B5563" font-style="italic">
     Crista = fase excêntrica (INCORRETO)
   </text>
 
   <!-- Left Axes -->
-  <line x1="60" y1="260" x2="410" y2="260" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
-  <line x1="60" y1="390" x2="60" y2="110" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
-  <text x="420" y="265" font-size="10" fill="#333">t</text>
-  <text x="45" y="115" font-size="10" fill="#333">p(t)</text>
-  <text x="50" y="265" font-size="9" fill="#666" text-anchor="end">0</text>
+  <line x1="65" y1="265" x2="415" y2="265" stroke="#111111" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="65" y1="395" x2="65" y2="115" stroke="#111111" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="425" y="269" font-size="10" font-weight="bold" fill="#111111">t</text>
+  <text x="48" y="120" font-size="10" font-weight="bold" fill="#111111">p(t)</text>
+  <text x="55" y="269" font-size="9" fill="#4B5563" text-anchor="end">0</text>
 
-  <!-- Inverted signal: valleys where peaks should be -->
-  <path d="M 70,260 C 85,265 100,285 115,310 C 130,340 145,360 160,365
-           C 175,368 185,360 200,330 C 215,300 230,260 250,230
-           C 270,200 280,180 295,165 C 305,155 310,158 320,175
-           C 330,195 340,230 355,270 C 370,310 380,345 390,360"
-        fill="none" stroke="#EA580C" stroke-width="2.5"/>
+  <!-- Inverted signal: valleys where peaks should be (dashed) -->
+  <path d="M 75,265 C 90,270 105,290 120,315 C 135,345 150,365 165,370
+           C 180,373 190,365 205,335 C 220,305 235,265 255,235
+           C 275,205 285,185 300,170 C 310,160 315,163 325,180
+           C 335,200 345,235 360,275 C 375,315 385,350 395,365"
+        fill="none" stroke="#4B5563" stroke-width="2.2" stroke-dasharray="6,3"/>
 
-  <!-- Inverted peaks (at wrong phase) -->
-  <circle cx="160" cy="365" r="5" fill="#EA580C" stroke="#9A3412" stroke-width="1.5"/>
-  <text x="160" y="400" text-anchor="middle" font-size="9" fill="#9A3412">Concêntrica ↓ (vale)</text>
+  <!-- Inverted peaks (hollow circles) -->
+  <circle cx="165" cy="370" r="5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+  <text x="165" y="405" text-anchor="middle" font-size="9" fill="#374151">Concêntrica ↓ (vale)</text>
 
-  <circle cx="295" cy="165" r="5" fill="#EA580C" stroke="#9A3412" stroke-width="1.5"/>
-  <text x="295" y="145" text-anchor="middle" font-size="9" fill="#9A3412">Excêntrica ↑ (crista)</text>
+  <circle cx="300" cy="170" r="5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+  <text x="300" y="150" text-anchor="middle" font-size="9" fill="#374151">Excêntrica ↑ (crista falsa)</text>
 
   <!-- Problem annotation -->
-  <rect x="80" y="395" width="300" height="28" rx="5" fill="#FED7AA" stroke="#EA580C" stroke-width="1.2"/>
-  <text x="230" y="414" text-anchor="middle" font-size="10" font-weight="bold" fill="#9A3412">
-    ✗ Detector de picos contaria excêntricas como reps
+  <rect x="75" y="402" width="325" height="28" rx="4" fill="#E5E7EB" stroke="#6B7280" stroke-width="1"/>
+  <text x="237" y="420" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#111111">
+    [✗] Detector contaria excêntricas como repetições
   </text>
 
   <!-- Skewness value -->
-  <rect x="310" y="105" width="110" height="30" rx="5" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
-  <text x="365" y="124" text-anchor="middle" font-size="11" font-weight="bold" fill="#DC2626">γ₁ = −0.83</text>
+  <rect x="315" y="105" width="115" height="30" rx="4" fill="#E5E7EB" stroke="#4B5563" stroke-width="1.2"/>
+  <text x="372" y="124" text-anchor="middle" font-size="11" font-weight="bold" fill="#111111">γ₁ = −0,83</text>
 
   <!-- ===== CENTER: Arrow showing correction ===== -->
-  <rect x="440" y="210" width="40" height="40" rx="20" fill="#3B82F6" stroke="#1E40AF" stroke-width="2"/>
-  <text x="460" y="235" text-anchor="middle" font-size="18" fill="white" font-weight="bold">→</text>
-  <text x="460" y="270" text-anchor="middle" font-size="9" font-weight="600" fill="#1E40AF">Se γ₁ &lt; 0:</text>
-  <text x="460" y="283" text-anchor="middle" font-size="9" font-weight="600" fill="#1E40AF">v₁ ← −v₁</text>
+  <g transform="translate(460, 210)">
+    <circle cx="20" cy="20" r="20" fill="#111111" stroke="#000000" stroke-width="1.5"/>
+    <text x="20" y="26" text-anchor="middle" font-size="18" fill="#FFFFFF" font-weight="bold">→</text>
+    <text x="20" y="55" text-anchor="middle" font-size="9" font-weight="bold" fill="#111111">Se γ₁ &lt; 0:</text>
+    <text x="20" y="68" text-anchor="middle" font-size="9" font-family="monospace" font-weight="bold" fill="#111111">v₁ ← −v₁</text>
+  </g>
 
   <!-- ===== RIGHT: After alignment (correct) ===== -->
-  <rect x="480" y="48" width="420" height="385" rx="8" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.5"/>
-  <text x="690" y="72" text-anchor="middle" font-size="13" font-weight="bold" fill="#16A34A">
+  <rect x="505" y="52" width="425" height="395" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+  <text x="717" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#111111">
     (b) Depois — Autovetor Alinhado (γ₁ &gt; 0)
   </text>
-  <text x="690" y="90" text-anchor="middle" font-size="10" fill="#166534" font-style="italic">
+  <text x="717" y="94" text-anchor="middle" font-size="10" fill="#374151" font-style="italic">
     Crista = fase concêntrica (CORRETO)
   </text>
 
   <!-- Right Axes -->
-  <line x1="520" y1="260" x2="870" y2="260" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
-  <line x1="520" y1="390" x2="520" y2="110" stroke="#333" stroke-width="1.2" marker-end="url(#arr)"/>
-  <text x="880" y="265" font-size="10" fill="#333">t</text>
-  <text x="505" y="115" font-size="10" fill="#333">p(t)</text>
-  <text x="510" y="265" font-size="9" fill="#666" text-anchor="end">0</text>
+  <line x1="540" y1="265" x2="890" y2="265" stroke="#111111" stroke-width="1.2" marker-end="url(#arr)"/>
+  <line x1="540" y1="395" x2="540" y2="115" stroke="#111111" stroke-width="1.2" marker-end="url(#arr)"/>
+  <text x="900" y="269" font-size="10" font-weight="bold" fill="#111111">t</text>
+  <text x="522" y="120" font-size="10" font-weight="bold" fill="#111111">p(t)</text>
+  <text x="530" y="269" font-size="9" fill="#4B5563" text-anchor="end">0</text>
 
-  <!-- Correct signal: peaks at concentric phase -->
-  <path d="M 530,260 C 545,255 560,235 575,210 C 590,180 605,160 620,155
-           C 635,152 645,160 660,190 C 675,220 690,260 710,290
-           C 730,320 740,340 755,355 C 765,365 770,362 780,345
-           C 790,325 800,290 815,250 C 830,210 840,175 850,160"
-        fill="none" stroke="#16A34A" stroke-width="2.5"/>
+  <!-- Correct signal: peaks at concentric phase (solid bold) -->
+  <path d="M 550,265 C 565,260 580,240 595,215 C 610,185 625,165 640,160
+           C 655,157 665,165 680,195 C 695,225 710,265 730,295
+           C 750,325 760,345 775,360 C 785,370 790,367 800,350
+           C 810,330 820,295 835,255 C 850,215 860,180 870,165"
+        fill="none" stroke="#111111" stroke-width="2.5"/>
 
-  <!-- Correct peaks -->
-  <circle cx="620" cy="155" r="6" fill="#16A34A" stroke="#166534" stroke-width="2"/>
-  <text x="620" y="138" text-anchor="middle" font-size="9" font-weight="600" fill="#166534">Concêntrica ↑ (crista) ✓</text>
+  <!-- Correct peaks (solid black circles) -->
+  <circle cx="640" cy="160" r="6" fill="#111111" stroke="#000000" stroke-width="2"/>
+  <text x="640" y="142" text-anchor="middle" font-size="9" font-weight="bold" fill="#111111">Concêntrica ↑ (crista)</text>
 
-  <circle cx="850" cy="160" r="6" fill="#16A34A" stroke="#166534" stroke-width="2"/>
-  <text x="850" y="143" text-anchor="middle" font-size="9" font-weight="600" fill="#166534">Concêntrica ↑ ✓</text>
+  <circle cx="870" cy="165" r="6" fill="#111111" stroke="#000000" stroke-width="2"/>
+  <text x="870" y="147" text-anchor="middle" font-size="9" font-weight="bold" fill="#111111">Concêntrica ↑</text>
 
-  <!-- Correct valleys -->
-  <circle cx="755" cy="355" r="4" fill="#F59E0B" stroke="#92400E" stroke-width="1.5"/>
-  <text x="755" y="380" text-anchor="middle" font-size="9" fill="#92400E">Excêntrica ↓</text>
+  <!-- Correct valleys (hollow circles) -->
+  <circle cx="775" cy="360" r="4.5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+  <text x="775" y="385" text-anchor="middle" font-size="9" fill="#374151">Excêntrica ↓</text>
 
   <!-- Success annotation -->
-  <rect x="540" y="395" width="300" height="28" rx="5" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.2"/>
-  <text x="690" y="414" text-anchor="middle" font-size="10" font-weight="bold" fill="#166534">
-    ✓ Detector de picos conta repetições corretamente
+  <rect x="555" y="402" width="335" height="28" rx="4" fill="#F3F4F6" stroke="#111111" stroke-width="1.5"/>
+  <text x="722" y="420" text-anchor="middle" font-size="9.5" font-weight="bold" fill="#111111">
+    [✓] Detector de picos conta repetições corretamente
   </text>
 
   <!-- Skewness value -->
-  <rect x="770" y="105" width="110" height="30" rx="5" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
-  <text x="825" y="124" text-anchor="middle" font-size="11" font-weight="bold" fill="#16A34A">γ₁ = +0.83</text>
+  <rect x="795" y="105" width="115" height="30" rx="4" fill="#F3F4F6" stroke="#111111" stroke-width="1.5"/>
+  <text x="852" y="124" text-anchor="middle" font-size="11" font-weight="bold" fill="#111111">γ₁ = +0,83</text>
 </svg>

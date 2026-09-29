@@ -23,6 +23,11 @@ Golub, G.~H. and {Van Loan}, C.~F. (2013).
 \newblock {\em Matrix Computations}.
 \newblock The Johns Hopkins University Press, 4th edition.
 
+\bibitem[Harris et~al. 2020]{harris2020}
+Harris, C.~R. et~al. (2020).
+\newblock Array programming with {NumPy}.
+\newblock {\em Nature}, 585(7825):357--362.
+
 \bibitem[Lara and Labrador 2013]{lara2013}
 Lara, O.~D. and Labrador, M.~A. (2013).
 \newblock A survey on human activity recognition using wearable sensors.
@@ -44,5 +49,11 @@ Shoeb, M. et~al. (2021).
 Strang, G. (2006).
 \newblock {\em Linear Algebra and Its Applications}.
 \newblock Cengage Learning, 4th edition.
+
+\bibitem[Virtanen et~al. 2020]{virtanen2020}
+Virtanen, P. et~al. (2020).
+\newblock {SciPy} 1.0: Fundamental algorithms for scientific computing in
+  {Python}.
+\newblock {\em Nature Methods}, 17(3):261--272.
 
 \end{thebibliography}

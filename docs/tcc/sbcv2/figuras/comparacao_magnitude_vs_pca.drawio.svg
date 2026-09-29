@@ -1,120 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     viewBox="0 0 920 480" width="920" height="480"
+     viewBox="0 0 960 490" width="960" height="490"
      style="background-color: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif;">
-  <!-- content="&lt;mxfile&gt;&lt;diagram name=&quot;comparacao_magnitude_vs_pca&quot;&gt;&lt;/diagram&gt;&lt;/mxfile&gt;" -->
+  <!-- content="<mxfile><diagram name=\"comparacao_magnitude_vs_pca\"></diagram></mxfile>" -->
 
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+      <polygon points="0 0, 10 3.5, 0 7" fill="#111111"/>
     </marker>
   </defs>
 
   <!-- Title -->
-  <text x="460" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#111">
+  <text x="480" y="30" text-anchor="middle" font-size="15" font-weight="bold" fill="#111111">
     Comparação: Magnitude Euclidiana (L₂) vs. Projeção PCA 1D
   </text>
 
   <!-- ===== LEFT PANEL: L2 Magnitude ===== -->
-  <rect x="20" y="45" width="430" height="420" rx="8" fill="#FFF5F5" stroke="#FCA5A5" stroke-width="1.5"/>
-  <text x="235" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#DC2626">
+  <rect x="30" y="52" width="430" height="415" rx="8" fill="#F9FAFB" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="245" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#111111">
     (a) Magnitude Euclidiana ‖a(t)‖₂
   </text>
-  <text x="235" y="84" text-anchor="middle" font-size="10" fill="#991B1B" font-style="italic">
-    Estritamente positiva — perde direcionalidade
+  <text x="245" y="94" text-anchor="middle" font-size="10" fill="#4B5563" font-style="italic">
+    Estritamente positiva — colapso de fases opostas
   </text>
 
   <!-- L2 Axes -->
-  <line x1="60" y1="360" x2="420" y2="360" stroke="#333" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <line x1="60" y1="400" x2="60" y2="100" stroke="#333" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <text x="430" y="365" font-size="10" fill="#333">t</text>
-  <text x="45" y="105" font-size="10" fill="#333">‖a‖₂</text>
-  <text x="50" y="365" font-size="9" fill="#666" text-anchor="end">0</text>
+  <line x1="65" y1="365" x2="425" y2="365" stroke="#111111" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="65" y1="400" x2="65" y2="110" stroke="#111111" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="435" y="369" font-size="10" font-weight="bold" fill="#111111">t</text>
+  <text x="48" y="115" font-size="10" font-weight="bold" fill="#111111">‖a‖₂</text>
+  <text x="55" y="369" font-size="9" fill="#4B5563" text-anchor="end">0</text>
 
-  <!-- L2 signal - always positive, with spurious double peaks -->
-  <path d="M 70,340 C 85,335 95,320 110,280 C 125,240 135,210 150,185
-           C 165,160 170,155 180,170 C 190,185 195,200 205,230
-           C 215,260 220,280 230,310 C 240,335 245,340 255,335
-           C 265,325 275,295 285,255 C 295,215 305,180 315,160
-           C 325,145 330,140 340,155 C 350,170 355,200 365,250
-           C 375,300 380,330 390,340 C 395,342 400,340 405,338"
-        fill="none" stroke="#DC2626" stroke-width="2.5"/>
+  <!-- L2 signal - always positive, spurious double peaks (dashed) -->
+  <path d="M 75,345 C 90,340 100,325 115,285 C 130,245 140,215 155,190
+           C 170,165 175,160 185,175 C 195,190 200,205 210,235
+           C 220,265 225,285 235,315 C 245,340 250,345 260,340
+           C 270,330 280,300 290,260 C 300,220 310,185 320,165
+           C 330,150 335,145 345,160 C 355,175 360,205 370,255
+           C 380,305 385,335 395,345 C 400,347 405,345 410,343"
+        fill="none" stroke="#4B5563" stroke-width="2.2" stroke-dasharray="6,3"/>
 
-  <!-- Spurious peak markers -->
-  <circle cx="150" cy="185" r="5" fill="#DC2626" stroke="#7F1D1D" stroke-width="1.5"/>
-  <circle cx="180" cy="170" r="5" fill="#DC2626" stroke="#7F1D1D" stroke-width="1.5"/>
-  <circle cx="315" cy="160" r="5" fill="#DC2626" stroke="#7F1D1D" stroke-width="1.5"/>
-  <circle cx="340" cy="155" r="5" fill="#DC2626" stroke="#7F1D1D" stroke-width="1.5"/>
+  <!-- Spurious peak markers (hollow circles) -->
+  <circle cx="155" cy="190" r="5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+  <circle cx="185" cy="175" r="5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+  <circle cx="320" cy="165" r="5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+  <circle cx="345" cy="160" r="5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
 
   <!-- Problem annotations -->
-  <rect x="100" y="110" width="130" height="38" rx="4" fill="#FEE2E2" stroke="#FECACA" stroke-width="1"/>
-  <text x="165" y="127" text-anchor="middle" font-size="9" font-weight="600" fill="#991B1B">⚠ Pico duplicado!</text>
-  <text x="165" y="142" text-anchor="middle" font-size="9" fill="#991B1B">Excêntrica ≈ Concêntrica</text>
-  <line x1="150" y1="148" x2="150" y2="180" stroke="#DC2626" stroke-width="1" stroke-dasharray="3,3"/>
-  <line x1="180" y1="148" x2="180" y2="165" stroke="#DC2626" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="105" y="115" width="135" height="38" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="172" y="131" text-anchor="middle" font-size="9" font-weight="bold" fill="#111111">[!] Pico duplicado</text>
+  <text x="172" y="145" text-anchor="middle" font-size="8.5" fill="#374151">Excêntrica ≈ Concêntrica</text>
+  <line x1="155" y1="153" x2="155" y2="185" stroke="#6B7280" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="185" y1="153" x2="185" y2="170" stroke="#6B7280" stroke-width="1" stroke-dasharray="3,3"/>
 
-  <rect x="265" y="110" width="130" height="38" rx="4" fill="#FEE2E2" stroke="#FECACA" stroke-width="1"/>
-  <text x="330" y="127" text-anchor="middle" font-size="9" font-weight="600" fill="#991B1B">⚠ Pico duplicado!</text>
-  <text x="330" y="142" text-anchor="middle" font-size="9" fill="#991B1B">Contagem: 4 (errado)</text>
-  <line x1="315" y1="148" x2="315" y2="155" stroke="#DC2626" stroke-width="1" stroke-dasharray="3,3"/>
-  <line x1="340" y1="148" x2="340" y2="150" stroke="#DC2626" stroke-width="1" stroke-dasharray="3,3"/>
+  <rect x="275" y="115" width="135" height="38" rx="4" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1"/>
+  <text x="342" y="131" text-anchor="middle" font-size="9" font-weight="bold" fill="#111111">[!] Pico duplicado</text>
+  <text x="342" y="145" text-anchor="middle" font-size="8.5" fill="#374151">Contagem espúria</text>
+  <line x1="320" y1="153" x2="320" y2="160" stroke="#6B7280" stroke-width="1" stroke-dasharray="3,3"/>
+  <line x1="345" y1="153" x2="345" y2="155" stroke="#6B7280" stroke-width="1" stroke-dasharray="3,3"/>
 
   <!-- Result box -->
-  <rect x="80" y="380" width="300" height="35" rx="6" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
-  <text x="230" y="400" text-anchor="middle" font-size="11" font-weight="bold" fill="#991B1B">
-    ✗ Detecção: 4 picos → 2 repetições reais
+  <rect x="80" y="388" width="330" height="34" rx="4" fill="#E5E7EB" stroke="#6B7280" stroke-width="1.2"/>
+  <text x="245" y="409" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#111111">
+    [✗] Detecção: 4 picos para 2 repetições reais
   </text>
 
   <!-- ===== RIGHT PANEL: PCA 1D ===== -->
-  <rect x="470" y="45" width="430" height="420" rx="8" fill="#F0FDF4" stroke="#86EFAC" stroke-width="1.5"/>
-  <text x="685" y="68" text-anchor="middle" font-size="13" font-weight="bold" fill="#16A34A">
+  <rect x="495" y="52" width="435" height="415" rx="8" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+  <text x="712" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#111111">
     (b) Projeção PCA 1D — p(t) = a(t) · v₁
   </text>
-  <text x="685" y="84" text-anchor="middle" font-size="10" fill="#166534" font-style="italic">
-    Preserva direcionalidade — cristas distintas
+  <text x="712" y="94" text-anchor="middle" font-size="10" fill="#374151" font-style="italic">
+    Preserva polaridade direcional — cristas distintas
   </text>
 
   <!-- PCA Axes -->
-  <line x1="510" y1="280" x2="870" y2="280" stroke="#333" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <line x1="510" y1="400" x2="510" y2="100" stroke="#333" stroke-width="1.2" marker-end="url(#arrow)"/>
-  <text x="880" y="285" font-size="10" fill="#333">t</text>
-  <text x="497" y="105" font-size="10" fill="#333">p(t)</text>
-  <text x="500" y="285" font-size="9" fill="#666" text-anchor="end">0</text>
+  <line x1="535" y1="285" x2="895" y2="285" stroke="#111111" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <line x1="535" y1="400" x2="535" y2="110" stroke="#111111" stroke-width="1.2" marker-end="url(#arrow)"/>
+  <text x="905" y="289" font-size="10" font-weight="bold" fill="#111111">t</text>
+  <text x="518" y="115" font-size="10" font-weight="bold" fill="#111111">p(t)</text>
+  <text x="525" y="289" font-size="9" fill="#4B5563" text-anchor="end">0</text>
 
-  <!-- PCA signal - bipolar, clean peaks -->
-  <path d="M 520,280 C 535,285 545,300 555,330 C 565,355 575,370 590,365
-           C 605,355 615,330 625,290 C 635,250 645,200 660,165
-           C 675,140 685,135 695,150 C 705,165 715,200 725,250
-           C 735,290 745,330 755,355 C 765,370 775,365 785,340
-           C 795,315 800,290 810,250 C 820,210 830,170 840,145
-           C 845,138 850,140 855,160"
-        fill="none" stroke="#16A34A" stroke-width="2.5"/>
+  <!-- PCA signal - bipolar, clean peaks (solid bold) -->
+  <path d="M 545,285 C 560,290 570,305 580,335 C 590,360 600,375 615,370
+           C 630,360 640,335 650,295 C 660,255 670,205 685,170
+           C 700,145 710,140 720,155 C 730,170 740,205 750,255
+           C 760,295 770,335 780,360 C 790,375 800,370 810,345
+           C 820,320 825,295 835,255 C 845,215 855,175 865,150
+           C 870,143 875,145 880,165"
+        fill="none" stroke="#111111" stroke-width="2.5"/>
 
-  <!-- Clean peak markers - only at true concentric crests -->
-  <circle cx="660" cy="165" r="6" fill="#16A34A" stroke="#166534" stroke-width="2"/>
-  <circle cx="840" cy="145" r="6" fill="#16A34A" stroke="#166534" stroke-width="2"/>
+  <!-- Clean peak markers - true concentric crests (solid black) -->
+  <circle cx="685" cy="170" r="6" fill="#111111" stroke="#000000" stroke-width="2"/>
+  <circle cx="865" cy="150" r="6" fill="#111111" stroke="#000000" stroke-width="2"/>
 
   <!-- Concentric labels -->
-  <line x1="660" y1="158" x2="660" y2="118" stroke="#16A34A" stroke-width="1" stroke-dasharray="3,3"/>
-  <text x="660" y="112" text-anchor="middle" font-size="9" font-weight="600" fill="#166534">Concêntrica ↑</text>
+  <line x1="685" y1="162" x2="685" y2="128" stroke="#111111" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="685" y="122" text-anchor="middle" font-size="9" font-weight="bold" fill="#111111">Concêntrica ↑</text>
 
-  <line x1="840" y1="138" x2="840" y2="118" stroke="#16A34A" stroke-width="1" stroke-dasharray="3,3"/>
-  <text x="840" y="112" text-anchor="middle" font-size="9" font-weight="600" fill="#166534">Concêntrica ↑</text>
+  <line x1="865" y1="142" x2="865" y2="128" stroke="#111111" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="865" y="122" text-anchor="middle" font-size="9" font-weight="bold" fill="#111111">Concêntrica ↑</text>
 
-  <!-- Eccentric valley labels -->
-  <circle cx="590" cy="365" r="4" fill="#F59E0B" stroke="#92400E" stroke-width="1.5"/>
-  <text x="590" y="390" text-anchor="middle" font-size="9" fill="#92400E">Excêntrica ↓</text>
-  <circle cx="755" cy="355" r="4" fill="#F59E0B" stroke="#92400E" stroke-width="1.5"/>
-  <text x="755" y="390" text-anchor="middle" font-size="9" fill="#92400E">Excêntrica ↓</text>
+  <!-- Eccentric valley labels (hollow circles) -->
+  <circle cx="615" cy="370" r="4.5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+  <text x="615" y="395" text-anchor="middle" font-size="9" fill="#374151">Excêntrica ↓</text>
+  <circle cx="780" cy="360" r="4.5" fill="#FFFFFF" stroke="#111111" stroke-width="1.8"/>
+  <text x="780" y="395" text-anchor="middle" font-size="9" fill="#374151">Excêntrica ↓</text>
 
   <!-- Result box -->
-  <rect x="530" y="410" width="300" height="35" rx="6" fill="#DCFCE7" stroke="#16A34A" stroke-width="1.5"/>
-  <text x="680" y="430" text-anchor="middle" font-size="11" font-weight="bold" fill="#166534">
-    ✓ Detecção: 2 cristas → 2 repetições reais
+  <rect x="550" y="415" width="330" height="34" rx="4" fill="#F3F4F6" stroke="#111111" stroke-width="1.5"/>
+  <text x="715" y="436" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#111111">
+    [✓] Detecção exata: 2 cristas para 2 repetições reais
   </text>
 
   <!-- Positive/Negative zones for PCA -->
-  <text x="865" y="195" font-size="9" fill="#16A34A" font-weight="600">+</text>
-  <text x="865" y="340" font-size="9" fill="#F59E0B" font-weight="600">−</text>
+  <text x="890" y="200" font-size="11" fill="#111111" font-weight="bold">+</text>
+  <text x="890" y="345" font-size="12" fill="#111111" font-weight="bold">−</text>
 </svg>
