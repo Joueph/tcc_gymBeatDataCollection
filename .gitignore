@@ -49,3 +49,7 @@ __pycache__/
 serviceAccountKey*.json
 scripts/ml/output/*
 !scripts/ml/output/.gitkeep
+
+# Ai assisted Skills and artifacts
+
+.agents

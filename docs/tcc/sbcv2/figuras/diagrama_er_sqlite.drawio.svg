@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 640" width="1020" height="640"
+     style="background-color: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif;">
+  <!-- content="&lt;mxfile&gt;&lt;diagram name=&quot;diagrama_er_sqlite&quot;&gt;&lt;/diagram&gt;&lt;/mxfile&gt;" -->
+
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#3B82F6"/>
+    </marker>
+
+    <!-- Table header gradients -->
+    <linearGradient id="headerBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1E40AF"/>
+      <stop offset="100%" style="stop-color:#3B82F6"/>
+    </linearGradient>
+    <linearGradient id="headerGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#065F46"/>
+      <stop offset="100%" style="stop-color:#10B981"/>
+    </linearGradient>
+    <linearGradient id="headerPurple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5B21B6"/>
+      <stop offset="100%" style="stop-color:#8B5CF6"/>
+    </linearGradient>
+    <linearGradient id="headerAmber" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#92400E"/>
+      <stop offset="100%" style="stop-color:#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="headerSlate" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#334155"/>
+      <stop offset="100%" style="stop-color:#64748B"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title & Subtitle -->
+  <text x="510" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0F172A">
+    Diagrama Entidade-Relacionamento (ER) — Banco Local SQLite
+  </text>
+  <text x="510" y="46" text-anchor="middle" font-size="11" fill="#64748B">
+    Banco de dados móvel `wearable-workout.db` (Expo SQLite / WAL Mode) com persistência offline e replicação Firestore
+  </text>
+
+  <!-- ==================== TABLE 1: live_exercise_sessions (Central) ==================== -->
+  <g transform="translate(40, 75)" filter="url(#shadow)">
+    <!-- Card Base -->
+    <rect width="280" height="230" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M 0,8 Q 0,0 8,0 L 272,0 Q 280,0 280,8 L 280,34 L 0,34 Z" fill="url(#headerGreen)"/>
+    <text x="140" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">live_exercise_sessions</text>
+    <text x="270" y="22" text-anchor="end" font-size="9" font-weight="bold" fill="#A7F3D0">Sessão</text>
+
+    <!-- Column Rows -->
+    <!-- PK: session_id -->
+    <rect x="0" y="34" width="280" height="24" fill="#ECFDF5"/>
+    <text x="12" y="50" font-size="10" font-weight="bold" fill="#065F46">🔑 session_id</text>
+    <text x="210" y="50" font-size="9" font-family="monospace" fill="#047857">TEXT [PK]</text>
+
+    <line x1="0" y1="58" x2="280" y2="58" stroke="#E2E8F0"/>
+    <text x="12" y="74" font-size="10" fill="#1E293B">exercise_id</text>
+    <text x="210" y="74" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="82" x2="280" y2="82" stroke="#E2E8F0"/>
+    <text x="12" y="98" font-size="10" fill="#1E293B">exercise_name</text>
+    <text x="210" y="98" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="106" x2="280" y2="106" stroke="#E2E8F0"/>
+    <text x="12" y="122" font-size="10" fill="#1E293B">started_at</text>
+    <text x="210" y="122" font-size="9" font-family="monospace" fill="#64748B">TEXT (ISO)</text>
+
+    <line x1="0" y1="130" x2="280" y2="130" stroke="#E2E8F0"/>
+    <text x="12" y="146" font-size="10" fill="#1E293B">ended_at</text>
+    <text x="210" y="146" font-size="9" font-family="monospace" fill="#64748B">TEXT (ISO)</text>
+
+    <line x1="0" y1="154" x2="280" y2="154" stroke="#E2E8F0"/>
+    <text x="12" y="170" font-size="10" fill="#1E293B">set_count</text>
+    <text x="210" y="170" font-size="9" font-family="monospace" fill="#64748B">INTEGER</text>
+
+    <line x1="0" y1="178" x2="280" y2="178" stroke="#E2E8F0"/>
+    <text x="12" y="194" font-size="10" font-weight="600" fill="#047857">reps (declaradas)</text>
+    <text x="210" y="194" font-size="9" font-family="monospace" fill="#64748B">INTEGER</text>
+
+    <line x1="0" y1="202" x2="280" y2="202" stroke="#E2E8F0"/>
+    <text x="12" y="218" font-size="10" font-weight="bold" fill="#2563EB">detected_reps (ML)</text>
+    <text x="210" y="218" font-size="9" font-family="monospace" fill="#2563EB">INTEGER</text>
+  </g>
+
+  <!-- ==================== TABLE 2: live_exercise_samples ==================== -->
+  <g transform="translate(400, 75)" filter="url(#shadow)">
+    <rect width="310" height="340" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M 0,8 Q 0,0 8,0 L 302,0 Q 310,0 310,8 L 310,34 L 0,34 Z" fill="url(#headerBlue)"/>
+    <text x="155" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">live_exercise_samples</text>
+    <text x="300" y="22" text-anchor="end" font-size="9" font-weight="bold" fill="#BFDBFE">Amostras</text>
+
+    <!-- PK -->
+    <rect x="0" y="34" width="310" height="24" fill="#EFF6FF"/>
+    <text x="12" y="50" font-size="10" font-weight="bold" fill="#1E40AF">🔑 id</text>
+    <text x="240" y="50" font-size="9" font-family="monospace" fill="#1D4ED8">TEXT [PK]</text>
+
+    <!-- FK -->
+    <line x1="0" y1="58" x2="310" y2="58" stroke="#E2E8F0"/>
+    <rect x="0" y="58" width="310" height="24" fill="#FEF3C7"/>
+    <text x="12" y="74" font-size="10" font-weight="bold" fill="#92400E">🔗 session_id</text>
+    <text x="240" y="74" font-size="9" font-family="monospace" fill="#B45309">TEXT [FK]</text>
+
+    <line x1="0" y1="82" x2="310" y2="82" stroke="#E2E8F0"/>
+    <text x="12" y="98" font-size="10" fill="#1E293B">timestamp</text>
+    <text x="240" y="98" font-size="9" font-family="monospace" fill="#64748B">TEXT (ISO)</text>
+
+    <line x1="0" y1="106" x2="310" y2="106" stroke="#E2E8F0"/>
+    <text x="12" y="122" font-size="10" fill="#1E293B">exercise_id, exercise_name</text>
+    <text x="240" y="122" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="130" x2="310" y2="130" stroke="#E2E8F0"/>
+    <text x="12" y="146" font-size="10" font-weight="600" fill="#DC2626">acceleration_x, y, z</text>
+    <text x="240" y="146" font-size="9" font-family="monospace" fill="#DC2626">REAL (g)</text>
+
+    <line x1="0" y1="154" x2="310" y2="154" stroke="#E2E8F0"/>
+    <text x="12" y="170" font-size="10" font-weight="600" fill="#7C3AED">gyroscope_x, y, z</text>
+    <text x="240" y="170" font-size="9" font-family="monospace" fill="#7C3AED">REAL (rad/s)</text>
+
+    <line x1="0" y1="178" x2="310" y2="178" stroke="#E2E8F0"/>
+    <text x="12" y="194" font-size="10" fill="#1E293B">heart_rate</text>
+    <text x="240" y="194" font-size="9" font-family="monospace" fill="#64748B">REAL (bpm)</text>
+
+    <line x1="0" y1="202" x2="310" y2="202" stroke="#E2E8F0"/>
+    <text x="12" y="218" font-size="10" fill="#1E293B">active_energy_burned</text>
+    <text x="240" y="218" font-size="9" font-family="monospace" fill="#64748B">REAL (kcal)</text>
+
+    <line x1="0" y1="226" x2="310" y2="226" stroke="#E2E8F0"/>
+    <text x="12" y="242" font-size="10" fill="#1E293B">distance</text>
+    <text x="240" y="242" font-size="9" font-family="monospace" fill="#64748B">REAL (m)</text>
+
+    <line x1="0" y1="250" x2="310" y2="250" stroke="#E2E8F0"/>
+    <text x="12" y="266" font-size="10" fill="#1E293B">step_count</text>
+    <text x="240" y="266" font-size="9" font-family="monospace" fill="#64748B">REAL (passos)</text>
+
+    <line x1="0" y1="274" x2="310" y2="274" stroke="#E2E8F0"/>
+    <text x="12" y="290" font-size="10" fill="#1E293B">oxygen_saturation</text>
+    <text x="240" y="290" font-size="9" font-family="monospace" fill="#64748B">REAL (%)</text>
+
+    <line x1="0" y1="298" x2="310" y2="298" stroke="#E2E8F0"/>
+    <rect x="0" y="298" width="310" height="42" fill="#F8FAFC" rx="0 0 8 8"/>
+    <text x="12" y="318" font-size="9" fill="#64748B">Taxa: ~25 Hz no Watch · 4,4 Hz no BT</text>
+    <text x="12" y="332" font-size="9" fill="#0284C7">Séries típicas: 200 a 600 amostras / série</text>
+  </g>
+
+  <!-- Relationship Connector: live_exercise_sessions (1) -> (N) live_exercise_samples -->
+  <path d="M 320,120 L 360,120 L 360,147 L 400,147" fill="none" stroke="#2563EB" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <!-- 1 icon -->
+  <rect x="325" y="105" width="22" height="15" rx="3" fill="#ECFDF5" stroke="#10B981" stroke-width="1"/>
+  <text x="336" y="116" text-anchor="middle" font-size="9" font-weight="bold" fill="#065F46">1</text>
+  <!-- N icon -->
+  <rect x="368" y="132" width="22" height="15" rx="3" fill="#EFF6FF" stroke="#3B82F6" stroke-width="1"/>
+  <text x="379" y="143" text-anchor="middle" font-size="9" font-weight="bold" fill="#1E40AF">N</text>
+  <text x="360" y="100" text-anchor="middle" font-size="9" font-weight="bold" fill="#1E40AF">1 : N</text>
+  <text x="360" y="170" text-anchor="middle" font-size="8" fill="#64748B">session_id</text>
+
+  <!-- ==================== TABLE 3: user_profile ==================== -->
+  <g transform="translate(40, 335)" filter="url(#shadow)">
+    <rect width="280" height="265" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M 0,8 Q 0,0 8,0 L 272,0 Q 280,0 280,8 L 280,34 L 0,34 Z" fill="url(#headerPurple)"/>
+    <text x="140" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">user_profile</text>
+    <text x="270" y="22" text-anchor="end" font-size="9" font-weight="bold" fill="#DDD6FE">Voluntário</text>
+
+    <!-- PK -->
+    <rect x="0" y="34" width="280" height="24" fill="#F5F3FF"/>
+    <text x="12" y="50" font-size="10" font-weight="bold" fill="#5B21B6">🔑 id</text>
+    <text x="210" y="50" font-size="9" font-family="monospace" fill="#6D28D9">TEXT [PK]</text>
+
+    <line x1="0" y1="58" x2="280" y2="58" stroke="#E2E8F0"/>
+    <text x="12" y="74" font-size="10" fill="#1E293B">name</text>
+    <text x="210" y="74" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="82" x2="280" y2="82" stroke="#E2E8F0"/>
+    <text x="12" y="98" font-size="10" fill="#1E293B">email</text>
+    <text x="210" y="98" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="106" x2="280" y2="106" stroke="#E2E8F0"/>
+    <text x="12" y="122" font-size="10" fill="#1E293B">age</text>
+    <text x="210" y="122" font-size="9" font-family="monospace" fill="#64748B">INTEGER</text>
+
+    <line x1="0" y1="130" x2="280" y2="130" stroke="#E2E8F0"/>
+    <text x="12" y="146" font-size="10" fill="#1E293B">sex</text>
+    <text x="210" y="146" font-size="9" font-family="monospace" fill="#64748B">TEXT (M/F)</text>
+
+    <line x1="0" y1="154" x2="280" y2="154" stroke="#E2E8F0"/>
+    <text x="12" y="170" font-size="10" fill="#1E293B">training_experience</text>
+    <text x="210" y="170" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="178" x2="280" y2="178" stroke="#E2E8F0"/>
+    <text x="12" y="194" font-size="10" fill="#1E293B">created_at</text>
+    <text x="210" y="194" font-size="9" font-family="monospace" fill="#64748B">TEXT (ISO)</text>
+
+    <line x1="0" y1="202" x2="280" y2="202" stroke="#E2E8F0"/>
+    <text x="12" y="218" font-size="10" fill="#1E293B">password</text>
+    <text x="210" y="218" font-size="9" font-family="monospace" fill="#64748B">TEXT (local)</text>
+
+    <line x1="0" y1="226" x2="280" y2="226" stroke="#E2E8F0"/>
+    <rect x="0" y="226" width="280" height="39" fill="#F8FAFC" rx="0 0 8 8"/>
+    <text x="12" y="244" font-size="9" fill="#64748B">Sincronizado com Firebase Auth</text>
+    <text x="12" y="257" font-size="9" fill="#6D28D9">e documento `users/{uid}`</text>
+  </g>
+
+  <!-- ==================== TABLE 4: workouts (HealthKit) ==================== -->
+  <g transform="translate(745, 75)" filter="url(#shadow)">
+    <rect width="240" height="235" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M 0,8 Q 0,0 8,0 L 232,0 Q 240,0 240,8 L 240,34 L 0,34 Z" fill="url(#headerAmber)"/>
+    <text x="120" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">workouts</text>
+    <text x="230" y="22" text-anchor="end" font-size="9" font-weight="bold" fill="#FEF3C7">HealthKit</text>
+
+    <!-- PK -->
+    <rect x="0" y="34" width="240" height="24" fill="#FEF3C7"/>
+    <text x="12" y="50" font-size="10" font-weight="bold" fill="#92400E">🔑 id</text>
+    <text x="175" y="50" font-size="9" font-family="monospace" fill="#B45309">TEXT [PK]</text>
+
+    <line x1="0" y1="58" x2="240" y2="58" stroke="#E2E8F0"/>
+    <text x="12" y="74" font-size="10" fill="#1E293B">activity_type</text>
+    <text x="175" y="74" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="82" x2="240" y2="82" stroke="#E2E8F0"/>
+    <text x="12" y="98" font-size="10" fill="#1E293B">start_date</text>
+    <text x="175" y="98" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="106" x2="240" y2="106" stroke="#E2E8F0"/>
+    <text x="12" y="122" font-size="10" fill="#1E293B">end_date</text>
+    <text x="175" y="122" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="130" x2="240" y2="130" stroke="#E2E8F0"/>
+    <text x="12" y="146" font-size="10" fill="#1E293B">duration</text>
+    <text x="175" y="146" font-size="9" font-family="monospace" fill="#64748B">REAL (s)</text>
+
+    <line x1="0" y1="154" x2="240" y2="154" stroke="#E2E8F0"/>
+    <text x="12" y="170" font-size="10" fill="#1E293B">active_energy_burned</text>
+    <text x="175" y="170" font-size="9" font-family="monospace" fill="#64748B">REAL (kcal)</text>
+
+    <line x1="0" y1="178" x2="240" y2="178" stroke="#E2E8F0"/>
+    <text x="12" y="194" font-size="10" fill="#1E293B">distance</text>
+    <text x="175" y="194" font-size="9" font-family="monospace" fill="#64748B">REAL (m)</text>
+
+    <line x1="0" y1="202" x2="240" y2="202" stroke="#E2E8F0"/>
+    <text x="12" y="218" font-size="10" fill="#1E293B">source_name</text>
+    <text x="175" y="218" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+  </g>
+
+  <!-- ==================== TABLE 5: metric_samples ==================== -->
+  <g transform="translate(745, 335)" filter="url(#shadow)">
+    <rect width="240" height="175" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M 0,8 Q 0,0 8,0 L 232,0 Q 240,0 240,8 L 240,34 L 0,34 Z" fill="url(#headerAmber)"/>
+    <text x="120" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">metric_samples</text>
+    <text x="230" y="22" text-anchor="end" font-size="9" font-weight="bold" fill="#FEF3C7">Métricas</text>
+
+    <!-- PK -->
+    <rect x="0" y="34" width="240" height="24" fill="#FEF3C7"/>
+    <text x="12" y="50" font-size="10" font-weight="bold" fill="#92400E">🔑 id</text>
+    <text x="175" y="50" font-size="9" font-family="monospace" fill="#B45309">TEXT [PK]</text>
+
+    <line x1="0" y1="58" x2="240" y2="58" stroke="#E2E8F0"/>
+    <text x="12" y="74" font-size="10" fill="#1E293B">metric_type</text>
+    <text x="175" y="74" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="82" x2="240" y2="82" stroke="#E2E8F0"/>
+    <text x="12" y="98" font-size="10" fill="#1E293B">start_date, end_date</text>
+    <text x="175" y="98" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="106" x2="240" y2="106" stroke="#E2E8F0"/>
+    <text x="12" y="122" font-size="10" fill="#1E293B">value</text>
+    <text x="175" y="122" font-size="9" font-family="monospace" fill="#64748B">REAL</text>
+
+    <line x1="0" y1="130" x2="240" y2="130" stroke="#E2E8F0"/>
+    <text x="12" y="146" font-size="10" fill="#1E293B">unit</text>
+    <text x="175" y="146" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="154" x2="240" y2="154" stroke="#E2E8F0"/>
+    <rect x="0" y="154" width="240" height="21" fill="#F8FAFC" rx="0 0 8 8"/>
+    <text x="12" y="168" font-size="8.5" fill="#64748B">Importação em lote HealthKit</text>
+  </g>
+
+  <!-- ==================== TABLE 6: sync_state ==================== -->
+  <g transform="translate(400, 445)" filter="url(#shadow)">
+    <rect width="310" height="120" rx="8" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+    <path d="M 0,8 Q 0,0 8,0 L 302,0 Q 310,0 310,8 L 310,34 L 0,34 Z" fill="url(#headerSlate)"/>
+    <text x="155" y="22" text-anchor="middle" font-size="12" font-weight="bold" fill="#FFFFFF">sync_state</text>
+    <text x="300" y="22" text-anchor="end" font-size="9" font-weight="bold" fill="#E2E8F0">Controle</text>
+
+    <!-- PK -->
+    <rect x="0" y="34" width="310" height="24" fill="#F1F5F9"/>
+    <text x="12" y="50" font-size="10" font-weight="bold" fill="#334155">🔑 key</text>
+    <text x="240" y="50" font-size="9" font-family="monospace" fill="#475569">TEXT [PK]</text>
+
+    <line x1="0" y1="58" x2="310" y2="58" stroke="#E2E8F0"/>
+    <text x="12" y="74" font-size="10" fill="#1E293B">value</text>
+    <text x="240" y="74" font-size="9" font-family="monospace" fill="#64748B">TEXT</text>
+
+    <line x1="0" y1="82" x2="310" y2="82" stroke="#E2E8F0"/>
+    <rect x="0" y="82" width="310" height="38" fill="#F8FAFC" rx="0 0 8 8"/>
+    <text x="12" y="98" font-size="9" fill="#64748B">Exemplo: key = 'lastSyncAt', value = ISO Timestamp</text>
+    <text x="12" y="112" font-size="9" fill="#0369A1">Evita reenvio redundante para o Cloud Firestore</text>
+  </g>
+
+  <!-- Legend & Bottom Info -->
+  <g transform="translate(40, 608)">
+    <rect x="0" y="0" width="10" height="10" rx="2" fill="#047857"/>
+    <text x="16" y="9" font-size="9" fill="#475569">Sessões &amp; Séries</text>
+
+    <rect x="130" y="0" width="10" height="10" rx="2" fill="#2563EB"/>
+    <text x="146" y="9" font-size="9" fill="#475569">Amostras Inerciais (Alta Frequência)</text>
+
+    <rect x="360" y="0" width="10" height="10" rx="2" fill="#7C3AED"/>
+    <text x="376" y="9" font-size="9" fill="#475569">Perfil Voluntário</text>
+
+    <rect x="490" y="0" width="10" height="10" rx="2" fill="#D97706"/>
+    <text x="506" y="9" font-size="9" fill="#475569">HealthKit Sync</text>
+
+    <rect x="620" y="0" width="10" height="10" rx="2" fill="#475569"/>
+    <text x="636" y="9" font-size="9" fill="#475569">Metadados Sync</text>
+
+    <text x="940" y="9" text-anchor="end" font-size="9" font-style="italic" fill="#94A3B8">Expo SQLite · PRAGMA journal_mode = WAL</text>
+  </g>
+</svg>

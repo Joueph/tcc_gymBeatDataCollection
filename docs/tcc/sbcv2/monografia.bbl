@@ -1,0 +1,48 @@
+\begin{thebibliography}{}
+
+\bibitem[{American College of Sports Medicine} 2018]{acsm2018}
+{American College of Sports Medicine} (2018).
+\newblock {\em ACSM's Guidelines for Exercise Testing and Prescription}.
+\newblock Wolters Kluwer, 10th edition.
+
+\bibitem[Batchelor et~al. 2020]{batchelor2020}
+Batchelor, R. et~al. (2020).
+\newblock Automatic exercise recognition and repetition counting using
+  smartwatches.
+\newblock {\em IEEE Journal of Biomedical and Health Informatics},
+  24(3):892--901.
+
+\bibitem[Bulling et~al. 2014]{bulling2014}
+Bulling, A., Blanke, U., and Schiele, B. (2014).
+\newblock A tutorial on human activity recognition using body-worn inertial
+  sensors.
+\newblock {\em ACM Computing Surveys (CSUR)}, 46(3):1--33.
+
+\bibitem[Golub and {Van Loan} 2013]{golub2013}
+Golub, G.~H. and {Van Loan}, C.~F. (2013).
+\newblock {\em Matrix Computations}.
+\newblock The Johns Hopkins University Press, 4th edition.
+
+\bibitem[Lara and Labrador 2013]{lara2013}
+Lara, O.~D. and Labrador, M.~A. (2013).
+\newblock A survey on human activity recognition using wearable sensors.
+\newblock {\em IEEE Communications Surveys \& Tutorials}, 15(3):1192--1209.
+
+\bibitem[Oppenheim and Schafer 2009]{oppenheim2009}
+Oppenheim, A.~V. and Schafer, R.~W. (2009).
+\newblock {\em Discrete-Time Signal Processing}.
+\newblock Pearson, 3rd edition.
+
+\bibitem[Shoeb et~al. 2021]{shoeb2021}
+Shoeb, M. et~al. (2021).
+\newblock Real-time repetition counting and form analysis in strength training
+  using imu sensors.
+\newblock In {\em Proceedings of the ACM on Interactive, Mobile, Wearable and
+  Ubiquitous Technologies}, volume~5, pages 1--22.
+
+\bibitem[Strang 2006]{strang2006}
+Strang, G. (2006).
+\newblock {\em Linear Algebra and Its Applications}.
+\newblock Cengage Learning, 4th edition.
+
+\end{thebibliography}
