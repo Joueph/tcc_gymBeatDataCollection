@@ -65,7 +65,7 @@ export default function LiveWorkoutScreen() {
   const [detectedReps, setDetectedReps] = useState<number | null>(null);
   const [liveReps, setLiveReps] = useState(0);
 
-  const streamingCounter = useRef(new StreamingRepetitionCounter());
+  const streamingCounter = useRef(new StreamingRepetitionCounter(25.0, 200));
 
   const normalizeErrorMessage = (raw: string) => {
     const lower = raw.toLowerCase();
@@ -359,10 +359,12 @@ export default function LiveWorkoutScreen() {
         const streamCount = streamingCounter.current.getRepCount();
         let finalDetected = streamCount;
 
-        // Fallback: se o streaming não detectou repetições por qualquer motivo, roda o motor batch
-        if (finalDetected === 0 && samples.length > 5) {
+        // Reconciliação com o motor batch global de alta fidelidade sobre a série completa
+        if (samples.length > 5) {
           const analysis = processSessionSamples(samples, sessionStartedAt ?? undefined, endedAt);
-          finalDetected = analysis?.repCount ?? 0;
+          if (analysis && analysis.repCount > 0) {
+            finalDetected = analysis.repCount;
+          }
         }
 
         setDetectedReps(finalDetected > 0 ? finalDetected : null);

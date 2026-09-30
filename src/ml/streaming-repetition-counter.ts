@@ -24,14 +24,20 @@ export class StreamingRepetitionCounter {
   private fs: number;
   private currentReps = 0;
   private sampleCount = 0;
-  private lastPeakSampleIndex = -100;
+  private lastPeakSampleIndex = -1000;
+  private lastPeakTimeSec = -1000;
+
+  // Janela deslizante para auto-calibração dinâmica da taxa de amostragem
+  private windowStartTimeSec: number | null = null;
+  private windowStartSampleIndex = 0;
+
   private principalAxis: [number, number, number] = [0, 1, 0];
 
   // Restrições Biomecânicas
-  private readonly minIntervalSec = 1.6; // Janela refratária fisiológica mínima
+  private readonly minIntervalSec = 1.6; // Janela refratária fisiológica mínima (1.6s)
   private readonly minPeakHeight = 0.25;  // Limiar de amplitude positiva mínima
 
-  constructor(fs = 4.4, bufferSize = 35) {
+  constructor(fs = 25.0, bufferSize = 200) {
     this.fs = fs;
     this.sampleBuffer = new CircularBuffer<InertialSampleInput>(bufferSize);
     this.signalBuffer = new CircularBuffer<number>(bufferSize);
@@ -48,12 +54,15 @@ export class StreamingRepetitionCounter {
 
     this.currentReps = 0;
     this.sampleCount = 0;
-    this.lastPeakSampleIndex = -100;
+    this.lastPeakSampleIndex = -1000;
+    this.lastPeakTimeSec = -1000;
+    this.windowStartTimeSec = null;
+    this.windowStartSampleIndex = 0;
     this.principalAxis = [0, 1, 0];
   }
 
   /**
-   * Configura a taxa de amostragem estimada.
+   * Configura a taxa de amostragem estimada e atualiza o filtro IIR.
    */
   public setSamplingRate(newFs: number): void {
     if (newFs > 0.5 && Math.abs(newFs - this.fs) > 0.5) {
@@ -71,13 +80,42 @@ export class StreamingRepetitionCounter {
     this.sampleCount++;
     this.sampleBuffer.push(sample);
 
+    // 0. Auto-calibração dinâmica da taxa de amostragem (fs) por janela deslizante
+    let sampleTimeSec: number | null = null;
+    if (sample.timestamp) {
+      const parsed = new Date(sample.timestamp).getTime() / 1000;
+      if (Number.isFinite(parsed) && parsed > 0) {
+        sampleTimeSec = parsed;
+      }
+    }
+
+    if (sampleTimeSec !== null) {
+      if (this.windowStartTimeSec === null) {
+        this.windowStartTimeSec = sampleTimeSec;
+        this.windowStartSampleIndex = currentIndex;
+      } else {
+        const elapsedSec = sampleTimeSec - this.windowStartTimeSec;
+        const samplesElapsed = currentIndex - this.windowStartSampleIndex;
+        // Atualiza a cada ~2 segundos de dados acumulados
+        if (elapsedSec >= 2.0 && samplesElapsed >= 4) {
+          const calculatedFs = samplesElapsed / elapsedSec;
+          if (calculatedFs >= 2.0 && calculatedFs <= 100.0 && Math.abs(calculatedFs - this.fs) > 1.5) {
+            this.setSamplingRate(calculatedFs);
+          }
+          this.windowStartTimeSec = sampleTimeSec;
+          this.windowStartSampleIndex = currentIndex;
+        }
+      }
+    }
+
     const ax = sample.accelerationX ?? 0;
     const ay = sample.accelerationY ?? 0;
     const az = sample.accelerationZ ?? 0;
 
     // 1. Moving PCA: atualiza a direção do movimento sobre a janela móvel
     const recentSamples = this.sampleBuffer.toArray();
-    if (recentSamples.length >= 8) {
+    const minPcaWindow = Math.max(8, Math.floor(this.fs * 0.8)); // Pelo menos ~0.8s de dados
+    if (recentSamples.length >= minPcaWindow) {
       const winAx = recentSamples.map((s) => s.accelerationX ?? 0);
       const winAy = recentSamples.map((s) => s.accelerationY ?? 0);
       const winAz = recentSamples.map((s) => s.accelerationZ ?? 0);
@@ -101,8 +139,9 @@ export class StreamingRepetitionCounter {
     let normVal = 0;
     let repConfirmed = false;
 
-    // Exigir pelo menos 8 amostras para aquecimento da janela estatística (~1.8s)
-    if (this.sampleCount >= 8 && sigs.length >= 8) {
+    // Exigir pelo menos ~1.0s de amostras para aquecimento da janela estatística
+    const minWarmup = Math.max(8, Math.floor(this.fs * 1.0));
+    if (this.sampleCount >= minWarmup && sigs.length >= minWarmup) {
       const m = mean(sigs);
       const sd = std(sigs) + 1e-6;
       normVal = (filtPca - m) / sd;
@@ -115,12 +154,23 @@ export class StreamingRepetitionCounter {
       // Crista local: s1 > s0 e s1 >= s2, com amplitude mínima
       if (s1 > s0 && s1 >= s2 && s1 >= this.minPeakHeight) {
         const peakIdx = currentIndex - 1;
-        const minDistSamples = Math.floor(this.minIntervalSec * this.fs);
+        const minDistSamples = Math.max(1, Math.floor(this.minIntervalSec * this.fs));
 
-        // Verificar janela refratária fisiológica
-        if (peakIdx - this.lastPeakSampleIndex >= minDistSamples) {
+        // Validação da janela refratária fisiológica (amostras e timestamps)
+        let meetsRefractory = (peakIdx - this.lastPeakSampleIndex) >= minDistSamples;
+        if (sampleTimeSec !== null && this.lastPeakTimeSec > 0) {
+          // Se timestamps estiverem presentes, reforça que pelo menos ~1.2s se passaram no tempo absoluto
+          if ((sampleTimeSec - this.lastPeakTimeSec) < (this.minIntervalSec * 0.75)) {
+            meetsRefractory = false;
+          }
+        }
+
+        if (meetsRefractory) {
           this.currentReps++;
           this.lastPeakSampleIndex = peakIdx;
+          if (sampleTimeSec !== null) {
+            this.lastPeakTimeSec = sampleTimeSec;
+          }
           repConfirmed = true;
         }
       }
