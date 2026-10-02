@@ -1,0 +1,87 @@
+\relax 
+\providecommand \babel@aux [2]{\global \let \babel@toc \@gobbletwo }
+\@nameuse{bbl@beforestart}
+\catcode `"\active 
+\citation{acsm2018}
+\babel@aux{brazilian}{}
+\citation{bulling2014}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introdução}{2}{}\protected@file@percent }
+\citation{acsm2018}
+\citation{lara2013}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Fundamentação Teórica}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Computação Vestível e Sensores Inerciais (IMU)}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Biomecânica dos Exercícios Resistidos}{3}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Ciclo biomecânico de uma repetição e correspondência no sinal inercial projetado.}}{3}{}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:ciclo_biomecanico}{{1}{3}{Biomecânica dos Exercícios Resistidos}{figure.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Limitações da Magnitude Euclidiana e Projeção via Moving PCA}{3}{}\protected@file@percent }
+\citation{golub2013}
+\citation{strang2006}
+\citation{oppenheim2009}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparação visual entre Magnitude $L_2$ e Projeção PCA 1D para dados de agachamento livre.}}{4}{}\protected@file@percent }
+\newlabel{fig:comparacao_pca}{{2}{4}{Limitações da Magnitude Euclidiana e Projeção via Moving PCA}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Alinhamento de Polaridade via Assimetria (\textit  {Skewness})}{4}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Efeito do alinhamento por \textit  {skewness} na polaridade do sinal projetado.}}{5}{}\protected@file@percent }
+\newlabel{fig:alinhamento_skewness}{{3}{5}{Alinhamento de Polaridade via Assimetria (\textit  {Skewness})}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Filtragem Causal IIR Biquad}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3}Arquitetura da Solução e Coleta Inercial}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Visão Geral do Sistema}{5}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Diagrama em blocos da arquitetura distribuída GymBeat.}}{6}{}\protected@file@percent }
+\newlabel{fig:arquitetura_blocos}{{4}{6}{Visão Geral do Sistema}{figure.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Nó Coletor Vestível (Apple Watch)}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Camada de Suporte: Persistência Local e Sincronização em Nuvem}{6}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Especificação do Nó Coletor (Apple Watch)}}{7}{}\protected@file@percent }
+\newlabel{tab:hardware_watch}{{1}{7}{Nó Coletor Vestível (Apple Watch)}{table.1}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Canais do Quadro Inercial (\texttt  {MetricSample})}}{7}{}\protected@file@percent }
+\newlabel{tab:canais_metricsample}{{2}{7}{Nó Coletor Vestível (Apple Watch)}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Experiência de Uso e Retorno Háptico}{7}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Esquema Resumido do Banco de Dados Local SQLite}}{8}{}\protected@file@percent }
+\newlabel{tab:esquema_sqlite}{{3}{8}{Camada de Suporte: Persistência Local e Sincronização em Nuvem}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Exercícios Suportados no Sistema GymBeat}}{8}{}\protected@file@percent }
+\newlabel{tab:exercicios}{{4}{8}{Experiência de Uso e Retorno Háptico}{table.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Motor de Contagem em Tempo Real e Validação Experimental}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Motor de Detecção em Tempo Real}{8}{}\protected@file@percent }
+\citation{harris2020}
+\citation{virtanen2020}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Pipeline de processamento do motor de repetições em tempo real.}}{9}{}\protected@file@percent }
+\newlabel{fig:pipeline_streaming}{{5}{9}{Motor de Detecção em Tempo Real}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Máquina de estados finitos (FSM) da detecção de repetições.}}{9}{}\protected@file@percent }
+\newlabel{fig:fsm_deteccao}{{6}{9}{Motor de Detecção em Tempo Real}{figure.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Hiperparâmetros do Motor de Inferência GymBeat}}{10}{}\protected@file@percent }
+\newlabel{tab:hiperparametros}{{5}{10}{Motor de Detecção em Tempo Real}{table.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Validação de Conceito e Calibração Laboratorial via Python}{10}{}\protected@file@percent }
+\citation{shoeb2021}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Protocolo Experimental e Métricas de Avaliação}{11}{}\protected@file@percent }
+\citation{batchelor2020}
+\citation{shoeb2021}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Resultados e Discussão}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Métricas Quantitativas de Acerto}{12}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Avaliação Experimental do Motor Streaming GymBeat em Agachamento Livre}}{12}{}\protected@file@percent }
+\newlabel{tab:resultados_experimentais}{{6}{12}{Métricas Quantitativas de Acerto}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Análise Visual dos Sinais e Cadência das Repetições}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Comparativo com Trabalhos Relacionados}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Perfil de Desempenho Computacional}{12}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Sinal inercial bruto 3D e sinal 1D sintetizado com marcação de picos na Sessão 1.}}{13}{}\protected@file@percent }
+\newlabel{fig:sessao1}{{7}{13}{Análise Visual dos Sinais e Cadência das Repetições}{figure.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusões e Trabalhos Futuros}{13}{}\protected@file@percent }
+\bibstyle{sbc}
+\bibdata{monografia}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Sinal inercial bruto 3D e sinal 1D sintetizado com marcação de picos na Sessão 2.}}{14}{}\protected@file@percent }
+\newlabel{fig:sessao2}{{8}{14}{Análise Visual dos Sinais e Cadência das Repetições}{figure.8}{}}
+\bibcite{acsm2018}{{American College of Sports Medicine} 2018}
+\bibcite{batchelor2020}{Batchelor et~al. 2020}
+\bibcite{bulling2014}{Bulling et~al. 2014}
+\bibcite{golub2013}{Golub and {Van Loan} 2013}
+\bibcite{harris2020}{Harris et~al. 2020}
+\bibcite{lara2013}{Lara and Labrador 2013}
+\bibcite{oppenheim2009}{Oppenheim and Schafer 2009}
+\bibcite{shoeb2021}{Shoeb et~al. 2021}
+\bibcite{strang2006}{Strang 2006}
+\bibcite{virtanen2020}{Virtanen et~al. 2020}
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Comparativo com Trabalhos Relacionados na Literatura}}{15}{}\protected@file@percent }
+\newlabel{tab:comparativo_literatura}{{7}{15}{Comparativo com Trabalhos Relacionados}{table.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Perfil de Desempenho Computacional no Motor Hermes}}{15}{}\protected@file@percent }
+\newlabel{tab:perfil_desempenho}{{8}{15}{Perfil de Desempenho Computacional}{table.8}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Processamento Amostra-a-Amostra do Motor GymBeat}}{16}{}\protected@file@percent }
+\newlabel{alg:gymbeat}{{1}{16}{Motor de Detecção em Tempo Real}{algorithm.1}{}}
+\gdef \@abspage@last{16}

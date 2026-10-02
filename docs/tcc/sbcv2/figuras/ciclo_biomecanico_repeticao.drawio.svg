@@ -1,119 +1,226 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-     viewBox="0 0 960 550" width="960" height="550"
-     style="background-color: #ffffff; font-family: 'Helvetica Neue', Arial, sans-serif;">
-  <!-- content="<mxfile><diagram name=\"ciclo_biomecanico_repeticao\"></diagram></mxfile>" -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1"
+     width="960" height="580" viewBox="0 0 960 580"
+     content="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;mxfile host=&quot;app.diagrams.net&quot; modified=&quot;2026-10-01T23:58:00.000Z&quot; agent=&quot;Antigravity&quot; version=&quot;21.0.0&quot; type=&quot;device&quot;&gt;
+  &lt;diagram id=&quot;ciclo_biomecanico&quot; name=&quot;Ciclo Biomecanico Repeticao&quot;&gt;
+    &lt;mxGraphModel dx=&quot;1000&quot; dy=&quot;650&quot; grid=&quot;1&quot; gridSize=&quot;10&quot; guides=&quot;1&quot; tooltips=&quot;1&quot; connect=&quot;1&quot; arrows=&quot;1&quot; fold=&quot;1&quot; page=&quot;1&quot; pageScale=&quot;1&quot; pageWidth=&quot;960&quot; pageHeight=&quot;600&quot; background=&quot;#ffffff&quot; math=&quot;0&quot; shadow=&quot;0&quot;&gt;
+      &lt;root&gt;
+        &lt;mxCell id=&quot;0&quot;/&gt;
+        &lt;mxCell id=&quot;1&quot; parent=&quot;0&quot;/&gt;
+        &lt;mxCell id=&quot;title&quot; value=&quot;Ciclo Biomecânico de uma Repetição e Correspondência no Domínio Inercial&quot; style=&quot;text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1;fontColor=#000000;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;120&quot; y=&quot;15&quot; width=&quot;720&quot; height=&quot;30&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;secA&quot; value=&quot;(a) Fases Biomecânicas da Execução (Exemplo: Agachamento Livre)&quot; style=&quot;text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;fontColor=#111111;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;200&quot; y=&quot;50&quot; width=&quot;560&quot; height=&quot;25&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;box_ecc&quot; value=&quot;&amp;lt;b style=&amp;quot;font-size:13px; color:#000000;&amp;quot;&amp;gt;1. FASE EXCÊNTRICA&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;span style=&amp;quot;font-size:11px; color:#111111;&amp;quot;&amp;gt;Alongamento muscular sob tensão (descida)&amp;lt;br/&amp;gt;Velocidade linear: &amp;lt;i&amp;gt;v(t) &amp;amp;lt; 0&amp;lt;/i&amp;gt;&amp;lt;br/&amp;gt;Duração sob controle: ~1,5 a 2,5 s&amp;lt;/span&amp;gt;&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#4b5563;strokeWidth=1.5;spacing=8;align=center;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;50&quot; y=&quot;80&quot; width=&quot;250&quot; height=&quot;98&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;arr1&quot; value=&quot;&quot; style=&quot;endArrow=classic;html=1;strokeColor=#000000;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;&quot; parent=&quot;1&quot; source=&quot;box_ecc&quot; target=&quot;box_inf&quot; edge=&quot;1&quot;&gt;  &lt;mxGeometry relative=&quot;1&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;box_inf&quot; value=&quot;&amp;lt;b style=&amp;quot;font-size:13px; color:#000000;&amp;quot;&amp;gt;2. INFLEXÃO ISOMÉTRICA&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;span style=&amp;quot;font-size:11px; color:#000000;&amp;quot;&amp;gt;Ponto de reversão (fundo da repetição)&amp;lt;br/&amp;gt;&amp;lt;b&amp;gt;Velocidade linear nula: v(t) = 0&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;Inversão instantânea do movimento&amp;lt;/span&amp;gt;&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=#e5e7eb;strokeColor=#111111;strokeWidth=2;strokeDashed=1;spacing=8;align=center;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;350&quot; y=&quot;80&quot; width=&quot;250&quot; height=&quot;98&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;arr2&quot; value=&quot;&quot; style=&quot;endArrow=classic;html=1;strokeColor=#000000;strokeWidth=2;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;&quot; parent=&quot;1&quot; source=&quot;box_inf&quot; target=&quot;box_con&quot; edge=&quot;1&quot;&gt;  &lt;mxGeometry relative=&quot;1&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;box_con&quot; value=&quot;&amp;lt;b style=&amp;quot;font-size:13px; color:#ffffff; background-color:#000000;&amp;quot;&amp;gt;&amp;amp;nbsp;3. FASE CONCÊNTRICA&amp;amp;nbsp;&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;span style=&amp;quot;font-size:11px; color:#000000;&amp;quot;&amp;gt;Contração motora superando a sobrecarga&amp;lt;br/&amp;gt;Velocidade linear: &amp;lt;i&amp;gt;v(t) &amp;amp;gt; 0&amp;lt;/i&amp;gt; (subida)&amp;lt;br/&amp;gt;Impulso motor explosivo: ~0,8 a 1,5 s&amp;lt;/span&amp;gt;&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2.5;spacing=8;align=center;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;650&quot; y=&quot;80&quot; width=&quot;260&quot; height=&quot;98&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;secB&quot; value=&quot;(b) Sinal Inercial Projetado 1D — p(t) = a(t) · v₁ (com Skewness Positiva γ₁ &amp;gt; 0)&quot; style=&quot;text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=13;fontStyle=1;fontColor=#111111;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;150&quot; y=&quot;195&quot; width=&quot;660&quot; height=&quot;25&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;graph_container&quot; value=&quot;&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;40&quot; y=&quot;225&quot; width=&quot;880&quot; height=&quot;345&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;zone_ecc&quot; value=&quot;&amp;lt;b style=&amp;quot;color:#111111;&amp;quot;&amp;gt;Região Excêntrica&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;span style=&amp;quot;font-size:10px; color:#4b5563;&amp;quot;&amp;gt;Desaceleração controlada sob gravidade&amp;lt;/span&amp;gt;&quot; style=&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#f3f4f6;strokeColor=#9ca3af;strokeWidth=1;strokeDashed=1;align=center;verticalAlign=top;spacingTop=8;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;90&quot; y=&quot;235&quot; width=&quot;265&quot; height=&quot;320&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;zone_con&quot; value=&quot;&amp;lt;b style=&amp;quot;color:#000000;&amp;quot;&amp;gt;Região Concêntrica (Impulso Ascendente)&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;span style=&amp;quot;font-size:10px; color:#111111;&amp;quot;&amp;gt;Aceleração motora ativa superando a carga&amp;lt;/span&amp;gt;&quot; style=&quot;rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;strokeDashed=1;align=center;verticalAlign=top;spacingTop=8;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;375&quot; y=&quot;235&quot; width=&quot;340&quot; height=&quot;320&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;peak_lbl&quot; value=&quot;&amp;lt;b style=&amp;quot;font-size:11px; color:#000000;&amp;quot;&amp;gt;Crista Concêntrica (Pico)&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;span style=&amp;quot;font-size:10px; color:#000000; font-weight:bold;&amp;quot;&amp;gt;✓ Repetição Validada (Δreps = +1)&amp;lt;/span&amp;gt;&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=2;spacing=4;align=center;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;460&quot; y=&quot;305&quot; width=&quot;200&quot; height=&quot;42&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;val_lbl&quot; value=&quot;&amp;lt;b style=&amp;quot;font-size:10px; color:#000000;&amp;quot;&amp;gt;Vale: Inflexão (v = 0)&amp;lt;/b&amp;gt;&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;strokeDashed=1;spacing=2;align=center;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;305&quot; y=&quot;520&quot; width=&quot;140&quot; height=&quot;24&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;thresh_lbl&quot; value=&quot;Limiar θ_peak (detecção)&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.2;fontSize=9.5;fontColor=#000000;fontStyle=1;align=center;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;735&quot; y=&quot;341&quot; width=&quot;160&quot; height=&quot;20&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+        &lt;mxCell id=&quot;legend_box&quot; value=&quot;&amp;lt;b style=&amp;quot;font-size:10px; color:#000000;&amp;quot;&amp;gt;Legenda Técnica (P&amp;amp;amp;B):&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;span style=&amp;quot;font-size:9.5px; color:#111111;&amp;quot;&amp;gt;— Sinal Projetado 1D &amp;lt;b&amp;gt;p(t)&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;- - - Limiar &amp;lt;b&amp;gt;θ_peak&amp;lt;/b&amp;gt;&amp;lt;br/&amp;gt;|---| Bloqueio Refratário&amp;lt;br/&amp;gt;● Pico Validado (FSM)&amp;lt;br/&amp;gt;○ Vale de Inflexão&amp;lt;/span&amp;gt;&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;strokeWidth=1.5;spacing=6;align=left;&quot; parent=&quot;1&quot; vertex=&quot;1&quot;&gt;  &lt;mxGeometry x=&quot;730&quot; y=&quot;445&quot; width=&quot;168&quot; height=&quot;102&quot; as=&quot;geometry&quot;/&gt;&lt;/mxCell&gt;
+      &lt;/root&gt;
+    &lt;/mxGraphModel&gt;
+  &lt;/diagram&gt;
+&lt;/mxfile&gt;"
+     style="background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
 
   <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="#111111"/>
+    <!-- Arrowhead markers (Pure Black) -->
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#000000" />
     </marker>
+    <marker id="axis-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#000000" />
+    </marker>
+
+    <!-- Subtle Monochrome Border Shadow -->
+    <filter id="card-shadow" x="-5%" y="-5%" width="110%" height="115%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
   </defs>
 
-  <!-- Title -->
-  <text x="480" y="32" text-anchor="middle" font-size="16" font-weight="bold" fill="#111111">
-    Ciclo Biomecânico de uma Repetição e Correspondência no Sinal Inercial
+  <!-- Title Area -->
+  <text x="480" y="32" text-anchor="middle" font-size="16" font-weight="700" fill="#000000">
+    Ciclo Biomecânico de uma Repetição e Correspondência no Domínio Inercial
   </text>
 
-  <!-- ===== TOP SECTION: Biomechanical Phases ===== -->
-  <text x="480" y="62" text-anchor="middle" font-size="13" font-weight="600" fill="#333333">
-    (a) Fases Biomecânicas do Movimento
+  <!-- ========================================== -->
+  <!-- SEÇÃO A: Fases Biomecânicas (Parte Superior) -->
+  <!-- ========================================== -->
+  <text x="480" y="64" text-anchor="middle" font-size="13" font-weight="600" fill="#111111">
+    (a) Fases Biomecânicas da Execução (Exemplo: Agachamento Livre)
   </text>
 
-  <!-- Phase boxes -->
-  <!-- Eccentric -->
-  <rect x="70" y="82" width="220" height="92" rx="6" fill="#F9FAFB" stroke="#4B5563" stroke-width="1.5"/>
-  <text x="180" y="107" text-anchor="middle" font-size="13" font-weight="bold" fill="#111111">Fase Excêntrica</text>
-  <text x="180" y="127" text-anchor="middle" font-size="11" fill="#374151">Alongamento muscular</text>
-  <text x="180" y="144" text-anchor="middle" font-size="11" fill="#374151">sob tensão (descida)</text>
-  <text x="180" y="162" text-anchor="middle" font-size="10" fill="#111111" font-style="italic">v(t) &lt; 0</text>
+  <!-- CARD 1: FASE EXCÊNTRICA (Padrão: Cinza Claro + Borda Sólida Fina) -->
+  <g transform="translate(50, 80)" filter="url(#card-shadow)">
+    <rect width="250" height="98" rx="8" fill="#FFFFFF" stroke="#4B5563" stroke-width="1.5"/>
+    <rect width="250" height="28" rx="8" fill="#E5E7EB" stroke="#4B5563" stroke-width="1.5"/>
+    <rect y="20" width="250" height="8" fill="#E5E7EB" />
+    <line x1="0" y1="28" x2="250" y2="28" stroke="#4B5563" stroke-width="1.5"/>
+    <text x="125" y="19" text-anchor="middle" font-size="12" font-weight="700" fill="#000000">1. FASE EXCÊNTRICA</text>
+    <text x="125" y="47" text-anchor="middle" font-size="11" fill="#111111">Alongamento muscular sob tensão</text>
+    <text x="125" y="65" text-anchor="middle" font-size="11" fill="#111111">Velocidade linear: <tspan font-style="italic" font-weight="700">v(t) &lt; 0</tspan> (descida)</text>
+    <text x="125" y="83" text-anchor="middle" font-size="10" fill="#4B5563">Duração sob controle: ~1,5 a 2,5 s</text>
+  </g>
 
-  <!-- Arrow 1 -->
-  <line x1="290" y1="128" x2="345" y2="128" stroke="#111111" stroke-width="1.8" marker-end="url(#arrowhead)"/>
+  <!-- Seta 1 -> 2 -->
+  <line x1="305" y1="129" x2="345" y2="129" stroke="#000000" stroke-width="2.2" marker-end="url(#arrow)"/>
 
-  <!-- Inflection -->
-  <rect x="350" y="82" width="220" height="92" rx="6" fill="#F3F4F6" stroke="#111111" stroke-width="1.8"/>
-  <text x="460" y="107" text-anchor="middle" font-size="13" font-weight="bold" fill="#111111">Ponto de Inflexão</text>
-  <text x="460" y="127" text-anchor="middle" font-size="11" fill="#374151">Transição isométrica</text>
-  <text x="460" y="144" text-anchor="middle" font-size="11" fill="#374151">instantânea</text>
-  <text x="460" y="162" text-anchor="middle" font-size="10" fill="#111111" font-style="italic">v(t) = 0</text>
+  <!-- CARD 2: PONTO DE INFLEXÃO (Padrão: Cinza Médio + Borda Tracejada Forte) -->
+  <g transform="translate(355, 80)" filter="url(#card-shadow)">
+    <rect width="250" height="98" rx="8" fill="#F9FAFB" stroke="#000000" stroke-width="2" stroke-dasharray="6,4"/>
+    <rect width="250" height="28" rx="8" fill="#9CA3AF" stroke="#000000" stroke-width="2"/>
+    <rect y="20" width="250" height="8" fill="#9CA3AF" />
+    <line x1="0" y1="28" x2="250" y2="28" stroke="#000000" stroke-width="2"/>
+    <text x="125" y="19" text-anchor="middle" font-size="12" font-weight="800" fill="#000000">2. INFLEXÃO ISOMÉTRICA</text>
+    <text x="125" y="47" text-anchor="middle" font-size="11" fill="#000000">Ponto de máxima excursão articular</text>
+    <text x="125" y="65" text-anchor="middle" font-size="11" font-weight="800" fill="#000000">Velocidade linear nula: v(t) = 0</text>
+    <text x="125" y="83" text-anchor="middle" font-size="10" fill="#374151">Inversão instantânea do movimento</text>
+  </g>
 
-  <!-- Arrow 2 -->
-  <line x1="570" y1="128" x2="625" y2="128" stroke="#111111" stroke-width="1.8" marker-end="url(#arrowhead)"/>
+  <!-- Seta 2 -> 3 -->
+  <line x1="610" y1="129" x2="650" y2="129" stroke="#000000" stroke-width="2.2" marker-end="url(#arrow)"/>
 
-  <!-- Concentric -->
-  <rect x="630" y="82" width="220" height="92" rx="6" fill="#FFFFFF" stroke="#111111" stroke-width="2.2"/>
-  <text x="740" y="107" text-anchor="middle" font-size="13" font-weight="bold" fill="#111111">Fase Concêntrica</text>
-  <text x="740" y="127" text-anchor="middle" font-size="11" fill="#374151">Contração motora</text>
-  <text x="740" y="144" text-anchor="middle" font-size="11" fill="#374151">(subida explosiva)</text>
-  <text x="740" y="162" text-anchor="middle" font-size="10" fill="#111111" font-style="italic">v(t) &gt; 0</text>
+  <!-- CARD 3: FASE CONCÊNTRICA (Padrão: Fundo Invertido Preto Sólido + Alto Contraste) -->
+  <g transform="translate(660, 80)" filter="url(#card-shadow)">
+    <rect width="250" height="98" rx="8" fill="#FFFFFF" stroke="#000000" stroke-width="2.5"/>
+    <rect width="250" height="28" rx="8" fill="#000000" stroke="#000000" stroke-width="2.5"/>
+    <rect y="20" width="250" height="8" fill="#000000" />
+    <line x1="0" y1="28" x2="250" y2="28" stroke="#000000" stroke-width="2.5"/>
+    <text x="125" y="19" text-anchor="middle" font-size="12" font-weight="800" fill="#FFFFFF">3. FASE CONCÊNTRICA</text>
+    <text x="125" y="47" text-anchor="middle" font-size="11" font-weight="600" fill="#000000">Contração motora superando a carga</text>
+    <text x="125" y="65" text-anchor="middle" font-size="11" fill="#000000">Velocidade linear: <tspan font-style="italic" font-weight="800">v(t) &gt; 0</tspan> (subida)</text>
+    <text x="125" y="83" text-anchor="middle" font-size="10" font-weight="700" fill="#000000">Impulso motor explosivo: ~0,8 a 1,5 s</text>
+  </g>
 
-  <!-- ===== BOTTOM SECTION: Inertial Signal ===== -->
-  <text x="480" y="215" text-anchor="middle" font-size="13" font-weight="600" fill="#333333">
-    (b) Sinal Inercial Projetado 1D — p(t) = a(t) · v₁
+
+  <!-- ========================================== -->
+  <!-- SEÇÃO B: Sinal Inercial Projetado 1D       -->
+  <!-- ========================================== -->
+  <text x="480" y="212" text-anchor="middle" font-size="13" font-weight="600" fill="#111111">
+    (b) Sinal Inercial Projetado 1D — p(t) = a(t) · v₁ (com Skewness Positiva γ₁ &gt; 0)
   </text>
 
-  <!-- Axes -->
-  <line x1="70" y1="390" x2="880" y2="390" stroke="#111111" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-  <line x1="70" y1="500" x2="70" y2="235" stroke="#111111" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-  <text x="895" y="394" font-size="11" font-weight="bold" fill="#111111">t (s)</text>
-  <text x="50" y="240" font-size="11" font-weight="bold" fill="#111111">p(t)</text>
+  <!-- Container Gráfico -->
+  <rect x="50" y="228" width="860" height="332" rx="10" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
 
-  <!-- Zero line -->
-  <line x1="70" y1="390" x2="860" y2="390" stroke="#9CA3AF" stroke-width="0.8" stroke-dasharray="4,4"/>
-  <text x="55" y="394" font-size="10" fill="#4B5563" text-anchor="end">0</text>
+  <!-- Faixas Verticais de Correspondência (Tons P&B calibrados) -->
+  <!-- Faixa 1: Excêntrica (Cinza suave para impressão) -->
+  <rect x="90" y="235" width="265" height="318" fill="#F3F4F6"/>
+  <line x1="355" y1="235" x2="355" y2="553" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,4"/>
+  <text x="222" y="255" text-anchor="middle" font-size="11" font-weight="700" fill="#111111">Região Excêntrica</text>
+  <text x="222" y="272" text-anchor="middle" font-size="10" fill="#4B5563">Desaceleração controlada sob gravidade</text>
 
-  <!-- Phase regions with monochrome shading -->
-  <!-- Eccentric region 1 -->
-  <rect x="150" y="235" width="200" height="265" fill="#F3F4F6" opacity="0.6"/>
-  <text x="250" y="255" text-anchor="middle" font-size="10" font-weight="bold" fill="#4B5563">Excêntrica</text>
+  <!-- Faixa 2: Inflexão (linha vertical de guia) -->
+  <line x1="375" y1="235" x2="375" y2="553" stroke="#000000" stroke-width="1.5" stroke-dasharray="3,3"/>
 
-  <!-- Inflection point 1 -->
-  <circle cx="270" cy="460" r="6" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
-  <line x1="270" y1="460" x2="270" y2="490" stroke="#4B5563" stroke-width="1" stroke-dasharray="3,3"/>
-  <text x="270" y="504" text-anchor="middle" font-size="9" fill="#111111" font-weight="600">Inflexão (vale)</text>
+  <!-- Faixa 3: Concêntrica (Branco com bordas nítidas para alto contraste) -->
+  <rect x="375" y="235" width="340" height="318" fill="#FFFFFF"/>
+  <line x1="715" y1="235" x2="715" y2="553" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,4"/>
+  <text x="545" y="255" text-anchor="middle" font-size="11" font-weight="800" fill="#000000">Região Concêntrica (Impulso Ascendente)</text>
+  <text x="545" y="272" text-anchor="middle" font-size="10" font-weight="600" fill="#111111">Aceleração motora ativa superando a sobrecarga</text>
 
-  <!-- Concentric region -->
-  <rect x="350" y="235" width="200" height="265" fill="#E5E7EB" opacity="0.4"/>
-  <text x="450" y="255" text-anchor="middle" font-size="10" font-weight="bold" fill="#111111">Concêntrica</text>
+  <!-- Faixa 4: Estabilização pós-rep (x=715 a x=870) -->
+  <rect x="715" y="235" width="165" height="318" fill="#F9FAFB"/>
+  <text x="797" y="255" text-anchor="middle" font-size="10.5" font-weight="600" fill="#4B5563">Lockout / Retorno</text>
 
-  <!-- Peak point -->
-  <circle cx="480" cy="270" r="6" fill="#111111" stroke="#000000" stroke-width="2"/>
-  <line x1="480" y1="270" x2="480" y2="240" stroke="#111111" stroke-width="1" stroke-dasharray="3,3"/>
-  <text x="480" y="252" text-anchor="middle" font-size="9" fill="#111111" font-weight="bold">Crista (pico) = 1 rep</text>
+  <!-- Eixos Cartesianos em Preto Sólido -->
+  <!-- Eixo Horizontal (Tempo) na linha base zero: y = 425 -->
+  <line x1="75" y1="425" x2="880" y2="425" stroke="#000000" stroke-width="1.5" marker-end="url(#axis-arrow)"/>
+  <text x="895" y="429" font-size="11" font-weight="700" fill="#000000">t (s)</text>
 
-  <!-- Eccentric region 2 -->
-  <rect x="550" y="235" width="200" height="265" fill="#F3F4F6" opacity="0.6"/>
-  <text x="650" y="255" text-anchor="middle" font-size="10" font-weight="bold" fill="#4B5563">Excêntrica</text>
+  <!-- Eixo Vertical (Aceleração Projetada): x = 85 -->
+  <line x1="85" y1="535" x2="85" y2="250" stroke="#000000" stroke-width="1.5" marker-end="url(#axis-arrow)"/>
+  <text x="85" y="244" text-anchor="middle" font-size="11" font-weight="700" fill="#000000">p(t)</text>
+  <text x="75" y="429" text-anchor="end" font-size="10" font-weight="700" fill="#000000">0</text>
 
-  <!-- Inflection point 2 -->
-  <circle cx="730" cy="455" r="6" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+  <!-- Limiar de Detecção θ_peak (y = 350) - Preto Tracejado com Badge Branco -->
+  <line x1="85" y1="350" x2="730" y2="350" stroke="#000000" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="735" y="340" width="165" height="20" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="1.2"/>
+  <text x="817" y="354" text-anchor="middle" font-size="9.5" font-weight="700" fill="#000000">Limiar θ_peak (detecção)</text>
 
-  <!-- Signal curve - one full repetition cycle -->
-  <path d="M 90,390 
-           C 120,390 140,390 170,410 
-           C 200,430 230,455 270,460 
-           C 310,465 330,455 350,430 
-           C 370,405 390,380 410,350 
-           C 430,320 450,285 480,270 
-           C 510,255 530,265 550,295 
-           C 570,325 590,360 610,380
-           C 630,390 650,390 670,405
-           C 690,420 710,445 730,455
-           C 750,465 770,455 790,425
-           C 800,405 810,395 830,390"
-        fill="none" stroke="#111111" stroke-width="2.5"/>
+  <!-- Bloqueio Refratário Fisiológico Δt_min = 1.6s em Preto com Delimitadores em "T" -->
+  <line x1="560" y1="395" x2="710" y2="395" stroke="#000000" stroke-width="2.2" />
+  <line x1="560" y1="388" x2="560" y2="402" stroke="#000000" stroke-width="2.2" />
+  <line x1="710" y1="388" x2="710" y2="402" stroke="#000000" stroke-width="2.2" />
+  <text x="635" y="412" text-anchor="middle" font-size="9.5" font-weight="700" fill="#000000">Bloqueio Refratário Δt ≥ 1,6 s</text>
 
-  <!-- Connecting dashed lines from top to bottom -->
-  <line x1="180" y1="174" x2="180" y2="235" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,4"/>
-  <line x1="460" y1="174" x2="270" y2="456" stroke="#9CA3AF" stroke-width="1.2" stroke-dasharray="4,4"/>
-  <line x1="740" y1="174" x2="480" y2="270" stroke="#4B5563" stroke-width="1.2" stroke-dasharray="4,4"/>
+  <!-- Curva Contínua do Sinal Inercial p(t) em Preto Forte -->
+  <path d="M 85,425 
+           C 120,425 150,422 180,432 
+           C 220,445 260,468 310,480 
+           C 340,487 360,490 375,490 
+           C 390,490 410,482 435,455 
+           C 470,415 500,340 535,302 
+           C 548,288 554,285 560,285 
+           C 566,285 572,288 585,305 
+           C 620,350 650,410 680,423 
+           C 700,430 720,425 750,425 
+           C 780,425 810,425 850,425"
+        fill="none" stroke="#000000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- Legend -->
-  <rect x="640" y="475" width="230" height="46" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1"/>
-  <line x1="655" y1="490" x2="675" y2="490" stroke="#111111" stroke-width="2.5"/>
-  <text x="685" y="494" font-size="9.5" fill="#111111">Sinal projetado p(t)</text>
-  <circle cx="665" cy="508" r="4" fill="#111111"/>
-  <text x="685" y="512" font-size="9.5" fill="#111111">Pico validado (repetição)</text>
+  <!-- Marcador: Ponto de Inflexão (Vale) - Círculo Oco Branco com Borda Preta Grossa -->
+  <circle cx="375" cy="490" r="6.5" fill="#FFFFFF" stroke="#000000" stroke-width="2.5"/>
+  <line x1="375" y1="496" x2="375" y2="520" stroke="#000000" stroke-width="1.2" stroke-dasharray="2,2"/>
+  <g transform="translate(305, 520)">
+    <rect width="140" height="24" rx="4" fill="#FFFFFF" stroke="#000000" stroke-width="1.2" stroke-dasharray="4,2"/>
+    <text x="70" y="16" text-anchor="middle" font-size="9.5" font-weight="700" fill="#000000">Vale: Inflexão (v = 0)</text>
+  </g>
+
+  <!-- Marcador: Crista Concêntrica (Pico) - Círculo Preto Sólido -->
+  <circle cx="560" cy="285" r="7.5" fill="#000000" stroke="#FFFFFF" stroke-width="2"/>
+  <line x1="560" y1="285" x2="560" y2="305" stroke="#000000" stroke-width="1.8"/>
+
+  <!-- Card Informativo do Pico em Alto Contraste Preto e Branco -->
+  <g transform="translate(460, 305)" filter="url(#card-shadow)">
+    <rect width="200" height="42" rx="6" fill="#FFFFFF" stroke="#000000" stroke-width="2"/>
+    <text x="100" y="17" text-anchor="middle" font-size="10.5" font-weight="800" fill="#000000">Crista Concêntrica (Pico)</text>
+    <text x="100" y="32" text-anchor="middle" font-size="9.5" font-weight="700" fill="#000000">✓ Repetição Validada (Δreps = +1)</text>
+  </g>
+
+  <!-- Linhas Guia Verticais do Bloco Superior ao Gráfico Inferior -->
+  <!-- Guia 1: Conecta Card 1 (Fase Excêntrica) à Região Excêntrica -->
+  <line x1="175" y1="178" x2="175" y2="235" stroke="#4B5563" stroke-width="1.2" stroke-dasharray="3,3"/>
+
+  <!-- Guia 2: Conecta Card 2 (Inflexão) à linha do vale -->
+  <line x1="480" y1="178" x2="480" y2="200" stroke="#000000" stroke-width="1.2" stroke-dasharray="3,3"/>
+  <line x1="375" y1="210" x2="375" y2="235" stroke="#000000" stroke-width="1.2" stroke-dasharray="3,3"/>
+
+  <!-- Guia 3: Conecta Card 3 (Fase Concêntrica) à Região Concêntrica -->
+  <line x1="785" y1="178" x2="785" y2="235" stroke="#000000" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+  <!-- Legenda Consolidada no Canto Inferior Direito em P&B Puro -->
+  <g transform="translate(730, 438)">
+    <rect width="170" height="110" rx="6" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
+    <text x="12" y="17" font-size="10" font-weight="800" fill="#000000">Legenda Técnica (P&amp;B):</text>
+    
+    <!-- Item 1: Sinal p(t) -->
+    <line x1="12" y1="32" x2="35" y2="32" stroke="#000000" stroke-width="3"/>
+    <text x="42" y="35" font-size="9" font-weight="600" fill="#000000">Sinal Projetado p(t)</text>
+    
+    <!-- Item 2: Limiar theta_peak -->
+    <line x1="12" y1="49" x2="35" y2="49" stroke="#000000" stroke-width="1.5" stroke-dasharray="4,2"/>
+    <text x="42" y="52" font-size="9" font-weight="600" fill="#000000">Limiar de Pico (θ_peak)</text>
+    
+    <!-- Item 3: Bloqueio refratario -->
+    <line x1="12" y1="66" x2="35" y2="66" stroke="#000000" stroke-width="2"/>
+    <line x1="12" y1="62" x2="12" y2="70" stroke="#000000" stroke-width="2"/>
+    <line x1="35" y1="62" x2="35" y2="70" stroke="#000000" stroke-width="2"/>
+    <text x="42" y="69" font-size="9" font-weight="600" fill="#000000">Bloqueio Refratário</text>
+
+    <!-- Item 4: Pico validado -->
+    <circle cx="23.5" cy="83" r="4.5" fill="#000000"/>
+    <text x="42" y="86" font-size="9" font-weight="600" fill="#000000">Pico Validado (FSM)</text>
+
+    <!-- Item 5: Inflexao / Vale -->
+    <circle cx="23.5" cy="99" r="4.5" fill="#FFFFFF" stroke="#000000" stroke-width="1.5"/>
+    <text x="42" y="102" font-size="9" font-weight="600" fill="#000000">Inflexão / Vale (v = 0)</text>
+  </g>
+
 </svg>

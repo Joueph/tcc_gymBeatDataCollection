@@ -1,0 +1,573 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1151px" height="762px" viewBox="-0.5 -0.5 1151 762" content="&lt;mxfile&gt;&lt;diagram id=&quot;pipeline1&quot; name=&quot;Pipeline Watch-iPhone&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;">
+    <defs/>
+    <g>
+        <rect x="0" y="0" width="480" height="760" rx="38.4" ry="38.4" fill="#e8eaf6" stroke="#9fa8da" stroke-dasharray="8 4" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe center; width: 478px; height: 1px; padding-top: 15px; margin-left: 1px;">
+                        <div data-drawio-colors="color: #5C6BC0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(92, 107, 192); line-height: 1.2; pointer-events: all; font-weight: bold; white-space: normal; overflow-wrap: normal;">
+                                ⌚ APPLE WATCH (watchOS)
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="240" y="27" fill="#5C6BC0" font-family="Helvetica" font-size="12px" text-anchor="middle" font-weight="bold">
+                    ⌚ APPLE WATCH (watchOS)
+                </text>
+            </switch>
+        </g>
+        <rect x="25" y="50" width="200" height="75" rx="15" ry="15" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="25" y="50" width="200" height="75" rx="15" ry="15" fill="#ff6d00" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 88px; margin-left: 26px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    HKHealthStore
+                                </b>
+                                <br/>
+                                <font style="font-size:10px">
+                                    HealthKit Framework
+                                </font>
+                                <br/>
+                                <font style="font-size:9px;color:#FFE0B2">
+                                    HR · SpO₂ · Kcal · Passos
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="125" y="91" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    HKHealthStore...
+                </text>
+            </switch>
+        </g>
+        <rect x="255" y="50" width="200" height="75" rx="15" ry="15" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="255" y="50" width="200" height="75" rx="15" ry="15" fill="#ff6d00" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 88px; margin-left: 256px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    CMMotionManager
+                                </b>
+                                <br/>
+                                <font style="font-size:10px">
+                                    CoreMotion Framework
+                                </font>
+                                <br/>
+                                <font style="font-size:9px;color:#FFE0B2">
+                                    Accel XYZ · Gyro XYZ
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="355" y="91" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    CMMotionManager...
+                </text>
+            </switch>
+        </g>
+        <rect x="25" y="170" width="200" height="65" rx="13" ry="13" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="25" y="170" width="200" height="65" rx="13" ry="13" fill="#5c6bc0" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 203px; margin-left: 26px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    HKWorkoutSession
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    HKLiveWorkoutBuilder
+                                    <br/>
+                                    functionalStrengthTraining
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="125" y="206" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    HKWorkoutSession...
+                </text>
+            </switch>
+        </g>
+        <rect x="255" y="170" width="200" height="65" rx="13" ry="13" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="255" y="170" width="200" height="65" rx="13" ry="13" fill="#5c6bc0" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 203px; margin-left: 256px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    DeviceMotion @ 25 Hz
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    Timer.scheduledTimer
+                                    <br/>
+                                    motionInterval = 1/25
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="355" y="206" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    DeviceMotion @ 25 Hz...
+                </text>
+            </switch>
+        </g>
+        <rect x="80" y="290" width="320" height="75" rx="12" ry="12" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="80" y="290" width="320" height="75" rx="12" ry="12" fill="#3949ab" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 318px; height: 1px; padding-top: 328px; margin-left: 81px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b style="font-size:13px">
+                                    WorkoutManager
+                                </b>
+                                <br/>
+                                <font style="font-size:10px">
+                                    publishSample() → MetricSample
+                                    <br/>
+                                    Merge: HealthKit stats + IMU 6-axis
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="240" y="331" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    WorkoutManager...
+                </text>
+            </switch>
+        </g>
+        <rect x="80" y="410" width="320" height="65" rx="13" ry="13" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="80" y="410" width="320" height="65" rx="13" ry="13" fill="#283593" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 318px; height: 1px; padding-top: 443px; margin-left: 81px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    MetricSample (struct)
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    sessionId · setId · timestamp
+                                    <br/>
+                                    HR · Kcal · SpO₂ · AccelXYZ · GyroXYZ
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="240" y="446" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    MetricSample (struct)...
+                </text>
+            </switch>
+        </g>
+        <rect x="60" y="520" width="360" height="75" rx="12" ry="12" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="60" y="520" width="360" height="75" rx="12" ry="12" fill="#3949ab" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 358px; height: 1px; padding-top: 558px; margin-left: 61px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b style="font-size:13px">
+                                    WatchSessionManager
+                                </b>
+                                <br/>
+                                <font style="font-size:10px">
+                                    handle(message) — Comandos do iPhone
+                                    <br/>
+                                    send(sample) — MetricSample → Dict
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="240" y="561" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    WatchSessionManager...
+                </text>
+            </switch>
+        </g>
+        <rect x="110" y="645" width="260" height="55" rx="22" ry="22" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="110" y="645" width="260" height="55" rx="22" ry="22" fill="#0277bd" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 258px; height: 1px; padding-top: 673px; margin-left: 111px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    WCSession.default
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    sendMessage / transferUserInfo
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="240" y="676" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    WCSession.default...
+                </text>
+            </switch>
+        </g>
+        <rect x="500" y="600" width="140" height="100" rx="20" ry="20" fill="#000000" stroke="#000000" stroke-width="2" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="500" y="600" width="140" height="100" rx="20" ry="20" fill="#0d1b2a" stroke="#1565c0" stroke-width="2" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 138px; height: 1px; padding-top: 650px; margin-left: 501px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    Bluetooth LE
+                                </b>
+                                <br/>
+                                <font style="font-size:9px;color:#90CAF5">
+                                    WatchConnectivity
+                                    <br/>
+                                    Framework
+                                    <br/>
+                                    ⟵ Bidirecional ⟶
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="570" y="653" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    Bluetooth LE...
+                </text>
+            </switch>
+        </g>
+        <rect x="660" y="0" width="490" height="760" rx="39.2" ry="39.2" fill="#e3f2fd" stroke="#90caf9" stroke-dasharray="8 4" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe flex-start; justify-content: unsafe center; width: 488px; height: 1px; padding-top: 15px; margin-left: 661px;">
+                        <div data-drawio-colors="color: #1565C0; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(21, 101, 192); line-height: 1.2; pointer-events: all; font-weight: bold; white-space: normal; overflow-wrap: normal;">
+                                📱 iPHONE (iOS / React Native)
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="905" y="27" fill="#1565C0" font-family="Helvetica" font-size="12px" text-anchor="middle" font-weight="bold">
+                    📱 iPHONE (iOS / React Native)
+                </text>
+            </switch>
+        </g>
+        <rect x="730" y="500" width="340" height="75" rx="12" ry="12" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="730" y="500" width="340" height="75" rx="12" ry="12" fill="#2e7d32" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 338px; height: 1px; padding-top: 537px; margin-left: 731px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b style="font-size:13px">
+                                    WearableWatchConnectivity
+                                </b>
+                                <br/>
+                                <font style="font-size:10px">
+                                    Expo Native Module (Swift)
+                                    <br/>
+                                    WCSessionDelegate → emitEvent
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="900" y="541" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    WearableWatchConnectivity...
+                </text>
+            </switch>
+        </g>
+        <rect x="760" y="400" width="280" height="55" rx="11" ry="11" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="760" y="400" width="280" height="55" rx="11" ry="11" fill="#1565c0" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 278px; height: 1px; padding-top: 428px; margin-left: 761px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    Expo Modules Bridge
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    requireNativeModule("WearableWatchConnectivity")
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="900" y="431" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    Expo Modules Bridge...
+                </text>
+            </switch>
+        </g>
+        <rect x="760" y="300" width="280" height="60" rx="12" ry="12" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="760" y="300" width="280" height="60" rx="12" ry="12" fill="#1565c0" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 278px; height: 1px; padding-top: 330px; margin-left: 761px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    watch-connectivity.ts
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    addListener("onWatchMessage", cb)
+                                    <br/>
+                                    sendCommand(command, payload)
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="900" y="333" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    watch-connectivity.ts...
+                </text>
+            </switch>
+        </g>
+        <rect x="760" y="190" width="280" height="65" rx="13" ry="13" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="760" y="190" width="280" height="65" rx="13" ry="13" fill="#1565c0" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 278px; height: 1px; padding-top: 223px; margin-left: 761px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    LiveWorkoutScreen
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    app/live/[id].tsx
+                                    <br/>
+                                    sendCommand() ← UI do usuário
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="900" y="226" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    LiveWorkoutScreen...
+                </text>
+            </switch>
+        </g>
+        <rect x="760" y="80" width="280" height="65" rx="13" ry="13" fill="#000000" stroke="none" pointer-events="all" transform="translate(2,3)" opacity="0.25"/>
+        <rect x="760" y="80" width="280" height="65" rx="13" ry="13" fill="#1565c0" stroke="none" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 278px; height: 1px; padding-top: 113px; margin-left: 761px;">
+                        <div data-drawio-colors="color: #FFFFFF; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(255, 255, 255); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    App Heartbeat (4s)
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    sendCommand("appHeartbeat")
+                                    <br/>
+                                    exerciseId · exerciseName
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="900" y="116" fill="#FFFFFF" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    App Heartbeat (4s)...
+                </text>
+            </switch>
+        </g>
+        <rect x="680" y="620" width="160" height="120" rx="18" ry="18" fill="#ffffff" stroke="#cfd8dc" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 158px; height: 1px; padding-top: 680px; margin-left: 681px;">
+                        <div data-drawio-colors="color: #455A64; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 10px; font-family: Helvetica; color: rgb(69, 90, 100); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    Comandos (iPhone → Watch)
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    startSession
+                                    <br/>
+                                    pauseSession
+                                    <br/>
+                                    resumeSession
+                                    <br/>
+                                    stopSession
+                                    <br/>
+                                    startSet · stopSet
+                                    <br/>
+                                    appHeartbeat
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="760" y="683" fill="#455A64" font-family="Helvetica" font-size="10px" text-anchor="middle">
+                    Comandos (iPhone → Watch)...
+                </text>
+            </switch>
+        </g>
+        <rect x="860" y="620" width="220" height="120" rx="18" ry="18" fill="#ffffff" stroke="#cfd8dc" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 218px; height: 1px; padding-top: 680px; margin-left: 861px;">
+                        <div data-drawio-colors="color: #455A64; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 10px; font-family: Helvetica; color: rgb(69, 90, 100); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    Dados (Watch → iPhone) @25Hz
+                                </b>
+                                <br/>
+                                <font style="font-size:9px">
+                                    sessionId · setId · timestamp
+                                    <br/>
+                                    heartRate (bpm)
+                                    <br/>
+                                    activeEnergyBurned (kcal)
+                                    <br/>
+                                    oxygenSaturation (%)
+                                    <br/>
+                                    accelerationX/Y/Z (g)
+                                    <br/>
+                                    gyroscopeX/Y/Z (rad/s)
+                                </font>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="970" y="683" fill="#455A64" font-family="Helvetica" font-size="10px" text-anchor="middle">
+                    Dados (Watch → iPhone) @25Hz...
+                </text>
+            </switch>
+        </g>
+        <path d="M 125 125 L 125 160.82" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 125 168.32 L 122.5 160.82 L 127.5 160.82 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 355 125 L 355 160.82" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 355 168.32 L 352.5 160.82 L 357.5 160.82 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 154.9 235 L 199.29 283.25" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 204.36 288.77 L 197.45 284.94 L 201.13 281.55 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#78909C" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="150" y="257" width="61" height="12" stroke-width="0"/>
+            <text x="179.64" y="265.43">
+                didCollectData
+            </text>
+        </g>
+        <path d="M 325.1 235 L 280.71 283.25" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 275.64 288.77 L 278.87 281.55 L 282.55 284.94 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#78909C" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="284" y="257" width="32" height="12" stroke-width="0"/>
+            <text x="299.36" y="265.43">
+                @25Hz
+            </text>
+        </g>
+        <path d="M 240 365 L 240 400.82" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 240 408.32 L 237.5 400.82 L 242.5 400.82 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#78909C" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="210" y="383" width="61" height="12" stroke-width="0"/>
+            <text x="239.5" y="390.73">
+                makeSample()
+            </text>
+        </g>
+        <path d="M 240 475 L 240 510.82" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 240 518.32 L 237.5 510.82 L 242.5 510.82 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#78909C" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="202" y="493" width="78" height="12" stroke-width="0"/>
+            <text x="239.5" y="500.73">
+                onSample callback
+            </text>
+        </g>
+        <path d="M 240 595 L 240 635.82" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 240 643.32 L 237.5 635.82 L 242.5 635.82 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#78909C" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="214" y="615" width="54" height="12" stroke-width="0"/>
+            <text x="239.5" y="623.45">
+                asMessage()
+            </text>
+        </g>
+        <path d="M 370 663.64 L 489.79 655.47" fill="none" stroke="#5c6bc0" stroke-width="2" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 497.77 654.92 L 489.97 658.13 L 489.61 652.81 Z" fill="#5c6bc0" stroke="#5c6bc0" stroke-width="2" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#5C6BC0" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="398" y="654" width="75" height="12" stroke-width="0"/>
+            <text x="434.8" y="662.18">
+                MetricSample Dict
+            </text>
+        </g>
+        <path d="M 640 626.14 L 780.31 578.3" fill="none" stroke="#1565c0" stroke-width="2" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 787.88 575.72 L 781.17 580.83 L 779.45 575.78 Z" fill="#1565c0" stroke="#1565c0" stroke-width="2" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#1565C0" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="678" y="596" width="74" height="12" stroke-width="0"/>
+            <text x="714.36" y="603.62">
+                LiveMetricSample
+            </text>
+        </g>
+        <path d="M 730 552.21 L 649.96 559.14 Q 640 560 633.86 567.89 L 614.52 592.76" fill="none" stroke="#43a047" stroke-width="1.5" stroke-miterlimit="10" stroke-dasharray="7.5 4.5" pointer-events="stroke"/>
+        <path d="M 609.92 598.68 L 612.55 591.22 L 616.5 594.29 Z" fill="#43a047" stroke="#43a047" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#43A047" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="667" y="535" width="46" height="12" stroke-width="0"/>
+            <text x="689.18" y="542.64">
+                Comandos
+            </text>
+        </g>
+        <path d="M 900 500 L 900 464.18" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 900 456.68 L 902.5 464.18 L 897.5 464.18 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#78909C" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="880" y="472" width="42" height="12" stroke-width="0"/>
+            <text x="899.5" y="480.27">
+                emitEvent
+            </text>
+        </g>
+        <path d="M 900 400 L 900 369.18" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 900 361.68 L 902.5 369.18 L 897.5 369.18 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <path d="M 900 300 L 900 264.18" fill="none" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 900 256.68 L 902.5 264.18 L 897.5 264.18 Z" fill="#78909c" stroke="#78909c" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#78909C" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="864" y="272" width="74" height="12" stroke-width="0"/>
+            <text x="899.5" y="280.27">
+                LiveMetricSample
+            </text>
+        </g>
+        <path d="M 900 145 L 900 180.82" fill="none" stroke="#43a047" stroke-width="1.5" stroke-miterlimit="10" stroke-dasharray="6 4.5" pointer-events="stroke"/>
+        <path d="M 900 188.32 L 897.5 180.82 L 902.5 180.82 Z" fill="#43a047" stroke="#43a047" stroke-width="1.5" stroke-miterlimit="10" pointer-events="all"/>
+        <g fill="#43A047" font-family="Helvetica" text-anchor="middle" font-size="9px">
+            <rect fill="rgb(255, 255, 255)" stroke="none" x="880" y="163" width="41" height="12" stroke-width="0"/>
+            <text x="899.5" y="170.73">
+                a cada 4s
+            </text>
+        </g>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Text is not SVG - cannot display
+            </text>
+        </a>
+    </switch>
+</svg>

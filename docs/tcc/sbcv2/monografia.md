@@ -179,13 +179,13 @@ O núcleo de processamento contínuo reside na classe `StreamingRepetitionCounte
 ![Figura 5. Pipeline de processamento do motor de repetições em tempo real.](figuras/pipeline_streaming_gymbeat.png)
 
 O fluxo temporal executa deterministicamente sete etapas sequenciais:
-1. **Ingestão no Buffer Circular:** A amostra inercial é inserida no `CircularBuffer` de capacidade fixa ($W = 35$ amostras, $\approx 8\,\text{s}$ de histórico) em tempo $O(1)$, dispensando realocações de memória;
-2. **Moving PCA Adaptativo:** Ao atingir o tamanho mínimo ($N \ge 8$), calcula-se a matriz de covariância $3 \times 3$ das leituras recentes e extrai-se o autovetor dominante $\mathbf{v}_1$ por 25 iterações do Método das Potências;
+1. **Ingestão no Buffer Circular:** A amostra inercial é inserida no `CircularBuffer` de capacidade fixa ($W = 200$ amostras para $f_s = 25\,\text{Hz}$, cobrindo $\approx 8{,}0\,\text{s}$ de histórico biomecânico) em tempo $O(1)$, dispensando realocações de memória;
+2. **Moving PCA Adaptativo:** Ao atingir o tamanho mínimo ($N \ge 20$, $\approx 0{,}8\,\text{s}$), calcula-se a matriz de covariância $3 \times 3$ das leituras recentes e extrai-se o autovetor dominante $\mathbf{v}_1$ por 25 iterações do Método das Potências;
 3. **Alinhamento por Assimetria:** Avalia-se o sinal de $\gamma_1$. Se $\gamma_1 < 0$, inverte-se $\mathbf{v}_1 \leftarrow -\mathbf{v}_1$, garantindo cristas voltadas para cima;
 4. **Projeção Escalar Instantânea:** Projeta-se a leitura tridimensional: $p = a_x v_{1,x} + a_y v_{1,y} + a_z v_{1,z}$;
 5. **Filtragem Causal IIR:** O escalar $p$ alimenta o filtro biquad passa-baixa Butterworth em $O(1)$ mantendo memória de estado persistente;
 6. **Normalização Dinâmica por $z$-Score:** A janela recente filtrada é normalizada por média $\mu$ e desvio padrão $\sigma$: $s = (y - \mu)/\sigma$, estabilizando os limiares frente à fadiga muscular;
-7. **Validação por Crista e Janela Refratária na FSM:** A máquina de estados verifica se a amostra anterior constitui um pico local ($s_{n-1} > s_{n-2}$ e $s_{n-1} \ge s_n$) com amplitude $s_{n-1} \ge 0{,}25$ e intervalo decorrido $\ge \lfloor 1{,}6 \times f_s \rfloor$ amostras. Atendidos os critérios, a contagem é incrementada e o evento de repetição é emitido.
+7. **Validação por Crista e Janela Refratária na FSM:** A máquina de estados verifica se a amostra anterior constitui um pico local ($s_{n-1} > s_{n-2}$ e $s_{n-1} \ge s_n$) com amplitude $s_{n-1} \ge 0{,}25$ e intervalo decorrido $\ge \lfloor 1{,}6 \times f_s \rfloor$ amostras (40 amostras a $25\,\text{Hz}$, com validação temporal via *timestamps* contra rajadas). Atendidos os critérios, a contagem é incrementada e o evento de repetição é emitido.
 
 A Figura 6 apresenta a máquina de estados finitos que rege os estados de aquecimento, monitoramento e bloqueio refratário. A Tabela 5 sintetiza os hiperparâmetros adotados no motor.
 
@@ -196,12 +196,12 @@ A Figura 6 apresenta a máquina de estados finitos que rege os estados de aqueci
 | Parâmetro | Símbolo | Valor | Fundamentação Biomecânica |
 | :--- | :---: | :---: | :--- |
 | Taxa Nativa de Coleta | $f_{s,\text{nativo}}$ | $25\,\text{Hz}$ | Resolução padrão recomendada para captura inercial |
-| Taxa Efetiva de Recepção | $f_{s,\text{efetivo}}$ | $\approx 4{,}4\,\text{Hz}$ | Taxa de transmissão sustentada via WCSession |
+| Taxa Efetiva de Recepção | $f_{s,\text{efetivo}}$ | $25\,\text{Hz}$ | Taxa sustentada via WCSession em modo standalone (com calibração adaptativa) |
 | Corte do Filtro Passa-Baixa | $f_c$ | $1{,}2\,\text{Hz}$ | Banda fundamental do movimento humano ($< 1{,}5\,\text{Hz}$) |
-| Capacidade do Buffer | $W$ | 35 amostras | Janela temporal de contexto ($\approx 8\,\text{s}$) |
+| Capacidade do Buffer | $W$ | 200 amostras | Janela temporal de contexto ($\approx 8{,}0\,\text{s}$ a $25\,\text{Hz}$) |
 | Iterações do Power Iteration | — | 25 | Convergência analítica em $< 0{,}02\,\text{ms}$ |
-| Janela de Aquecimento | $N_{min}$ | 8 amostras | Supressão de transientes de início de série ($\approx 1{,}8\,\text{s}$) |
-| Período Refratário Mínimo | $t_{min}$ | $1{,}6\,\text{s}$ | Tempo biomecânico mínimo entre repetições válidas |
+| Janela de Aquecimento | $N_{min}$ | 20 amostras | Supressão de transientes de início de série ($\approx 0{,}8\,\text{s}$ a $25\,\text{Hz}$) |
+| Período Refratário Mínimo | $t_{min}$ | $1{,}6\,\text{s}$ | Tempo biomecânico mínimo entre repetições válidas (40 amostras a $25\,\text{Hz}$) |
 | Limiar de Pico Normalizado | $h_{min}$ | 0,25 | Descarte de oscilações espúrias em repouso |
 
 ### 4.2 Validação de Conceito e Calibração Laboratorial via Python
@@ -299,7 +299,7 @@ O presente trabalho demonstrou que a convergência entre Processamento Digital d
 
 A abordagem metodológica ancorada em scripts analíticos em Python (SciPy/NumPy) comprovou-se fundamental para a calibração precisa de parâmetros e validação do conceito antes da transposição para o motor TypeScript causal de produção. Funcionalidades secundárias como armazenamento local em SQLite e sincronização com o Firestore garantiram rastreabilidade sem sobrecarregar o motor central de inferência.
 
-Como limitações do estado atual, destacam-se: (1) a base experimental focou no agachamento livre, exigindo ampliação para os demais exercícios cadastrados com coortes ampliadas; (2) exercícios em aparelhos com punho estático (*leg press*) demandam sensores posicionados nas pernas; e (3) o limite de taxa do protocolo `WCSession` ($\approx 4{,}4\,\text{Hz}$) poderia ser expandido por canais BLE dedicados.
+Como limitações e direcionamentos do estado atual, destacam-se: (1) a base experimental focou no agachamento livre, demandando ampliação para os demais exercícios cadastrados com coortes ampliadas; (2) exercícios em aparelhos com punho estático (*leg press*) demandam sensores complementares posicionados nos membros inferiores; e (3) embora a compilação autônoma (*standalone*) tenha sustentado com sucesso a taxa plena nativa de $25\,\text{Hz}$ via `WCSession`, a exploração de canais Bluetooth Low Energy diretos (CoreBluetooth L2CAP) pode reduzir ainda mais a latência de transmissão.
 
 Os direcionamentos futuros contemplam:
 1. **Treinamento Baseado em Velocidade (VBT):** Integração numérica contínua da aceleração concêntrica filtrada para inferir a velocidade média propulsiva ($\bar{v}$) e monitorar a perda de rendimento neuromuscular ao longo da série;
